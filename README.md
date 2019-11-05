@@ -39,11 +39,3 @@ After installing the block, simply add it to the course and / or in the main pag
 
 The entire configuration of the plugin is in the configuration of the block.
 
-
-Enabling completion tracking
------------------------------------
->- Go to: Site administration / Advanced features
->- Turn on the item "**Enable completion tracking**"
->- Inside the course go to: Course administration / Edit settings
->- In the section Completion tracking set "**Completion tracking**" to yes
->- Save
