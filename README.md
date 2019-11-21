@@ -21,11 +21,14 @@ The game has scoring system because the player's score will define his rating an
 - Score Activity Notes - Allows notes (numeric scale) to be converted to game points.
 - Bonus of the Day - Allows you to set a score that the player will receive daily if they access the platform and / or course.
 - Badge Bonus - Allows you to set a score the player will receive upon completing a course. It will also receive a badge as a reward.
-**Show Rating:**
+
+**Show Ranking:**
 Allows you to show either the individual student rating on the platform or course and the classified list.
 - Preserve User Identity - If showing the rating, lets you preserve the identity of users in the classified list.
+
 **Show Points:**
 Allows you to display or not the user score.
+
 **Show Level:**
 Allows you to display or not the level system. If configured to display you can configure the number of levels and the score required to reach each level.
 Still regarding the level the block has a progress bar that shows the user how much is left to reach the next level.
@@ -51,7 +54,6 @@ Post instalation
 ----------------
 
 After installing the block, simply add it to the course and / or in the main page of moodle.
-
 
 The entire configuration of the plugin is in the configuration of the block.
 
