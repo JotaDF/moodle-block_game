@@ -18,15 +18,15 @@
 /**
  * Game block version identification
  *
- * @package    block_game
+ * @package    block_blockgame
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2019061800;
+$plugin->version  = 2019112100;
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release  = 'Version for Moodle 3.2 onwards';
-$plugin->component = 'block_game';
+$plugin->component = 'block_blockgame';

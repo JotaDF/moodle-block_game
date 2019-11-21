@@ -18,13 +18,13 @@
 /**
  * Game block language strings
  *
- * @package    block_game
+ * @package    block_blockgame
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once('../../config.php');
-require_once($CFG->dirroot . '/blocks/game/libgame.php');
+require_once($CFG->dirroot . '/blocks/blockgame/libgame.php');
 require_once($CFG->libdir . '/completionlib.php');
 
 require_login();
@@ -39,7 +39,7 @@ switch ($op) {
         $game->courseid = $SESSION->game->courseid;
         $game->userid   = $USER->id;
         $game = load_game($game);
-        $game->url_avatar = $CFG->wwwroot."/blocks/game/pix/a".$game->avatar.".png";
+        $game->url_avatar = $CFG->wwwroot."/blocks/blockgame/pix/a".$game->avatar.".png";
         $json = array(
                 'game' => array(
                 'id' => $game->id,

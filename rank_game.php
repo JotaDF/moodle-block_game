@@ -14,16 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Game block config form definition
  *
- * @package    block_game
+ * @package    block_blockgame
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once($CFG->dirroot . '/blocks/game/libgame.php');
+require_once($CFG->dirroot . '/blocks/blockgame/libgame.php');
 
 require_login();
 
@@ -40,17 +39,17 @@ $game = $SESSION->game;
 
 require_login($course);
 $PAGE->set_pagelayout('course');
-$PAGE->set_url('/blocks/game/rank_game.php', array('id' => $courseid));
+$PAGE->set_url('/blocks/blockgame/rank_game.php', array('id' => $courseid));
 $PAGE->set_context(context_course::instance($courseid));
-$PAGE->set_title(get_string('rank_game_title', 'block_game'));
-$PAGE->set_heading(get_string('rank_game_title', 'block_game'));
+$PAGE->set_title(get_string('rank_game_title', 'block_blockgame'));
+$PAGE->set_heading(get_string('rank_game_title', 'block_blockgame'));
 
 echo $OUTPUT->header();
-$cfggame = get_config('block_game');
-if($courseid == 1){
+$cfggame = get_config('blockgame');
+if ($courseid == 1) {
     $game->config = $cfggame;
 }
-$limit=0;
+$limit = 0;
 if ($game->config->show_rank == 1) {
     $outputhtml = '<div class="rank">';
     if ($courseid != 1) {
@@ -61,7 +60,7 @@ if ($game->config->show_rank == 1) {
         }
         $outputhtml .= '<h3>( ' . $course->fullname . ' ) ' . $txtlimit . '</h3><br/>';
     } else {
-        $outputhtml .= '<h3>( ' . get_string('general', 'block_game') . ' )</h3><br/>';
+        $outputhtml .= '<h3>( ' . get_string('general', 'block_blockgame') . ' )</h3><br/>';
     }
     $outputhtml .= '<table border="0" width="100%">';
     $rs = rank_list($courseid);
@@ -69,7 +68,7 @@ if ($game->config->show_rank == 1) {
     foreach ($rs as $gamer) {
         $avatartxt = '';
         if ($cfggame->use_avatar == 1) {
-            $avatartxt = $OUTPUT->pix_icon('a' . get_avatar_user($gamer->userid), $alt, 'block_game');
+            $avatartxt = $OUTPUT->pix_icon('a' . get_avatar_user($gamer->userid), $alt, 'block_blockgame');
         }
         $ordtxt = $ord . '&ordm;';
         $usertxt = $avatartxt . ' ******** ';
@@ -86,7 +85,7 @@ if ($game->config->show_rank == 1) {
         $outputhtml .= '<td>';
         $outputhtml .= $ordtxt . '<hr/></td><td> ' . $usertxt . ' <hr/></td><td> ' . $scoretxt . '<hr/></td>';
         $outputhtml .= '</tr>';
-        
+
         if ($limit > 0 && $limit == $ord) {
             break;
         }
@@ -97,9 +96,9 @@ if ($game->config->show_rank == 1) {
     $usernotstart = get_no_players($courseid);
     if ($usernotstart > 0) {
         if ($usernotstart == 1) {
-            $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game', 'block_game') . ' )';
+            $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game', 'block_blockgame') . ' )';
         } else {
-            $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game_s', 'block_game') . ' )';
+            $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game_s', 'block_blockgame') . ' )';
         }
     }
     $outputhtml .= '</div>';
