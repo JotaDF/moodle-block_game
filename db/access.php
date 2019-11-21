@@ -18,7 +18,7 @@
 /**
  * Block Game capabilities definition
  *
- * @package    block_game
+ * @package    block_blockgame
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'block/game:addinstance' => array(
+    'block/blockgame:addinstance' => array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
 
         'captype' => 'write',
@@ -41,17 +41,8 @@ $capabilities = array(
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
-    'moodle/game:edit' => array(
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-            'manager' => CAP_ALLOW,
-            'student' => CAP_PROHIBIT,
-            'user' => CAP_PROHIBIT
-        ),
-        'clonepermissionsfrom' => 'moodle/my:manageblocks'
-    ),
-    'block/game:myaddinstance' => array(
+
+    'block/blockgame:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/game/db" VERSION="20190115" COMMENT="XMLDB file for Moodle blocks/game"
+<XMLDB PATH="blocks/blockgame/db" VERSION="20190115" COMMENT="XMLDB file for Moodle blocks/blockgame"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="block_game" COMMENT="Used to save game user data">
+    <TABLE NAME="blockgame" COMMENT="Used to save game user data">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="id from user table"/>
