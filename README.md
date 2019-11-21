@@ -37,6 +37,7 @@ Still regarding the level the block has a progress bar that shows the user how m
 
 Installation
 ------------
+***Important: Compatible with MySQL and PostgreSQL only***
 
 **First way**
 
