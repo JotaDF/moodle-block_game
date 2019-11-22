@@ -33,7 +33,8 @@ Allows you to display or not the user score.
 Allows you to display or not the level system. If configured to display you can configure the number of levels and the score required to reach each level.
 Still regarding the level the block has a progress bar that shows the user how much is left to reach the next level.
 
-*All images used in the plugin are under the Creative Commons license.*
+*All images used in the plugin are under the Creative Commons license. 
+Available at https://www.iconfinder.com*
 
 Installation
 ------------
