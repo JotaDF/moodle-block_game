@@ -57,4 +57,3 @@ Post instalation
 After installing the block, simply add it to the course and / or in the main page of moodle.
 
 The entire configuration of the plugin is in the configuration of the block.
-

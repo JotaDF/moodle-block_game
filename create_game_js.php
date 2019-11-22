@@ -17,7 +17,7 @@
 /**
  * Game block version identification
  *
- * @package    block_blockgame
+ * @package    block_game
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -57,7 +57,7 @@ var url = $url;
 // Load the user game.
 function loadGame() {
     $(document).ready(function () {
-        $.getJSON(url + '/blocks/blockgame/game.php?op=load', function (result) {
+        $.getJSON(url + '/blocks/game/game.php?op=load', function (result) {
             $.each(result, function (i, dados) {
                 game = dados;
                 rewards = [];
@@ -94,7 +94,7 @@ function loadGame() {
 // Add an achievement to the user.
 function addAchievements(item) {
     achievements.push(item);
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'achievements', id: game.id, achievements: achievements.toString()
     }, function (result) {
         if (!result) {
@@ -105,7 +105,7 @@ function addAchievements(item) {
 }
 // Save vector of achievement.
 function saveAchievements() {
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'achievements', id: game.id, achievements: achievements.toString()
     }, function (result) {
         if (!result) {
@@ -120,7 +120,7 @@ function delAchievements(item) {
     if (i != -1) {
         achievements.splice(i, 1);
     }
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'achievements', id: game.id, achievements: achievements.toString()
     }, function (result) {
         if (!result) {
@@ -133,7 +133,7 @@ function delAchievements(item) {
 // Add a reward to the user.
 function addReward(item) {
     rewards.push(item);
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'rewards', id: game.id, rewards: rewards.toString()
     }, function (result) {
         if (!result) {
@@ -144,7 +144,7 @@ function addReward(item) {
 }
 // Save rewards of vector.
 function saveReward() {
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'rewards', id: game.id, rewards: rewards.toString()
     }, function (result) {
         if (!result) {
@@ -159,7 +159,7 @@ function delReward(item) {
     if (i != -1) {
         rewards.splice(i, 1);
     }
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'rewards', id: game.id, rewards: rewards.toString()
     }, function (result) {
         if (!result) {
@@ -171,7 +171,7 @@ function delReward(item) {
 // Add a phase to the user.
 function addPhase(item) {
     phases.push(item);
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'phases', id: game.id, phases: phases.toString()
     }, function (result) {
         if (!result) {
@@ -182,7 +182,7 @@ function addPhase(item) {
 }
 // Save phases of vector.
 function savePhase() {
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'phases', id: game.id, phases: phases.toString()
     }, function (result) {
         if (!result) {
@@ -197,7 +197,7 @@ function delPhase(item) {
     if (i != -1) {
         phases.splice(i, 1);
     }
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'phases', id: game.id, phases: phases.toString()
     }, function (result) {
         if (!result) {
@@ -209,7 +209,7 @@ function delPhase(item) {
 // Set user frame.
 function setFrame(frame) {
     game.frame = frame;
-    $.post(url + '/blocks/blockgame/game.php', {
+    $.post(url + '/blocks/game/game.php', {
         op: 'frame', id: game.id, frame: game.frame
     }, function (result) {
         if (!result) {

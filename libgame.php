@@ -17,7 +17,7 @@
 /**
  * Game block language strings
  *
- * @package    block_blockgame
+ * @package    block_game
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,10 +35,10 @@ require_login();
 function load_game($game) {
     global $DB;
     if (!empty($game->userid) && !empty($game->courseid)) {
-        $sql = 'SELECT count(*) as total  FROM {blockgame} WHERE courseid=? AND userid=?';
+        $sql = 'SELECT count(*) as total  FROM {block_game} WHERE courseid=? AND userid=?';
         $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
         if ($busca->total > 0) {
-            $gamedb = $DB->get_record('blockgame', array('courseid' => $game->courseid, 'userid' => $game->userid));
+            $gamedb = $DB->get_record('block_game', array('courseid' => $game->courseid, 'userid' => $game->userid));
             return $gamedb;
         } else {
             $newgame = new stdClass();
@@ -56,7 +56,7 @@ function load_game($game) {
             $newgame->badges = "";
             $newgame->frame = "";
             $newgame->bonus_day = null;
-            $lastinsertid = $DB->insert_record('blockgame', $newgame);
+            $lastinsertid = $DB->insert_record('block_game', $newgame);
 
             $newgame->id = $lastinsertid;
 
@@ -76,7 +76,7 @@ function load_game($game) {
 function get_games_user($userid) {
     global $DB;
     if (!empty($userid)) {
-        $games = $DB->get_records_sql('SELECT * FROM {blockgame} WHERE userid=? ORDER BY courseid DESC', array($userid));
+        $games = $DB->get_records_sql('SELECT * FROM {block_game} WHERE userid=? ORDER BY courseid DESC', array($userid));
         return $games;
     }
     return false;
@@ -119,7 +119,7 @@ function update_game($game) {
         $savegame->badges = $game->badges;
         $savegame->frame = $game->frame;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -138,7 +138,7 @@ function update_avatar_game($game) {
 
     if (!empty($game->userid) && !empty($game->avatar)) {
 
-        $DB->execute("UPDATE {blockgame} SET avatar=? WHERE userid=?", array($game->avatar, $game->userid));
+        $DB->execute("UPDATE {block_game} SET avatar=? WHERE userid=?", array($game->avatar, $game->userid));
 
         return true;
     }
@@ -161,7 +161,7 @@ function update_score_game($game) {
         $savegame->id = $game->id;
         $savegame->score = $game->score;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -184,7 +184,7 @@ function update_level_game($game) {
         $savegame->id = $game->id;
         $savegame->level = $game->level;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -207,7 +207,7 @@ function update_achievements_game($game) {
         $savegame->id = $game->id;
         $savegame->achievements = $game->achievements;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -230,7 +230,7 @@ function update_rewards_game($game) {
         $savegame->id = $game->id;
         $savegame->rewards = $game->rewards;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -253,7 +253,7 @@ function update_phases_game($game) {
         $savegame->id = $game->id;
         $savegame->phases = $game->phases;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -276,7 +276,7 @@ function update_badges_game($game) {
         $savegame->id = $game->id;
         $savegame->badges = $game->badges;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -299,7 +299,7 @@ function update_frame_game($game) {
         $savegame->id = $game->id;
         $savegame->frame = $game->frame;
 
-        $DB->update_record('blockgame', $savegame);
+        $DB->update_record('block_game', $savegame);
 
         return true;
     }
@@ -318,15 +318,15 @@ function    bonus_of_day($game, $bonus) {
     global $DB, $CFG;
     if (!empty($game->id)) {
         if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-            $sql = 'SELECT CURRENT_DATE() as hoje, bonus_day  FROM {blockgame} WHERE courseid=? AND userid=?';
+            $sql = 'SELECT CURRENT_DATE() as hoje, bonus_day  FROM {block_game} WHERE courseid=? AND userid=?';
         } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-            $sql = 'SELECT CURRENT_DATE as hoje, bonus_day  FROM {blockgame} WHERE courseid=? AND userid=?';
+            $sql = 'SELECT CURRENT_DATE as hoje, bonus_day  FROM {block_game} WHERE courseid=? AND userid=?';
         }
         $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
         if ($busca->bonus_day == null || $busca->bonus_day < $busca->hoje) {
             $game->score = ((int) $game->score + (int) $bonus);
             $game->bonus_day = $busca->hoje;
-            $DB->update_record('blockgame', $game);
+            $DB->update_record('block_game', $game);
         }
         return ((int) $game->score + (int) $bonus);
     }
@@ -360,7 +360,7 @@ function score_activities($game) {
         } else {
             $game->score_activities = (int) $busca->score_activities;
         }
-        $DB->execute("UPDATE {blockgame} SET score_activities=? WHERE id=?", array((int) $game->score_activities, $game->id));
+        $DB->execute("UPDATE {block_game} SET score_activities=? WHERE id=?", array((int) $game->score_activities, $game->id));
 
         return true;
     }
@@ -377,7 +377,7 @@ function score_activities($game) {
 function no_score_activities($game) {
     global $DB;
     if (!empty($game->id)) {
-        $DB->execute("UPDATE {blockgame} SET score_activities=0 WHERE id=?", array($game->id));
+        $DB->execute("UPDATE {block_game} SET score_activities=0 WHERE id=?", array($game->id));
         return true;
     }
     return false;
@@ -416,7 +416,7 @@ function score_badge($game, $value) {
 
         $game->badges = "" . implode(",", $badges) . "";
         $game->score_badges = ($nbadges * $value);
-        $sql = 'UPDATE {blockgame} SET badges=?,score_badges=? WHERE userid=? AND courseid=?';
+        $sql = 'UPDATE {block_game} SET badges=?,score_badges=? WHERE userid=? AND courseid=?';
         $DB->execute($sql, array($game->badges, (int) $game->score_badges, $game->userid, 1));
 
         return $game;
@@ -441,7 +441,7 @@ function ranking($game) {
                         . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
                         . ' SUM(IFNULL(g.score_badges, 0)) sum_score_badges,'
                         . ' (SUM(score)+SUM(IFNULL(score_activities, 0))+SUM(IFNULL(score_badges, 0))) pt'
-                        . ' FROM {blockgame} g, {user} u'
+                        . ' FROM {block_game} g, {user} u'
                         . ' WHERE u.id=g.userid GROUP BY g.userid'
                         . ' ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
             } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
@@ -449,7 +449,7 @@ function ranking($game) {
                         . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                         . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
                         . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(score_badges, 0))) pt'
-                        . ' FROM {blockgame} g, {user} u'
+                        . ' FROM {block_game} g, {user} u'
                         . ' WHERE u.id=g.userid GROUP BY g.userid, u.firstname'
                         . ' ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
             }
@@ -469,7 +469,7 @@ function ranking($game) {
                 $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
                         . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
                         . ' (SUM(score)+SUM(IFNULL(score_activities, 0))) pt'
-                        . ' FROM mdl_blockgame g, mdl_user u'
+                        . ' FROM mdl_block_game g, mdl_user u'
                         . ' WHERE u.id=g.userid AND courseid=?'
                         . ' GROUP BY userid'
                         . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
@@ -477,7 +477,7 @@ function ranking($game) {
                 $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
                         . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                         . ' (SUM(score)+SUM(COALESCE(score_activities, 0))) pt'
-                        . ' FROM mdl_blockgame g, mdl_user u'
+                        . ' FROM mdl_block_game g, mdl_user u'
                         . ' WHERE u.id=g.userid AND courseid=?'
                         . ' GROUP BY g.userid, u.firstname'
                         . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
@@ -492,7 +492,7 @@ function ranking($game) {
                 $poisicao++;
             }
         }
-        $DB->execute("UPDATE {blockgame} SET rank=? WHERE id=?", array($game->rank,  $game->id));
+        $DB->execute("UPDATE {block_game} SET rank=? WHERE id=?", array($game->rank,  $game->id));
     }
     return $game;
 }
@@ -518,7 +518,7 @@ function set_level($game, $levelup, $levelnumber) {
         }
         $game->level = $level;
     }
-    $DB->execute("UPDATE {blockgame} SET level=? WHERE id=?", array( $game->level, $game->id));
+    $DB->execute("UPDATE {block_game} SET level=? WHERE id=?", array( $game->level, $game->id));
     return $game;
 }
 
@@ -577,13 +577,13 @@ function get_no_players($courseid) {
         if ($courseid == 1) {
             $sql = 'SELECT count(*) as total FROM {user} '
                     . 'WHERE confirmed=1 AND deleted=0 AND suspended=0 AND id > 0 '
-                    . 'AND id NOT IN(SELECT userid FROM {blockgame})';
+                    . 'AND id NOT IN(SELECT userid FROM {block_game})';
             $busca = $DB->get_record_sql($sql);
             return $busca->total;
         } else {
             $sql = 'SELECT count(*) as total FROM {role_assignments} rs, {user} u, {context} e '
                     . 'WHERE u.id=rs.userid AND rs.contextid=e.id AND e.contextlevel=50 AND e.instanceid=?'
-                    . ' AND u.id NOT IN(SELECT userid FROM {blockgame})';
+                    . ' AND u.id NOT IN(SELECT userid FROM {block_game})';
             $busca = $DB->get_record_sql($sql, array($courseid));
             return $busca->total;
         }
@@ -607,14 +607,14 @@ function rank_list($courseid) {
                         . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
                         . ' SUM(IFNULL(g.score_badges, 0)) sum_score_badges,'
                         . ' (SUM(score)+SUM(IFNULL(score_activities, 0))+SUM(IFNULL(score_badges, 0))) pt'
-                        . ' FROM {blockgame} g, {user} u WHERE u.id=g.userid GROUP BY userid '
+                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY userid '
                         . 'ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
             } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
                 $sql = 'SELECT g.userid, u.firstname, u.lastname ,SUM(g.score) sum_score,'
                         . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                         . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
                         . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(score_badges, 0))) pt'
-                        . ' FROM {blockgame} g, {user} u WHERE u.id=g.userid GROUP BY g.userid, u.firstname '
+                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY g.userid, u.firstname '
                         . 'ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
             }
             $ranking = $DB->get_records_sql($sql);
@@ -624,13 +624,13 @@ function rank_list($courseid) {
                 $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
                         . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
                         . ' (SUM(score)+SUM(IFNULL(score_activities, 0))) pt'
-                        . ' FROM {blockgame} g, {user} u WHERE u.id=g.userid AND courseid=?'
+                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid AND courseid=?'
                         . ' GROUP BY userid ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
             } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
                 $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
                         . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                         . ' (SUM(score)+SUM(COALESCE(score_activities, 0))) pt'
-                        . ' FROM {blockgame} g, {user} u WHERE u.id=g.userid AND courseid=?'
+                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid AND courseid=?'
                         . ' GROUP BY g.userid, u.firstname, g.avatar'
                         . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
             }
@@ -650,7 +650,7 @@ function rank_list($courseid) {
 function get_avatar_user($userid) {
     global $DB;
     if (!empty($userid)) {
-        $sql = 'SELECT MAX(avatar) avatar FROM {blockgame} '
+        $sql = 'SELECT MAX(avatar) avatar FROM {block_game} '
                 . 'WHERE userid=' . $userid . ' AND avatar > 0';
         $busca = $DB->get_record_sql($sql);
         if (isset($busca->avatar)) {
