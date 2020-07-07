@@ -27,7 +27,7 @@ require_login();
 
 if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('block_game/displaysettings',
-            get_string('defaultdisplaysettings', 'block_block_game'), ''));
+            get_string('defaultdisplaysettings', 'block_game'), ''));
 
     $settings->add(new admin_setting_configcheckbox('block_game/use_avatar',
             get_string('config_avatar', 'block_game'), '', 1));
