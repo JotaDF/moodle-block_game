@@ -128,10 +128,6 @@ class block_game extends block_base {
         // Get block ranking configuration.
         $cfggame = get_config('block_game');
 
-        if (!file_exists($CFG->dirroot . '/blocks/game/game.js')) {
-            $context = stream_context_create(array('http' => array('method' => 'POST', 'content' => '')));
-            $contents = file_get_contents($CFG->wwwroot . '/blocks/game/create_game_js.php', null, $context);
-        }
         if (isset($this->content)) {
             return $this->content;
         }
@@ -152,7 +148,7 @@ class block_game extends block_base {
 
         $levelnumber = 0;
         // Config level up.
-        if ($showlevel) {
+        if ($showlevel && isset($game->config->show_level)) {
             $levelnumber = (int) $game->config->level_number;
             $levelup[0] = (int) $game->config->level_up1;
             $levelup[1] = (int) $game->config->level_up2;
@@ -191,13 +187,13 @@ class block_game extends block_base {
         if ($scoreactivities) {
             score_activities($game);
             $game = ranking($game);
-            if ($showlevel) {
+            if ($showlevel && isset($game->config->show_level)) {
                 $game = set_level($game, $levelup, $levelnumber);
             }
         } else {
             no_score_activities($game);
             $game = ranking($game);
-            if ($showlevel) {
+            if ($showlevel && isset($game->config->show_level)) {
                 $game = set_level($game, $levelup, $levelnumber);
             }
         }
@@ -249,7 +245,7 @@ class block_game extends block_base {
                         . (int) ($game->score + $game->score_activities + $game->score_badges) . '';
                 $table->data[] = $row;
             }
-            if ($showlevel) {
+            if ($showlevel && isset($game->config->show_level)) {
                 $row = array();
                 $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/level.png" height="20" width="20"/>';
                 $row[] = $icontxt . ' ' . get_string('label_level', 'block_game') . ': ' . $game->level . '';

@@ -38,7 +38,6 @@ $game = $DB->get_record('block_game', array('courseid' => $couseid, 'userid' => 
 
 $cfggame = get_config('block_game');
 $changeavatar = !isset($cfggame->change_avatar_course) || $cfggame->change_avatar_course == 1;
-
 if ($avatar > 0) {
     $gamenew = new stdClass();
     $gamenew->id = $game->id;
@@ -56,7 +55,7 @@ $PAGE->set_context(context_course::instance($couseid));
 $PAGE->set_title(get_string('set_avatar_title', 'block_game'));
 $PAGE->set_heading(get_string('set_avatar_title', 'block_game'));
 echo $OUTPUT->header();
-
+$outputhtml = '';
 if ($changeavatar || $couseid == 1) {
     $outputhtml .= '<table order="0">';
     $outputhtml .= '<tr>';

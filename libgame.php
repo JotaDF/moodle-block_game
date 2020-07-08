@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -314,14 +315,10 @@ function update_frame_game($game) {
  * @param int $bonus
  * @return boolean
  */
-function    bonus_of_day($game, $bonus) {
+function bonus_of_day($game, $bonus) {
     global $DB, $CFG;
     if (!empty($game->id)) {
-        if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-            $sql = 'SELECT CURRENT_DATE() as hoje, bonus_day  FROM {block_game} WHERE courseid=? AND userid=?';
-        } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-            $sql = 'SELECT CURRENT_DATE as hoje, bonus_day  FROM {block_game} WHERE courseid=? AND userid=?';
-        }
+        $sql = 'SELECT CURRENT_DATE as hoje, bonus_day  FROM {block_game} WHERE courseid=? AND userid=?';
         $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
         if ($busca->bonus_day == null || $busca->bonus_day < $busca->hoje) {
             $game->score = ((int) $game->score + (int) $bonus);
@@ -344,17 +341,11 @@ function score_activities($game) {
     global $DB, $CFG;
 
     if (!empty($game->id)) {
-        if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-            $sql = "SELECT FORMAT(SUM(g.finalgrade),0) as score_activities "
-                    . "FROM {grade_grades} g INNER JOIN {grade_items} i ON g.itemid=i.id "
-                    . "WHERE i.courseid=? AND i.itemtype='mod' AND g.userid=?";
-            $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
-        } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-            $sql = "SELECT SUM(COALESCE(g.finalgrade,0)) as score_activities"
-                    . " FROM {grade_grades} g INNER JOIN {grade_items} i ON g.itemid=i.id"
-                    . " WHERE i.courseid=? AND i.itemtype='mod' AND g.userid=?";
-            $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
-        }
+        $sql = "SELECT SUM(COALESCE(g.finalgrade,0)) as score_activities"
+                . " FROM {grade_grades} g INNER JOIN {grade_items} i ON g.itemid=i.id"
+                . " WHERE i.courseid=? AND i.itemtype='mod' AND g.userid=?";
+        $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
+
         if ($busca->score_activities == "" || empty($busca->score_activities)) {
             $game->score_activities = 0;
         } else {
@@ -396,17 +387,11 @@ function score_badge($game, $value) {
 
     $badges = array();
     if (!empty($game->userid)) {
-        if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-            $sql = "SELECT cc.userid, cc.course, IFNULL(cc.timecompleted, 0) timecompleted
+        $sql = "SELECT cc.userid, cc.course, COALESCE(cc.timecompleted, 0) timecompleted
                 FROM {course_completions} cc
                 WHERE cc.userid = ?
                 AND timecompleted<>0";
-        } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-            $sql = "SELECT cc.userid, cc.course, COALESCE(cc.timecompleted, 0) timecompleted
-                FROM {course_completions} cc
-                WHERE cc.userid = ?
-                AND timecompleted<>0";
-        }
+
         $rs = $DB->get_records_sql($sql, array($game->userid));
         $nbadges = 0;
         foreach ($rs as $c) {
@@ -436,23 +421,15 @@ function ranking($game) {
 
     if (!empty($game->id)) {
         if ($game->courseid == 1) {
-            if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-                $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
-                        . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
-                        . ' SUM(IFNULL(g.score_badges, 0)) sum_score_badges,'
-                        . ' (SUM(score)+SUM(IFNULL(score_activities, 0))+SUM(IFNULL(score_badges, 0))) pt'
-                        . ' FROM {block_game} g, {user} u'
-                        . ' WHERE u.id=g.userid GROUP BY g.userid'
-                        . ' ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-                $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
-                        . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
-                        . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
-                        . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(score_badges, 0))) pt'
-                        . ' FROM {block_game} g, {user} u'
-                        . ' WHERE u.id=g.userid GROUP BY g.userid, u.firstname'
-                        . ' ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            }
+
+            $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
+                    . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
+                    . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
+                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(score_badges, 0))) pt'
+                    . ' FROM {block_game} g, {user} u'
+                    . ' WHERE u.id=g.userid GROUP BY g.userid, u.firstname'
+                    . ' ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
+
             $ranking = $DB->get_records_sql($sql);
             $poisicao = 1;
             foreach ($ranking as $rs) {
@@ -465,23 +442,14 @@ function ranking($game) {
                 $poisicao++;
             }
         } else {
-            if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-                $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
-                        . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
-                        . ' (SUM(score)+SUM(IFNULL(score_activities, 0))) pt'
-                        . ' FROM {block_game} g, {user} u'
-                        . ' WHERE u.id=g.userid AND courseid=?'
-                        . ' GROUP BY userid'
-                        . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-                $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
-                        . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
-                        . ' (SUM(score)+SUM(COALESCE(score_activities, 0))) pt'
-                        . ' FROM {block_game} g, {user} u'
-                        . ' WHERE u.id=g.userid AND courseid=?'
-                        . ' GROUP BY g.userid, u.firstname'
-                        . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            }
+            $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
+                    . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
+                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))) pt'
+                    . ' FROM {block_game} g, {user} u'
+                    . ' WHERE u.id=g.userid AND courseid=?'
+                    . ' GROUP BY g.userid, u.firstname'
+                    . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
+
             $ranking = $DB->get_records_sql($sql, array($game->courseid));
             $poisicao = 1;
             foreach ($ranking as $rs) {
@@ -492,7 +460,7 @@ function ranking($game) {
                 $poisicao++;
             }
         }
-        $DB->execute("UPDATE {block_game} SET rank=? WHERE id=?", array($game->rank,  $game->id));
+        $DB->execute("UPDATE {block_game} SET rank=? WHERE id=?", array($game->rank, $game->id));
     }
     return $game;
 }
@@ -518,7 +486,7 @@ function set_level($game, $levelup, $levelnumber) {
         }
         $game->level = $level;
     }
-    $DB->execute("UPDATE {block_game} SET level=? WHERE id=?", array( $game->level, $game->id));
+    $DB->execute("UPDATE {block_game} SET level=? WHERE id=?", array($game->level, $game->id));
     return $game;
 }
 
@@ -602,38 +570,23 @@ function rank_list($courseid) {
 
     if (!empty($courseid)) {
         if ($courseid == 1) {
-            if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-                $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
-                        . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
-                        . ' SUM(IFNULL(g.score_badges, 0)) sum_score_badges,'
-                        . ' (SUM(score)+SUM(IFNULL(score_activities, 0))+SUM(IFNULL(score_badges, 0))) pt'
-                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY userid '
-                        . 'ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-                $sql = 'SELECT g.userid, u.firstname, u.lastname ,SUM(g.score) sum_score,'
-                        . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
-                        . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
-                        . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(score_badges, 0))) pt'
-                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY g.userid, u.firstname '
-                        . 'ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            }
+            $sql = 'SELECT g.userid, u.firstname, u.lastname ,SUM(g.score) sum_score,'
+                    . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
+                    . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
+                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(score_badges, 0))) pt'
+                    . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY g.userid, u.firstname '
+                    . 'ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
+
             $ranking = $DB->get_records_sql($sql);
             return $ranking;
         } else {
-            if ($CFG->dbtype == "mysql" || $CFG->dbtype == "mysqli" || $CFG->dbtype == "mariadb") {
-                $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
-                        . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
-                        . ' (SUM(score)+SUM(IFNULL(score_activities, 0))) pt'
-                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid AND courseid=?'
-                        . ' GROUP BY userid ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            } else if ($CFG->dbtype == "pgsql" || $CFG->dbtype == "postgres") {
-                $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
-                        . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
-                        . ' (SUM(score)+SUM(COALESCE(score_activities, 0))) pt'
-                        . ' FROM {block_game} g, {user} u WHERE u.id=g.userid AND courseid=?'
-                        . ' GROUP BY g.userid, u.firstname, g.avatar'
-                        . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
-            }
+            $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
+                    . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
+                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))) pt'
+                    . ' FROM {block_game} g, {user} u WHERE u.id=g.userid AND courseid=?'
+                    . ' GROUP BY g.userid, u.firstname, g.avatar'
+                    . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
+
             $ranking = $DB->get_records_sql($sql, array($courseid));
             return $ranking;
         }
