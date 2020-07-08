@@ -469,7 +469,7 @@ function ranking($game) {
                 $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
                         . ' SUM(IFNULL(g.score_activities, 0)) sum_score_activities,'
                         . ' (SUM(score)+SUM(IFNULL(score_activities, 0))) pt'
-                        . ' FROM mdl_block_game g, mdl_user u'
+                        . ' FROM {block_game} g, {user} u'
                         . ' WHERE u.id=g.userid AND courseid=?'
                         . ' GROUP BY userid'
                         . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
@@ -477,7 +477,7 @@ function ranking($game) {
                 $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
                         . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                         . ' (SUM(score)+SUM(COALESCE(score_activities, 0))) pt'
-                        . ' FROM mdl_block_game g, mdl_user u'
+                        . ' FROM {block_game} g, {user} u'
                         . ' WHERE u.id=g.userid AND courseid=?'
                         . ' GROUP BY g.userid, u.firstname'
                         . ' ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
