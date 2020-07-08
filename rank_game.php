@@ -68,7 +68,7 @@ if ($game->config->show_rank == 1) {
     foreach ($rs as $gamer) {
         $avatartxt = '';
         if ($cfggame->use_avatar == 1) {
-            $avatartxt = $OUTPUT->pix_icon('a' . get_avatar_user($gamer->userid), $alt, 'block_game');
+            $avatartxt = $OUTPUT->pix_icon('a' . get_avatar_user($gamer->userid), 'Avatar', 'block_game');
         }
         $ordtxt = $ord . '&ordm;';
         $usertxt = $avatartxt . ' ******** ';
