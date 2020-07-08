@@ -37,7 +37,7 @@ $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
 $game = new stdClass();
 $game = $SESSION->game;
-$cfggame = get_config('game');
+$cfggame = get_config('block_game');
 
 require_login($course);
 $PAGE->set_pagelayout('course');
