@@ -1,6 +1,6 @@
 Moodle block Game repository
 ===========================
-VERSION 1.3
+VERSION 1.15
 ------------
 The goal of the Block Game plugin is to apply gamification techniques to the moodle platform in a simple and uncomplicated way.
 
