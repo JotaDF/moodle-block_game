@@ -60,7 +60,7 @@ if ($couseid == 1) {
     } else {
         $outputhtml .= '<div class="boxgame">' . $OUTPUT->user_picture($USER, array('size' => 80, 'hspace' => 12));
     }
-    $outputhtml .= '  <strong>' . $USER->firstname . '</strong></div>';
+    $outputhtml .= '  <strong>' . $USER->firstname .' '. $USER->lastname . '</strong></div>';
     $outputhtml .= '<hr/>';
     $rs = get_games_user($USER->id);
     $fullpoints = 0;
@@ -121,7 +121,7 @@ if ($couseid == 1) {
     } else {
         $outputhtml .= $OUTPUT->user_picture($USER, array('size' => 80, 'hspace' => 12));
     }
-    $outputhtml .= '  <strong>' . $USER->firstname . '</strong><br/>';
+    $outputhtml .= '  <strong>' . $USER->firstname .' '. $USER->lastname . '</strong><br/>';
     if ($showrank == 1) {
         $outputhtml .= '<br/>';
         $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_rank.png" align="center" hspace="12"/>';
@@ -142,6 +142,17 @@ if ($couseid == 1) {
     $outputhtml .= '</td>';
     $outputhtml .= '</tr>';
     $outputhtml .= '</table>';
+    $outputhtml .= '<hr/>';
+    $outputhtml .= '<h4>' . get_string('label_badge', 'block_game') . '</h4><br/>';
+    if ($game->badges != "") {
+        $badges = explode(",", $game->badges);
+        foreach ($badges as $badge) {
+            $coursebadge = $DB->get_record('course', array('id' => $badge));
+            $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_badge.png" align="center" hspace="12"/>';
+            $outputhtml .= '<strong>' . $coursebadge->fullname . '</strong> ';
+        }
+    }
+    $outputhtml .= '<hr/>';
 }
 $outputhtml .= '</div>';
 echo $outputhtml;

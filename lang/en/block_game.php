@@ -34,6 +34,14 @@ $string['config_avatar'] = 'Use Avatar';
 $string['config_avatar_help'] = '<p>Using Avatar.</p>';
 $string['config_identity'] = 'Preserve user identity';
 $string['config_identity_help'] = '<p>Preserve user identity in sorting list.</p>';
+$string['config_rank_group'] = 'Show Group Rank';
+$string['config_rank_group_help'] = '<p>Showing the Group Ranking.</p>';
+
+$string['config_rank_group_calc'] = 'Calculation for group points';
+$string['config_rank_group_calc_help'] = '<p>Select the calculation method for group points.</p>';
+$string['sum'] = 'Sum';
+$string['med'] = 'Average';
+
 $string['config_rank'] = 'Show Rank';
 $string['config_rank_help'] = '<p>Showing the Ranking.</p>';
 $string['config_limit_rank'] = 'Ranking list limit (0 to unlimited)';
@@ -109,6 +117,7 @@ $string['config_title_help'] = '<p>Editing the title of the block.</p>';
 
 $string['perfil_gamer_title'] = 'Player information';
 $string['set_avatar_title'] = 'Select your Avatar';
+$string['rank_group_game_title'] = 'Groups ranking list';
 $string['rank_game_title'] = 'Ranking list';
 $string['help_game_title'] = 'Help of game';
 $string['not_start_game'] = 'User did not start playing';
@@ -117,6 +126,7 @@ $string['not_start_game_s'] = 'Users they did not start playing';
 $string['label_course'] = 'Course';
 $string['label_badge'] = 'Badges';
 $string['label_rank'] = 'Ranking';
+$string['label_rank_group'] = 'Groups Ranking';
 $string['label_score'] = 'Score';
 $string['label_level'] = 'Level';
 
@@ -124,6 +134,18 @@ $string['general'] = 'General';
 $string['label_you'] = 'You';
 $string['game_title_default'] = 'Game';
 $string['help'] = 'Help';
+
+$string['yes'] = 'Yes';
+$string['no'] = 'No';
+$string['ok'] = 'Ok';
+
+$string['reset_points_btn'] = 'Reset ponits';
+$string['reset_points_title'] = 'Reset course points';
+$string['label_cornfirm_reset_points'] = 'When resetting the course points, all users lost their points. <br/> Do you really want to do this? <br/> <br/> <span class="text-muted">Note: This action does not exclude points acquired through activity notes, to do this you must reset the activity notes.</span>';
+$string['reset_points_sucess'] = 'Course points reset for all users successfully !!';
+$string['reset_points_error'] = 'Error when resetting course points!';
+$string['reset_points_not_permission'] = 'You are not allowed to do this!';
+
 
 // Help page!
 $string['help_avatar_titulo'] = 'About avatar';

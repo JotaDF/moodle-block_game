@@ -60,9 +60,9 @@ if ($cfggame->use_avatar == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_avatar_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
-    $outputhtml .= '<td valign="bottom">';
-    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/a0.png" align="center" hspace="12"/><hr/></td>';
-    $outputhtml .= '<td valign="bottom"><p align="justify">'.get_string('help_avatar_text', 'block_game').'</p><hr/></td>';
+    $outputhtml .= '<td valign="top">';
+    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/a0.png" align="center" hspace="12"/></td>';
+    $outputhtml .= '<td valign="top"><p align="justify">'.get_string('help_avatar_text', 'block_game').'</p><hr/></td>';
     $outputhtml .= '</tr>';
 }
 
@@ -70,18 +70,18 @@ if ($game->config->show_info == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_info_user_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
-    $outputhtml .= '<td valign="bottom">';
-    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_info.png" align="center" hspace="12"/><hr/></td>';
-    $outputhtml .= '<td valign="bottom"><p align="justify">'.get_string('help_info_user_text', 'block_game').'</p><hr/></td>';
+    $outputhtml .= '<td valign="top">';
+    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_info.png" align="center" hspace="12"/></td>';
+    $outputhtml .= '<td valign="top"><p align="justify">'.get_string('help_info_user_text', 'block_game').'</p><hr/></td>';
     $outputhtml .= '</tr>';
 }
 if ($game->config->show_score == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_score_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
-    $outputhtml .= '<td valign="bottom">';
-    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_score.png" align="center" hspace="12"/><hr/></td>';
-    $outputhtml .= '<td valign="bottom"><p align="justify">'.get_string('help_score_text', 'block_game').'</p>';
+    $outputhtml .= '<td valign="top">';
+    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_score.png" align="center" hspace="12"/></td>';
+    $outputhtml .= '<td valign="top"><p align="justify">'.get_string('help_score_text', 'block_game').'</p>';
 
     if ($game->config->score_activities == 1) {
         $outputhtml .= '<p align="justify">'.get_string('help_score_activities_text', 'block_game').'</p>';
@@ -103,9 +103,9 @@ if ($game->config->show_rank == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_rank_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
-    $outputhtml .= '<td valign="bottom">';
-    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_rank.png" align="center" hspace="12"/><hr/></td>';
-    $outputhtml .= '<td valign="bottom"><p align="justify">'.get_string('help_rank_text', 'block_game').'</p>';
+    $outputhtml .= '<td valign="top">';
+    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_rank.png" align="center" hspace="12"/></td>';
+    $outputhtml .= '<td valign="top"><p align="justify">'.get_string('help_rank_text', 'block_game').'</p>';
 
     if ($game->config->show_identity == 0) {
         $outputhtml .= '<p align="justify">'.get_string('help_rank_list_restrict_text', 'block_game').'</p>';
@@ -120,9 +120,9 @@ if ($game->config->show_level == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_level_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
-    $outputhtml .= '<td valign="bottom">';
-    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_level.png" align="center" hspace="12"/><hr/></td>';
-    $outputhtml .= '<td valign="bottom"><p align="justify">'.get_string('help_level_text', 'block_game').'</p>';
+    $outputhtml .= '<td valign="top">';
+    $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/big_level.png" align="center" hspace="12"/></td>';
+    $outputhtml .= '<td valign="top"><p align="justify">'.get_string('help_level_text', 'block_game').'</p>';
     $levelup[0]   = (int)$game->config->level_up1;
     $levelup[1]   = (int)$game->config->level_up2;
     $levelup[2]   = (int)$game->config->level_up3;
@@ -135,9 +135,7 @@ if ($game->config->show_level == 1) {
     $levelup[9]   = (int)$game->config->level_up10;
     $levelup[10]   = (int)$game->config->level_up11;
     $levelup[11]   = (int)$game->config->level_up12;
-    $levelup[12]   = (int)$game->config->level_up13;
-    $levelup[13]   = (int)$game->config->level_up14;
-    $levelup[14]   = (int)$game->config->level_up15;
+    
     $outputhtml .= '<p>';
     for ($i = 0; $i < $game->config->level_number; $i++) {
         $outputhtml .= ' - ' . get_string('label_level', 'block_game') . ' ' . ($i + 1) . ': '.$levelup[$i] .'pts <br/>';

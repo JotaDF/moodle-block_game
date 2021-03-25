@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -23,6 +24,7 @@
  */
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/libgame.php');
+require_once($CFG->libdir . '/grouplib.php');
 
 require_login();
 
@@ -31,6 +33,7 @@ global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
 
+$groupid = optional_param('group', 0, PARAM_INT);
 
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
@@ -38,6 +41,8 @@ $game = new stdClass();
 $game = $SESSION->game;
 
 require_login($course);
+
+$context = context_course::instance($courseid);
 $PAGE->set_pagelayout('course');
 $PAGE->set_url('/blocks/game/rank_game.php', array('id' => $courseid));
 $PAGE->set_context(context_course::instance($courseid));
@@ -46,62 +51,76 @@ $PAGE->set_heading(get_string('rank_game_title', 'block_game'));
 
 echo $OUTPUT->header();
 $cfggame = get_config('block_game');
-if ($courseid == 1) {
-    $game->config = $cfggame;
+
+// now verify grading user has access to all groups or is member of the same group when separate groups used in course
+$ok = false;
+if ($course->groupmode == 1 and !has_capability('moodle/site:accessallgroups', $context)) {
+    if (groups_is_member($groupid, $USER->id)) {
+        $ok = true;
+    } 
+} else {
+    $ok = true;
 }
-$limit = 0;
-if ($game->config->show_rank == 1) {
-    $outputhtml = '<div class="rank">';
-    if ($courseid != 1) {
-        $limit = $game->config->limit_rank;
-        $txtlimit = "";
-        if ($limit > 0) {
-            $txtlimit = "<strong>Top " . $limit . "</strong>";
-        }
-        $outputhtml .= '<h3>( ' . $course->fullname . ' ) ' . $txtlimit . '</h3><br/>';
-    } else {
-        $outputhtml .= '<h3>( ' . get_string('general', 'block_game') . ' )</h3><br/>';
-    }
-    $outputhtml .= '<table border="0" width="100%">';
-    $rs = rank_list($courseid);
-    $ord = 1;
-    foreach ($rs as $gamer) {
-        $avatartxt = '';
-        if ($cfggame->use_avatar == 1) {
-            $avatartxt = $OUTPUT->pix_icon('a' . get_avatar_user($gamer->userid), 'Avatar', 'block_game');
-        }
-        $ordtxt = $ord . '&ordm;';
-        $usertxt = $avatartxt . ' ******** ';
-        if ($game->config->show_identity == 0) {
-            $usertxt = $avatartxt . ' ' . $gamer->firstname . ' ' . $gamer->lastname;
-        }
-        $scoretxt = $gamer->pt;
-        if ($gamer->userid == $USER->id) {
-            $usertxt = $avatartxt . ' <strong>' . $gamer->firstname . ' ' . $gamer->lastname . '</trong>';
-            $scoretxt = '<strong>' . (int) $gamer->pt . '</trong>';
-            $ordtxt = '<strong>' . $ord . '&ordm;</trong>';
-        }
-        $outputhtml .= '<tr>';
-        $outputhtml .= '<td>';
-        $outputhtml .= $ordtxt . '<hr/></td><td> ' . $usertxt . ' <hr/></td><td> ' . $scoretxt . '<hr/></td>';
-        $outputhtml .= '</tr>';
 
-        if ($limit > 0 && $limit == $ord) {
-            break;
-        }
-        $ord++;
+if ($ok) {
+    if ($courseid == 1) {
+        $game->config = $cfggame;
     }
-    $outputhtml .= '</table>';
-
-    $usernotstart = get_no_players($courseid);
-    if ($usernotstart > 0) {
-        if ($usernotstart == 1) {
-            $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game', 'block_game') . ' )';
+    $limit = 0;
+    if ($game->config->show_rank == 1) {
+        $outputhtml = '<div class="rank">';
+        if ($courseid != 1) {
+            $limit = $game->config->limit_rank;
+            $txtlimit = "";
+            if ($limit > 0) {
+                $txtlimit = "<strong>Top " . $limit . "</strong>";
+            }
+            $txtlimit .= groups_print_course_menu($course, '/blocks/game/rank_game.php?id=' . $courseid);
+            $outputhtml .= '<h3>( ' . $course->fullname . ' ) ' . $txtlimit . '</h3><br/>';
         } else {
-            $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game_s', 'block_game') . ' )';
+            $outputhtml .= '<h3>( ' . get_string('general', 'block_game') . ' )</h3><br/>';
         }
+        $outputhtml .= '<table border="0" width="100%">';
+        $rs = rank_list($courseid, $groupid);
+        $ord = 1;
+        foreach ($rs as $gamer) {
+            $avatartxt = '';
+            if ($cfggame->use_avatar == 1) {
+                $avatartxt = $OUTPUT->pix_icon('a' . get_avatar_user($gamer->userid), 'Avatar', 'block_game');
+            }
+            $ordtxt = $ord . '&ordm;';
+            $usertxt = $avatartxt . ' ******** ';
+            if ($game->config->show_identity == 0) {
+                $usertxt = $avatartxt . ' ' . $gamer->firstname . ' ' . $gamer->lastname;
+            }
+            $scoretxt = $gamer->pt;
+            if ($gamer->userid == $USER->id) {
+                $usertxt = $avatartxt . ' <strong>' . $gamer->firstname . ' ' . $gamer->lastname . '</trong>';
+                $scoretxt = '<strong>' . (int) $gamer->pt . '</trong>';
+                $ordtxt = '<strong>' . $ord . '&ordm;</trong>';
+            }
+            $outputhtml .= '<tr>';
+            $outputhtml .= '<td>';
+            $outputhtml .= $ordtxt . '<hr/></td><td> ' . $usertxt . ' <hr/></td><td> ' . $scoretxt . '<hr/></td>';
+            $outputhtml .= '</tr>';
+
+            if ($limit > 0 && $limit == $ord) {
+                break;
+            }
+            $ord++;
+        }
+        $outputhtml .= '</table>';
+
+        $usernotstart = get_no_players($courseid, $groupid);
+        if ($usernotstart > 0) {
+            if ($usernotstart == 1) {
+                $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game', 'block_game') . ' )';
+            } else {
+                $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game_s', 'block_game') . ' )';
+            }
+        }
+        $outputhtml .= '</div>';
     }
-    $outputhtml .= '</div>';
 }
 echo $outputhtml;
 

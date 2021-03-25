@@ -34,6 +34,14 @@ $string['config_avatar'] = 'Utilizar Avatar';
 $string['config_avatar_help'] = '<p>Utilizando Avatar.</p>';
 $string['config_identity'] = 'Preservar identidade do usuário';
 $string['config_identity_help'] = '<p>Preservar identidade do usuário na lista de classificação.</p>';
+$string['config_rank_group'] = 'Mostrar Classificação de Grupos';
+$string['config_rank_group_help'] = '<p>Mostrando Classificação de Grupos.</p>';
+
+$string['config_rank_group_calc'] = 'Cálculo para pontos em grupo';
+$string['config_rank_group_calc_help'] = '<p>Selecione a forma de cálculo para pontos em grupo.</p>';
+$string['sum'] = 'Soma';
+$string['med'] = 'Média';
+
 $string['config_rank'] = 'Mostrar Classificação';
 $string['config_rank_help'] = '<p>Mostrando Classificação.</p>';
 $string['config_limit_rank'] = 'Limite da lista de classificação (0 para ilimitado)';
@@ -109,6 +117,7 @@ $string['config_title_help'] = '<p>Alterar o título do bloco.</p>';
 
 $string['perfil_gamer_title'] = 'Informações do jogador';
 $string['set_avatar_title'] = 'Selecione seu Avatar';
+$string['rank_group_game_title'] = 'Lista de classificação de Grupos';
 $string['rank_game_title'] = 'Lista de classificação';
 $string['help_game_title'] = 'Ajuda do jogo';
 $string['not_start_game'] = 'Usuário não começou a jogar';
@@ -117,6 +126,7 @@ $string['not_start_game_s'] = 'Usuários não começaram a jogar';
 $string['label_course'] = 'Curso';
 $string['label_badge'] = 'Emblemas';
 $string['label_rank'] = 'Classificação';
+$string['label_rank_group'] = 'Classificação de grupos';
 $string['label_score'] = 'Pontos';
 $string['label_level'] = 'Nível';
 
@@ -124,6 +134,17 @@ $string['general'] = 'Geral';
 $string['label_you'] = 'Você';
 $string['game_title_default'] = 'Game';
 $string['help'] = 'Ajuda';
+
+$string['yes'] = 'Sim';
+$string['no'] = 'Não';
+$string['ok'] = 'Ok';
+
+$string['reset_points_btn'] = 'Resetar pontos';
+$string['reset_points_title'] = 'Resetar pontos do curso';
+$string['label_cornfirm_reset_points'] = 'Ao resetar os pontos do curso, todos os usuários perderam seus pontos.<br/> Deseja mesmo fazer isso?<br/><br/><span class="text-muted">Obs.: Essa ação não exclui pontos adquiridos por meio de notas de atividades, para fazer isso deverá resetar as notas das atividades.</span>';
+$string['reset_points_sucess'] = 'Pontos do curso resetado para todos os usuários com sucesso!!';
+$string['reset_points_error'] = 'Erro ao resetar os pontos do curso!!';
+$string['reset_points_not_permission'] = 'Você não possui permissão para fazer essa ação!';
 
 // Help page!
 $string['help_avatar_titulo'] = 'Sobre o avatar';
