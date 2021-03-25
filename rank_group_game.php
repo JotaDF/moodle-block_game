@@ -52,45 +52,47 @@ if ($courseid == 1) {
     $game->config = $cfggame;
 }
 $limit = 0;
-if ($game->config->show_rank == 1) {
+if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
     $outputhtml = '<div class="rank">';
     if ($courseid != 1) {
         $outputhtml .= '<h3>( ' . $course->fullname . ' ) </h3><br/>';
 
         $outputhtml .= '<table border="0" width="100%">';
-        if($game->config->rank_group_calc == 1){
+        if ($game->config->rank_group_calc == 1) {
             $rs = ranking_group_md($courseid);
-        }else {
-           $rs = ranking_group($courseid); 
+        } else {
+            $rs = ranking_group($courseid);
         }
-        
+
         $ord = 1;
         foreach ($rs as $group) {
 
             $ordtxt = $ord . '&ordm;';
-            
+
             $grouptxt = $group->name;
             $groupcount = $group->members;
             $scoretxt = $group->pt;
-            if($game->config->rank_group_calc == 1){
+            if ($game->config->rank_group_calc == 1) {
                 $scoretxt = $group->md;
             }
-            $group = $DB->get_record('groups', array('id'=>$group->id), '*', MUST_EXIST);
-            
+            $group = $DB->get_record('groups', array('id' => $group->id), '*', MUST_EXIST);
+
             $outputhtml .= '<tr>';
             $outputhtml .= '<td width="10%" align="center">' . $ordtxt . '</td>';
-            $outputhtml .= '<td width="10%" align="right">' . print_group_picture($group, $courseid, false, true, false). '</td>';
+            $outputhtml .= '<td width="10%" align="right">' . print_group_picture($group, $courseid, false, true, false) . '</td>';
             $outputhtml .= '<td  width="70%" align="left"> ' . $grouptxt . '(' . $groupcount . ')</td>';
             $outputhtml .= '<td width="10%" align="left"> ' . $scoretxt . '</td>';
             $outputhtml .= '</tr>';
-            
+
             $outputhtml .= '<tr><td colspan="4"><hr/></td></tr>';
-            
+
             $ord++;
         }
         $outputhtml .= '</table>';
     }
     $outputhtml .= '</div>';
+} else {
+    $outputhtml = "...";
 }
 echo $outputhtml;
 

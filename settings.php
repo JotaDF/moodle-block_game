@@ -62,14 +62,13 @@ if ($ADMIN->fulltree) {
             get_string('config_level', 'block_game'), '', 1));
 
     // Options controlling level up.
-    $leveloptions = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12, 15 => 15);
+    $leveloptions = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12);
     $settings->add(new admin_setting_configselect('block_game/level_number',
             get_string('config_level_number', 'block_game'), '', -2, $leveloptions));
 
     $leveluppoints = array(1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
         5 => 4000, 6 => 6000, 7 => 10000, 8 => 20000,
-        9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000,
-        13 => 150000, 14 => 300000, 15 => 500000);
+        9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000);
     for ($i = 1; $i <= count($leveluppoints); $i++) {
         $settings->add(new admin_setting_configtext('block_game/level_up' . $i,
                 get_string('config_level_up' . $i, 'block_game'), '', $leveluppoints[$i], PARAM_INT));

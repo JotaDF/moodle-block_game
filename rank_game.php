@@ -67,7 +67,7 @@ if ($ok) {
         $game->config = $cfggame;
     }
     $limit = 0;
-    if ($game->config->show_rank == 1) {
+    if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
         $outputhtml = '<div class="rank">';
         if ($courseid != 1) {
             $limit = $game->config->limit_rank;
@@ -120,6 +120,8 @@ if ($ok) {
             }
         }
         $outputhtml .= '</div>';
+    } else {
+        $outputhtml = "...";
     }
 }
 echo $outputhtml;

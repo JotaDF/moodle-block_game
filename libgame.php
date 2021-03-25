@@ -468,7 +468,7 @@ function rank_list($courseid, $groupid = 0) {
                     . ' SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,'
                     . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
                     . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(g.score_bonus_day, 0))+SUM(COALESCE(score_badges, 0))) pt'
-                    . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY g.userid, u.firstname '
+                    . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY g.userid, u.firstname, u.lastname '
                     . 'ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
 
             $ranking = $DB->get_records_sql($sql);
@@ -488,7 +488,7 @@ function rank_list($courseid, $groupid = 0) {
                     . ' INNER JOIN {context} e ON rs.contextid=e.id '
                     . ' INNER JOIN {block_game} g ON g.userid=u.id '
                     . ' WHERE e.contextlevel=50 AND rs.roleid=5 ' . $wheregroup . ' AND g.courseid=e.instanceid  AND e.instanceid=? '
-                    . ' GROUP BY userid ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
+                    . ' GROUP BY g.userid, u.firstname, u.lastname, g.avatar ORDER BY pt DESC, sum_score_activities DESC,sum_score DESC, g.userid ASC';
 
             $ranking = $DB->get_records_sql($sql, array($courseid));
             return $ranking;

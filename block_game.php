@@ -26,8 +26,6 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/libgame.php');
 
-require_login();
-
 /**
  *  Block Game config form definition class
  *

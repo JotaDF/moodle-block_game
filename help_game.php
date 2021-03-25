@@ -66,7 +66,7 @@ if ($cfggame->use_avatar == 1) {
     $outputhtml .= '</tr>';
 }
 
-if ($game->config->show_info == 1) {
+if (isset($game->config->show_info) && $game->config->show_info == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_info_user_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
@@ -75,7 +75,7 @@ if ($game->config->show_info == 1) {
     $outputhtml .= '<td valign="top"><p align="justify">'.get_string('help_info_user_text', 'block_game').'</p><hr/></td>';
     $outputhtml .= '</tr>';
 }
-if ($game->config->show_score == 1) {
+if (isset($game->config->show_score) && $game->config->show_score == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_score_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
@@ -99,7 +99,7 @@ if ($game->config->show_score == 1) {
     $outputhtml .= '<hr/></td></tr>';
 }
 
-if ($game->config->show_rank == 1) {
+if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_rank_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
@@ -116,7 +116,7 @@ if ($game->config->show_rank == 1) {
     $outputhtml .= '<hr/></td></tr>';
 }
 
-if ($game->config->show_level == 1) {
+if (isset($game->config->show_level) && $game->config->show_level == 1) {
     $outputhtml .= '<tr>';
     $outputhtml .= '<td colspan="2" align="center"><h3>'.get_string('help_level_titulo', 'block_game').'</h3></td>';
     $outputhtml .= '</tr><tr>';
