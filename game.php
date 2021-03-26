@@ -49,7 +49,7 @@ switch ($op) {
                 'avatar' => $game->avatar,
                 'score' => $game->score,
                 'level' => $game->level,
-                'rank' => $game->rank,
+                'ranking' => $game->ranking,
                 'url_avatar' => $game->url_avatar,
                 'frame' => $game->frame,
                 'bonus_day' => $game->bonus_day,

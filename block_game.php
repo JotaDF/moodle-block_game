@@ -170,7 +170,20 @@ class block_game extends block_base {
             $levelup[10] = (int) $game->config->level_up11;
             $levelup[11] = (int) $game->config->level_up12;
         }
-
+        //Sum score sections complete
+        $sections = get_sections_course($COURSE->id);
+        $score_sections = 0;
+        foreach ($sections as $section) {
+            $txt_section = "section_".$section->section;
+            if(is_check_section($USER->id, $COURSE->id, $section->id)){
+                $score_sections += (int) $game->config->$txt_section;
+            }
+        }
+        if ($score_ok) {
+            score_section($game, $score_sections);
+            $game->score_section = $score_sections;
+        }
+        
         // Bonus of day.
         if (isset($game->config->bonus_day)) {
             $addbonusday = $game->config->bonus_day;
@@ -182,7 +195,6 @@ class block_game extends block_base {
         }
 
         // Bonus of badge.
-
         if (isset($cfggame->bonus_badge)) {
             $bonusbadge = $cfggame->bonus_badge;
             if($score_ok){
@@ -255,14 +267,14 @@ class block_game extends block_base {
                 $row = array();
                 $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/rank.png" height="20" width="20"/>';
                 $row[] = $icontxt . ' ' . get_string('label_rank', 'block_game')
-                        . ': ' . $game->rank . '&ordm; / ' . get_players($game->courseid, $groupid);
+                        . ': ' . $game->ranking . '&ordm; / ' . get_players($game->courseid, $groupid);
                 $table->data[] = $row;
             }
             if ($showscore) {
                 $row = array();
                 $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/score.png" height="20" width="20"/>';
                 $row[] = $icontxt . ' ' . get_string('label_score', 'block_game') .': '
-                        . (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges) . '';
+                        . (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges + $game->score_section) . '';
                 $table->data[] = $row;
             }
             if ($showlevel && isset($game->config->show_level)) {
@@ -274,7 +286,7 @@ class block_game extends block_base {
                 $percent = 0;
                 $nextlevel = $game->level + 1;
                 if ($nextlevel <= $levelnumber) {
-                    $total = (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges);
+                    $total = (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges + $game->score_section);
                     $percent = 0;
                     if($total > 0){
                        $percent = ($total * 100) / $levelup[$game->level]; 

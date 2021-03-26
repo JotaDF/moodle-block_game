@@ -17,9 +17,9 @@
 // The commands in here will all be database-neutral,
 // using the functions defined in lib/ddllib.php
 
-function xmldb_block_game_upgrade($oldversion=0) {
+function xmldb_block_game_upgrade($oldversion = 0) {
     global $DB;
-    
+
     $dbman = $DB->get_manager();
     if ($oldversion < 2020012905) {
 
@@ -29,7 +29,7 @@ function xmldb_block_game_upgrade($oldversion=0) {
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-        
+
         // Define table block_xp_filters to be created.
         $table = new xmldb_table('block_game_completed_atv');
 
@@ -53,8 +53,27 @@ function xmldb_block_game_upgrade($oldversion=0) {
 
         // block_game savepoint reached
         upgrade_block_savepoint(true, 2020012905, 'game');
-
     }
-    
+    if ($oldversion < 2020042983) {
+        // Add field 'score_bonus_day' to 'block_game'.
+        $table = new xmldb_table('block_game');
+        $field = new xmldb_field('score_section', XMLDB_TYPE_INTEGER, '10', null, null, null, '0', 'score_badges');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // block_game savepoint reached
+        upgrade_block_savepoint(true, 2020042983, 'game');
+    }
+    if ($oldversion < 2020042996) {
+        // Add field 'score_bonus_day' to 'block_game'.
+        $table = new xmldb_table('block_game');
+        $field = new xmldb_field('ranking', XMLDB_TYPE_INTEGER, '10', null, null, null, '0', 'level');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // block_game savepoint reached
+        upgrade_block_savepoint(true, 2020042996, 'game');
+    }
+
     return true;
 }

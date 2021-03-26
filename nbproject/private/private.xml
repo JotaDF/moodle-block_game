@@ -22,11 +22,13 @@
         <group>
             <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/version.php</file>
             <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/lang/pt_br/block_game.php</file>
-            <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/rank_group_game.php</file>
+            <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/db/upgrade.php</file>
             <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/edit_form.php</file>
             <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/lang/en/block_game.php</file>
+            <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/rank_group_game.php</file>
             <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/libgame.php</file>
             <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/block_game.php</file>
+            <file>file:/C:/Users/jwils/OneDrive/Documentos/blockgame/db/install.xml</file>
         </group>
     </open-files>
 </project-private>

@@ -49,8 +49,9 @@ function load_game($game) {
             $newgame->score_activities = 0;
             $newgame->score_bonus_day = 0;
             $newgame->score_badges = 0;
+            $newgame->score_section = 0;
             $newgame->level = 0;
-            $newgame->rank = 0;
+            $newgame->ranking = 0;
             $newgame->achievements = "";
             $newgame->rewards = "";
             $newgame->phases = "";
@@ -58,10 +59,10 @@ function load_game($game) {
             $newgame->frame = "";
             $newgame->bonus_day = null;
 
-            $sql = "INSERT INTO {block_game} (courseid,userid,avatar,score,score_activities,score_bonus_day,score_badges,level,rank,achievements,rewards,phases,badges,frame,bonus_day) VALUES(" . $game->courseid . "," . $game->userid . "," . $newgame->avatar . ",0,0,0,0,0,0,'','','','','',NULL)";
-            //$lastinsertid = $DB->insert_record('block_game', $newgame);
-            $DB->execute($sql);
-            //$newgame->id = $lastinsertid;
+            //$sql = "INSERT INTO {block_game} (courseid,userid,avatar,score,score_activities,score_bonus_day,score_badges,score_section,level,ranking,achievements,rewards,phases,badges,frame,bonus_day) VALUES(" . $game->courseid . "," . $game->userid . "," . $newgame->avatar . ",0,0,0,0,0,0,0,'','','','','',NULL)";
+            $lastinsertid = $DB->insert_record('block_game', $newgame);
+            //$DB->execute($sql);
+            $newgame->id = $lastinsertid;
 
             return $newgame;
         }
@@ -402,7 +403,8 @@ function ranking($game, $groupid = 0) {
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                     . ' SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,'
                     . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
-                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(score_bonus_day, 0))+SUM(COALESCE(score_badges, 0))) pt'
+                    . ' SUM(COALESCE(g.score_section, 0)) sum_score_section,'
+                    . ' (SUM(score)+SUM(COALESCE(g.score_activities, 0))+SUM(COALESCE(g.score_bonus_day, 0))+SUM(COALESCE(g.score_badges, 0))+SUM(COALESCE(g.score_section, 0))) pt'
                     . ' FROM {block_game} g, {user} u'
                     . ' WHERE u.id=g.userid GROUP BY g.userid, u.firstname'
                     . ' ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
@@ -411,10 +413,11 @@ function ranking($game, $groupid = 0) {
             $poisicao = 1;
             foreach ($ranking as $rs) {
                 if ($rs->userid == $game->userid) {
-                    $game->rank = $poisicao;
+                    $game->ranking = $poisicao;
                     $game->score = $rs->sum_score;
                     $game->score_bonus_day = $rs->sum_score_bonus_day;
                     $game->score_activities = $rs->sum_score_activities;
+                    $game->score_section = $rs->sum_score_section;
                     break;
                 }
                 $poisicao++;
@@ -428,7 +431,8 @@ function ranking($game, $groupid = 0) {
             $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                     . ' SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,'
-                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(g.score_bonus_day, 0))) pt'
+                    . ' SUM(COALESCE(g.score_section, 0)) sum_score_section,'
+                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(g.score_bonus_day, 0))+SUM(COALESCE(g.score_section, 0))) pt'
                     . ' FROM {role_assignments} rs '
                     . ' INNER JOIN {user} u ON u.id=rs.userid '
                     . ' INNER JOIN {context} e ON rs.contextid=e.id '
@@ -440,13 +444,13 @@ function ranking($game, $groupid = 0) {
             $poisicao = 1;
             foreach ($ranking as $rs) {
                 if ($rs->userid == $game->userid) {
-                    $game->rank = $poisicao;
+                    $game->ranking = $poisicao;
                     break;
                 }
                 $poisicao++;
             }
         }
-        $DB->execute("UPDATE {block_game} SET rank=? WHERE id=?", array($game->rank, $game->id));
+        $DB->execute("UPDATE {block_game} SET ranking=? WHERE id=?", array($game->ranking, $game->id));
     }
     return $game;
 }
@@ -467,7 +471,8 @@ function rank_list($courseid, $groupid = 0) {
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                     . ' SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,'
                     . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
-                    . ' (SUM(score)+SUM(COALESCE(score_activities, 0))+SUM(COALESCE(g.score_bonus_day, 0))+SUM(COALESCE(score_badges, 0))) pt'
+                    . ' SUM(COALESCE(g.score_section, 0)) sum_score_section,'
+                    . ' (SUM(score)+SUM(COALESCE(g.score_activities, 0))+SUM(COALESCE(g.score_bonus_day, 0))+SUM(COALESCE(g.score_badges, 0))+SUM(COALESCE(g.score_section, 0))) pt'
                     . ' FROM {block_game} g, {user} u WHERE u.id=g.userid GROUP BY g.userid, u.firstname, u.lastname '
                     . 'ORDER BY pt DESC,sum_score_badges DESC,sum_score_activities DESC,sum_score DESC, g.userid ASC';
 
@@ -482,7 +487,8 @@ function rank_list($courseid, $groupid = 0) {
             $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                     . ' SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,'
-                    . ' (SUM(score)+SUM(COALESCE(g.score_bonus_day, 0))+SUM(COALESCE(score_activities, 0))) pt'
+                    . ' SUM(COALESCE(g.score_section, 0)) sum_score_section,'
+                    . ' (SUM(score)+SUM(COALESCE(g.score_activities, 0))+SUM(COALESCE(g.score_bonus_day, 0))+SUM(COALESCE(g.score_section, 0))) pt'
                     . ' FROM {role_assignments} rs '
                     . ' INNER JOIN {user} u ON u.id=rs.userid '
                     . ' INNER JOIN {context} e ON rs.contextid=e.id '
@@ -511,7 +517,7 @@ function ranking_group($courseid) {
         if ($courseid != 1) {
 
             $sql = 'SELECT g.id, g.name, COUNT(m.id) AS members,'
-                    . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))+SUM(COALESCE(bg.score_activities, 0)) AS pt'
+                    . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))+SUM(COALESCE(bg.score_activities, 0))+SUM(COALESCE(bg.score_section, 0)) AS pt'
                     . ' FROM {groups_members} m, {groups} g, {block_game} bg'
                     . ' WHERE g.id=m.groupid'
                     . ' AND bg.userid=m.userid'
@@ -540,7 +546,7 @@ function ranking_group_md($courseid) {
         if ($courseid != 1) {
 
             $sql = 'SELECT g.id, g.name, COUNT(m.id) AS members,'
-                    . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))+SUM(COALESCE(bg.score_activities, 0)) AS pt'
+                    . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))+SUM(COALESCE(bg.score_activities, 0))+SUM(COALESCE(bg.score_section, 0)) AS pt'
                     . ' FROM {groups_members} m, {groups} g, {block_game} bg'
                     . ' WHERE g.id=m.groupid'
                     . ' AND bg.userid=m.userid'
@@ -548,7 +554,7 @@ function ranking_group_md($courseid) {
                     . ' GROUP BY g.id, g.name ORDER BY pt DESC';
 
             $rs = $DB->get_records_sql($sql, array($courseid));
-            
+
             $array_grups = array();
             foreach ($rs as $group) {
                 $grupo = new stdClass();
@@ -561,9 +567,10 @@ function ranking_group_md($courseid) {
             }
 
             usort($array_grups, function( $a, $b ) {
-                if ($a->md == $b->md) return 0;
+                if ($a->md == $b->md)
+                    return 0;
                 return ( ( $a->md > $b->md ) ? -1 : 1 );
-                });
+            });
             return $array_grups;
         }
         return false;
@@ -584,7 +591,7 @@ function set_level($game, $levelup, $levelnumber) {
     global $DB, $CFG;
 
     if (!empty($game->id)) {
-        $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges;
+        $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges + $game->score_section;
         if (sets_level($pt, $levelup) >= $levelnumber) {
             $level = $levelnumber;
         } else {
@@ -792,6 +799,61 @@ function get_course_time($courseid, $userid = 0) {
 
     return 0;
 }
+
+/**
+ * Validates the font size that was entered by the user.
+ *
+ * @param string $userid the font size integer to validate.
+ * @param string $courseid the font size integer to validate.
+ * @param string $sectionid the font size integer to validate.
+ * @return true|false
+ */
+function is_check_section($userid, $courseid, $sectionid) {
+    global $DB; // Check section.
+    $count_atv_ok = $DB->get_record_sql("SELECT COUNT(c.id) AS total FROM {course_modules_completion} c INNER JOIN {course_modules} m ON c.coursemoduleid = m.id WHERE c.userid=" . $userid . " AND m.course=" . $courseid . " AND m.section=" . $sectionid . " AND m.completion > 0 AND c.completionstate > 0 AND m.deletioninprogress = 0");
+    $count_atv = $DB->get_record_sql("SELECT COUNT(id) AS total FROM {course_modules} WHERE course=" . $courseid . " AND section=" . $sectionid . " AND completion > 0 AND deletioninprogress = 0");
+    if ($count_atv_ok->total == $count_atv->total && $count_atv->total != 0) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * get sections of course.
+ *
+ * @param string $courseid the font size integer to validate.
+ * @return mixed
+ */
+function get_sections_course($courseid) {
+    global $DB; // Check section.
+    if (!empty($courseid)) {
+        if ($courseid > 1) {
+            $sql = 'SELECT * FROM {course_sections} WHERE course = ?'
+                 . 'ORDER BY section';
+            $sections = $DB->get_records_sql($sql, array($courseid));
+            return $sections;
+        }
+    }
+    return false;
+}
+
+// Update score sections.
+/**
+ * Return update score sections user
+ *
+ * @param stdClass $game
+ * @param int $score_sections
+ * @return boolean
+ */
+function score_section($game, $score_sections) {
+    global $DB;
+    if (!empty($game->id)) {
+        $DB->execute("UPDATE {block_game} SET score_section=?  WHERE id=?", array((int) $score_sections,  $game->id));
+        return true;
+    }
+    return false;
+}
+
 
 /**
  * Get the time the user registration in the course.

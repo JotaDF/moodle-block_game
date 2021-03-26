@@ -77,7 +77,7 @@ if ($couseid == 1) {
             $outputhtml .= '<div class="boxgame"><img src="';
             $outputhtml .= $CFG->wwwroot . '/blocks/game/pix/big_rank.png" align="center" hspace="12"/>';
             $outputhtml .= '<strong>' . get_string('label_rank', 'block_game');
-            $outputhtml .= ': ' . $gameuser->rank . '&ordm; / ' . get_players($gameuser->courseid) . '</strong></div>';
+            $outputhtml .= ': ' . $gameuser->ranking . '&ordm; / ' . get_players($gameuser->courseid) . '</strong></div>';
         }
         if ($showscore == 1) {
             if ($gameuser->courseid != 1) {
@@ -126,7 +126,7 @@ if ($couseid == 1) {
         $outputhtml .= '<br/>';
         $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_rank.png" align="center" hspace="12"/>';
         $outputhtml .= '<strong>' . get_string('label_rank', 'block_game');
-        $outputhtml .= ': ' . $game->rank . '&ordm; / ' . get_players($game->courseid) . '</strong><br/>';
+        $outputhtml .= ': ' . $game->ranking . '&ordm; / ' . get_players($game->courseid) . '</strong><br/>';
     }
     if ($showscore == 1) {
         $outputhtml .= '<br/>';
