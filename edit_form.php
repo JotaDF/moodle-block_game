@@ -147,7 +147,6 @@ class block_game_edit_form extends block_edit_form {
                         . ' ' . $section->section, $limit);
                 $mform->addHelpButton('config_section_' . $section->section, 'config_section', 'block_game');
             }
-
         }
     }
 
