@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -24,7 +23,7 @@
  */
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/libgame.php');
-require_once($CFG->libdir.'/blocklib.php');
+require_once($CFG->libdir . '/blocklib.php');
 
 require_login();
 
@@ -38,9 +37,6 @@ $back = optional_param('back', 0, PARAM_INT);
 $course = $DB->get_record('course', array('id' => $couseid), '*', MUST_EXIST);
 $game = $DB->get_record('block_game', array('courseid' => $couseid, 'userid' => $USER->id));
 
-
-//$instance = get_context_instance(CONTEXT_COURSE, $couseid);
-//$bloco = block_instance( 'block_game', $instance);
 $games = $SESSION->game;
 $cfggame = get_config('block_game');
 $changeavatar = !isset($cfggame->change_avatar_course) || $cfggame->change_avatar_course == 1;
@@ -66,7 +62,7 @@ $outputhtml = "";
 if ($changeavatar || $couseid == 1) {
     $outputhtml .= '<table order="0">';
     $outputhtml .= '<tr>';
-    $cont_level = 0;
+    $contlevel = 0;
     for ($i = 1; $i < 57; $i++) {
         $outputhtml .= '<td>';
         $outputhtml .= '<form action="" method="post">';
@@ -170,14 +166,13 @@ if ($changeavatar || $couseid == 1) {
         $outputhtml .= '</td>';
         if ($i % 4 == 0 && $i < 56) {
             $outputhtml .= '</tr><tr>';
-            $cont_level++;
+            $contlevel++;
         } else if ($i == 56) {
             $outputhtml .= '</tr>';
         }
-        if($cont_level == ($games->config->level_number +2)){
+        if ($contlevel == ($games->config->level_number + 2)) {
             break;
         }
-        
     }
     $outputhtml .= '</table>';
 }

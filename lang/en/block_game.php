@@ -144,6 +144,9 @@ $string['title_config_section'] = '<legend>Score section completion (completion 
 $string['config_section'] = 'Configure section completion points.';
 $string['config_section_help'] = 'Configure section completion points.';
 
+$string['config_module'] = 'Configure points for module completion.';
+$string['config_module_help'] = 'Configure points for module completion.';
+
 $string['reset_points_btn'] = 'Reset ponits';
 $string['reset_points_title'] = 'Reset course points';
 $string['label_cornfirm_reset_points'] = 'When resetting the course points, all users lost their points. <br/> Do you really want to do this? <br/> <br/> <span class="text-muted">Note: This action does not exclude points acquired through activity notes, to do this you must reset the activity notes.</span>';

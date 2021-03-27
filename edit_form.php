@@ -82,16 +82,17 @@ class block_game_edit_form extends block_edit_form {
 
             // Control visibility of rank group calculation.
             $calcoptions = array(0 => get_string('sum', 'block_game'), 1 => get_string('med', 'block_game'));
-            $mform->addElement('select', 'config_rank_group_calc', get_string('config_rank_group_calc', 'block_game'),$calcoptions);
+            $mform->addElement('select', 'config_rank_group_calc',
+                    get_string('config_rank_group_calc', 'block_game'), $calcoptions);
             $mform->setDefault('config_rank_group_calc', 0);
             $mform->disabledIf('config_rank_group_calc', 'config_show_rank_group', 'eq', 0);
             $mform->addHelpButton('config_rank_group_calc', 'config_rank_group_calc', 'block_game');
-            
+
             // Control visibility of rank.
             $mform->addElement('selectyesno', 'config_show_rank', get_string('config_rank', 'block_game'));
             $mform->setDefault('config_show_rank', 1);
             $mform->addHelpButton('config_show_rank', 'config_rank', 'block_game');
-            
+
             // Control limit rank.
             $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 50 => 50, 100 => 100);
             $mform->addElement('select', 'config_limit_rank', get_string('config_limit_rank', 'block_game'), $limit);
@@ -135,26 +136,18 @@ class block_game_edit_form extends block_edit_form {
                 $mform->setType('config_level_up' . $i, PARAM_INT);
                 $mform->addHelpButton('config_level_up' . $i, 'config_level_up' . $i, 'block_game');
             }
-            
-            // Options controlling sections.    
+
+            // Options controlling sections.
             $mform->addElement('html', '<hr/>');
-            $mform->addElement('html', get_string('title_config_section','block_game'));
+            $mform->addElement('html', get_string('title_config_section', 'block_game'));
             $sections = get_sections_course($SESSION->game->courseid);
             foreach ($sections as $section) {
                 $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 50 => 50, 60 => 60, 80 => 80, 100 => 100);
-                $mform->addElement('select', 'config_section_' . $section->section, get_string('section','block_game') . ' ' . $section->section, $limit);
-                $mform->addHelpButton('config_section_' . $section->section,  'config_section' , 'block_game');            
-            }            
+                $mform->addElement('select', 'config_section_' . $section->section, get_string('section', 'block_game')
+                        . ' ' . $section->section, $limit);
+                $mform->addHelpButton('config_section_' . $section->section, 'config_section', 'block_game');
+            }
 
-            
-//            $mform->addElement('html', '<hr/>');
-//            $mform->addElement('html', '<legend> Pontuar conclusão de atividade por tipo:</legend>');
-//            $rs = get_modules_tracking($SESSION->game->courseid);
-//            foreach ($rs as $module) {
-//                $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 50 => 50, 60 => 60, 80 => 80, 100 => 100);
-//                $mform->addElement('select', 'config_module_' . $module->id, get_string('modulename', $module->module), $limit);
-//                $mform->addHelpButton('config_module_' . $module->id,  'config_module_' . $module->module, 'block_game');            
-//            }
         }
     }
 

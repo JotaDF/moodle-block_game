@@ -135,7 +135,7 @@ if (isset($game->config->show_level) && $game->config->show_level == 1) {
     $levelup[9]   = (int)$game->config->level_up10;
     $levelup[10]   = (int)$game->config->level_up11;
     $levelup[11]   = (int)$game->config->level_up12;
-    
+
     $outputhtml .= '<p>';
     for ($i = 0; $i < $game->config->level_number; $i++) {
         $outputhtml .= ' - ' . get_string('label_level', 'block_game') . ' ' . ($i + 1) . ': '.$levelup[$i] .'pts <br/>';

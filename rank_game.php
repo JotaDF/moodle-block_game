@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -52,12 +51,12 @@ $PAGE->set_heading(get_string('rank_game_title', 'block_game'));
 echo $OUTPUT->header();
 $cfggame = get_config('block_game');
 
-// now verify grading user has access to all groups or is member of the same group when separate groups used in course
+/* Now verify grading user has access to all groups or is member of the same group when separate groups used in course */
 $ok = false;
 if ($course->groupmode == 1 and !has_capability('moodle/site:accessallgroups', $context)) {
     if (groups_is_member($groupid, $USER->id)) {
         $ok = true;
-    } 
+    }
 } else {
     $ok = true;
 }

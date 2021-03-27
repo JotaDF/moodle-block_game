@@ -65,7 +65,9 @@ if ($couseid == 1) {
     $rs = get_games_user($USER->id);
     $fullpoints = 0;
     foreach ($rs as $gameuser) {
-        $fullpoints = ($fullpoints + ($gameuser->score + $gameuser->score_activities + $gameuser->score_badges));
+        $fullpoints = ($fullpoints + ($gameuser->score + $gameuser->score_bonus_day +
+                $gameuser->score_activities + $gameuser->score_badges + $gameuser->score_section));
+
         $course = $DB->get_record('course', array('id' => $gameuser->courseid));
         if ($gameuser->courseid != 1) {
             $outputhtml .= '<h3>( ' . $course->fullname . ' )</h3><br/>';
@@ -84,7 +86,8 @@ if ($couseid == 1) {
                 $outputhtml .= '<div class="boxgame">';
                 $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_score.png" align="center" hspace="12"/>';
                 $outputhtml .= '<strong>' . get_string('label_score', 'block_game');
-                $outputhtml .= ': ' . ($gameuser->score + $gameuser->score_activities) . '</strong></div>';
+                $outputhtml .= ': ' . ($gameuser->score + $gameuser->score_bonus_day +
+                $gameuser->score_activities + $gameuser->score_section) . '</strong></div>';
             } else {
                 $outputhtml .= '<div class="boxgame">';
                 $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_score.png" align="center" hspace="12"/>';
@@ -132,7 +135,8 @@ if ($couseid == 1) {
         $outputhtml .= '<br/>';
         $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_score.png" align="center" hspace="12"/>';
         $outputhtml .= '<strong>' . get_string('label_score', 'block_game') . ': ';
-        $outputhtml .= ($game->score + $game->score_activities) . '</strong><br/>';
+        $outputhtml .= ($game->score + $game->score_bonus_day + $game->score_activities +
+                        $game->score_badges + $game->score_section) . '</strong><br/>';
     }
     if ($showlevel == 1) {
         $outputhtml .= '<br/>';

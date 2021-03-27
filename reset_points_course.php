@@ -49,26 +49,31 @@ echo $OUTPUT->header();
 $outputhtml = '<div class="boxs">';
 
 if ($courseid > 1) {
-    
+
     $context = context_course::instance($courseid, MUST_EXIST);
-    if(has_capability ('moodle/course:update', $context, $USER->id)) {
-    $outputhtml .= '<div align="center">';
+    if (has_capability('moodle/course:update', $context, $USER->id)) {
+        $outputhtml .= '<div align="center">';
 
-    $outputhtml .= '<h3>( ' . get_string('reset_points_title', 'block_game') . ': <strong>' . $course->fullname . '</strong> )</h3><br/>';
+        $outputhtml .= '<h3>( ' . get_string('reset_points_title', 'block_game') . ': <strong>'
+                . $course->fullname . '</strong> )</h3><br/>';
 
-    $outputhtml .= '<br/><h5>';
-    if($confirm > 0){
-        if(reset_points_game($courseid)){
-            $outputhtml .= '<strong>' . get_string('reset_points_sucess', 'block_game') . '</strong><br/><br/><a class="btn btn-success" href="'.$CFG->wwwroot.'/course/view.php?id='.$courseid.'">'.get_string('ok', 'block_game').'</a>';
+        $outputhtml .= '<br/><h5>';
+        if ($confirm > 0) {
+            if (reset_points_game($courseid)) {
+                $outputhtml .= '<strong>' . get_string('reset_points_sucess', 'block_game')
+                        . '</strong><br/><br/><a class="btn btn-success" href="' . $CFG->wwwroot . '/course/view.php?id='
+                        . $courseid . '">' . get_string('ok', 'block_game') . '</a>';
+            } else {
+                $outputhtml .= '<strong>' . get_string('reset_points_error', 'block_game') . '</strong><br/>';
+            }
         } else {
-            $outputhtml .= '<strong>' . get_string('reset_points_error', 'block_game') . '</strong><br/>';
+            $outputhtml .= '<strong>' . get_string('label_cornfirm_reset_points', 'block_game') . '</strong><br/><br/>';
+            $outputhtml .= '<a class="btn btn-secondary" href="' . $CFG->wwwroot . '/course/view.php?id=' . $courseid . '">'
+                    . get_string('no', 'block_game') . '</a>' . '  <a class="btn btn-danger" href="reset_points_course.php?id='
+                    . $courseid . '&c=1">' . get_string('yes', 'block_game') . '</a>' . '<br/>';
         }
-    } else {
-        $outputhtml .= '<strong>' . get_string('label_cornfirm_reset_points', 'block_game') . '</strong><br/><br/>';
-        $outputhtml .= '<a class="btn btn-secondary" href="'.$CFG->wwwroot.'/course/view.php?id='.$courseid.'">'.get_string('no', 'block_game').'</a>' . '  <a class="btn btn-danger" href="reset_points_course.php?id='.$courseid.'&c=1">'.get_string('yes', 'block_game').'</a>' . '<br/>';
-    }
-    $outputhtml .= '</h5>';
-    $outputhtml .= '</div>';
+        $outputhtml .= '</h5>';
+        $outputhtml .= '</div>';
     } else {
         $outputhtml .= '<strong>' . get_string('reset_points_not_permission', 'block_game') . '</strong><br/>';
     }

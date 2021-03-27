@@ -144,6 +144,10 @@ $string['title_config_section'] = '<legend>Pontuar conclusão de seções (neces
 $string['config_section'] = 'Configurar pontos para conclusão da seção.';
 $string['config_section_help'] = 'Configurar pontos para conclusão da seção.';
 
+$string['config_module'] = 'Configurar pontos para conclusão de módulo.';
+$string['config_module_help'] = 'Configurar pontos para conclusão de módulo.';
+
+
 $string['reset_points_btn'] = 'Resetar pontos';
 $string['reset_points_title'] = 'Resetar pontos do curso';
 $string['label_cornfirm_reset_points'] = 'Ao resetar os pontos do curso, todos os usuários perderam seus pontos.<br/> Deseja mesmo fazer isso?<br/><br/><span class="text-muted">Obs.: Essa ação não exclui pontos adquiridos por meio de notas de atividades, para fazer isso deverá resetar as notas das atividades.</span>';
