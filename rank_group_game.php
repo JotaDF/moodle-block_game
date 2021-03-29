@@ -70,9 +70,9 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
 
             $grouptxt = $group->name;
             $groupcount = $group->members;
-            $scoretxt = $group->pt;
+            $scoretxt = number_format($group->pt, 2);
             if (isset($game->config->rank_group_calc) && $game->config->rank_group_calc == 1) {
-                $scoretxt = $group->md;
+                $scoretxt = number_format($group->md, 2);
             }
             $group = $DB->get_record('groups', array('id' => $group->id), '*', MUST_EXIST);
 
