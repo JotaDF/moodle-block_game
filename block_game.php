@@ -24,6 +24,7 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/libgame.php');
 require_login();
+
 /**
  *  Block Game config form definition class
  *
@@ -175,7 +176,9 @@ class block_game extends block_base {
             foreach ($sections as $section) {
                 $txtsection = "section_" . $section->section;
                 if (is_check_section($USER->id, $COURSE->id, $section->id)) {
-                    $scoresections += (int) $game->config->$txtsection;
+                    if (isset($game->config->$txtsection)) {
+                        $scoresections += (int) $game->config->$txtsection;
+                    }
                 }
             }
             if ($scoreok) {

@@ -106,7 +106,7 @@ if (!isset($game->config->show_info) && $courseid > 1) {
             $outputhtmlsecion = get_string('help_score_sections_text', 'block_game');
             foreach ($sections as $section) {
                 $txtsection = "section_" . $section->section;
-                if ($game->config->$txtsection > 0) {
+                if (isset($game->config->$txtsection) && $game->config->$txtsection > 0) {
                     $outputhtmlsecion .= ' - ' . get_string('section', 'block_game') . ' '
                             . $section->section . ': <strong>' . $game->config->$txtsection . 'pts</strong><br/>';
                     $scoresections += (int) $game->config->$txtsection;
