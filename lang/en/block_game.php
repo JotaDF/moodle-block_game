@@ -29,6 +29,7 @@ $string['block_game:addinstance'] = 'Add a new Game block';
 $string['block_game:myaddinstance'] = 'Add a new Game block to the My Moodle page';
 
 $string['defaultdisplaysettings'] = 'Game pack general settings';
+$string['not_initial_config_game'] = '<p>It is necessary to make the initial settings of the Game Block in the course.</p>';
 
 $string['config_avatar'] = 'Use Avatar';
 $string['config_avatar_help'] = '<p>Using Avatar.</p>';
@@ -159,7 +160,11 @@ $string['reset_points_not_permission'] = 'You are not allowed to do this!';
 $string['help_avatar_titulo'] = 'About avatar';
 $string['help_avatar_text'] = 'The game allows you to choose or change your avatar whenever you want. When The dotted icon appears means you have not yet chosen your avatar by clicking on it, or on your avatar, it takes you to the Avatar Selection page, just click on the desired avatar to make your choice.<br/>
 <br/><strong>Avatar tips :</strong><br/>
-- You can only change your avatar on the home page, off course! <br/>
+- You can only change your avatar on the homepage or the dashboard page! <br/>
+- The Gray-tone avatar will only be available when you reach the required level!<br/>';
+$string['help_avatar_text_course'] = 'The game allows you to choose or change your avatar whenever you want. When The dotted icon appears means you have not yet chosen your avatar by clicking on it, or on your avatar, it takes you to the Avatar Selection page, just click on the desired avatar to make your choice.<br/>
+<br/><strong>Avatar tips :</strong><br/>
+- You can change your avatar on the main page of the course! <br/>
 - The Gray-tone avatar will only be available when you reach the required level!<br/>';
 $string['help_info_user_titulo'] = 'Player Information';
 $string['help_info_user_text'] = 'By clicking on the player information icon you can see what your situation (Rating, Score and Level) in each course that is registered, that uses the Block Game plugin! You can still know your situation in the ambinte as a whole (General). And at the end it shows when badges the player has already won!';

@@ -53,7 +53,7 @@ $cfggame = get_config('block_game');
 
 /* Now verify grading user has access to all groups or is member of the same group when separate groups used in course */
 $ok = false;
-if ($course->groupmode == 1 and !has_capability('moodle/site:accessallgroups', $context)) {
+if ($course->groupmode == 1 and ! has_capability('moodle/site:accessallgroups', $context)) {
     if (groups_is_member($groupid, $USER->id)) {
         $ok = true;
     }
@@ -120,7 +120,11 @@ if ($ok) {
         }
         $outputhtml .= '</div>';
     } else {
-        $outputhtml = "...";
+        $outputhtml = "... <br/><br/>";
+        $context = context_course::instance($courseid, MUST_EXIST);
+        if (has_capability('moodle/course:update', $context, $USER->id)) {
+            $outputhtml .= get_string('not_initial_config_game', 'block_game');
+        }
     }
 }
 echo $outputhtml;

@@ -57,7 +57,7 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
         $outputhtml .= '<h3>( ' . $course->fullname . ' ) </h3><br/>';
 
         $outputhtml .= '<table border="0" width="100%">';
-        if ($game->config->rank_group_calc == 1) {
+        if (isset($game->config->rank_group_calc) && $game->config->rank_group_calc == 1) {
             $rs = ranking_group_md($courseid);
         } else {
             $rs = ranking_group($courseid);
@@ -71,7 +71,7 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
             $grouptxt = $group->name;
             $groupcount = $group->members;
             $scoretxt = $group->pt;
-            if ($game->config->rank_group_calc == 1) {
+            if (isset($game->config->rank_group_calc) && $game->config->rank_group_calc == 1) {
                 $scoretxt = $group->md;
             }
             $group = $DB->get_record('groups', array('id' => $group->id), '*', MUST_EXIST);
@@ -92,6 +92,10 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
     $outputhtml .= '</div>';
 } else {
     $outputhtml = "...";
+    $context = context_course::instance($courseid, MUST_EXIST);
+    if (has_capability('moodle/course:update', $context, $USER->id)) {
+        $outputhtml = get_string('not_initial_config_game', 'block_game');
+    }
 }
 echo $outputhtml;
 

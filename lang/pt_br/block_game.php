@@ -29,6 +29,7 @@ $string['block_game:addinstance'] = 'Adcionar novo bloco Game';
 $string['block_game:myaddinstance'] = 'Adcionar novo bloco Game na sua Moodle page';
 
 $string['defaultdisplaysettings'] = 'Configurações gerais do bloco Game';
+$string['not_initial_config_game'] = 'É necessário realizar as configurações iniciais do Bloco Game no curso.';
 
 $string['config_avatar'] = 'Utilizar Avatar';
 $string['config_avatar_help'] = '<p>Utilizando Avatar.</p>';
@@ -159,7 +160,11 @@ $string['reset_points_not_permission'] = 'Você não possui permissão para faze
 $string['help_avatar_titulo'] = 'Sobre o avatar';
 $string['help_avatar_text'] = 'O jogo permite que você escolha ou mude seu avatar a hora que desejar. Quando aparece o ícone pontilhado significa que você ainda não escolheu seu, clicando no mesmo, ou no seu avatar, ele te leva para a página de seleção, basta clicar no avatar desejado para fazer sua escolha.<br/>
 <br/><strong>Dicas sobre avatar:</strong><br/>
-- Você só poderá trocar de avatar na página inicial, fora do curso! <br/>
+- Você só poderá trocar de avatar na página inicial ou na página de painel! <br/>
+- O avatar em tom de cinza só estará disponível quando você atingir o nível necessário!<br/>';
+$string['help_avatar_text_course'] = 'O jogo permite que você escolha ou mude seu avatar a hora que desejar. Quando aparece o ícone pontilhado significa que você ainda não escolheu seu, clicando no mesmo, ou no seu avatar, ele te leva para a página de seleção, basta clicar no avatar desejado para fazer sua escolha.<br/>
+<br/><strong>Dicas sobre avatar:</strong><br/>
+- Você poderá trocar de avatar na página principal do curso! <br/>
 - O avatar em tom de cinza só estará disponível quando você atingir o nível necessário!<br/>';
 $string['help_info_user_titulo'] = 'Informações do jogador';
 $string['help_info_user_text'] = 'Clicando no ícone de informações do jogador você poderá ver qual a sua situação (Classificação, Pontuação e Nível) em cada curso que está matriculado, que utiliza o plugin de Bloco Game! Ainda poderá saber sua situação no ambiente como um todo (Geral). E ao final mostra quando emblemas o jogador já conquistou!<br/>';
