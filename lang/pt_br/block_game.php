@@ -172,6 +172,7 @@ $string['help_score_titulo'] = 'Sobre pontuação';
 $string['help_score_text'] = 'O jogo possui sistema de pontuação pois a pontuação do jogador definirá a sua classificação e o nível que se encontra. Por isso é muito importando você saber como ganhar pontos para melhorar sua colocação e seu nível.<br/>
 <br/><strong>Como conseguir pontos:</strong><br/>';
 $string['help_score_activities_text'] = '<strong>Pontos de atividades</strong> - ao fazer as atividades propostas nos cursos que está matriculado, a nota alcançada será convertida em pontos do jogo! Portanto alcance as melhores notas nas atividades para ganhas mais pontos!<br/>';
+$string['help_score_sections_text'] = '<strong>Pontuação por conclusão de seção</strong> - Ao concluir todas as atividades previstas em uma seção, você poderá receber uma pontuação! Veja quantos pontos você pode ganhar em cada seção:<br/>';
 $string['help_bonus_day_text'] = '<strong>Bônus do dia</strong> - Só de acessar o ambiente ou o seu curso você receberá, uma única vez por dia, um bônus que será somado a sua pontuação! Para garantir seu bônus, acesse seu curso pelo menos uma vez por dia!<br/>';
 $string['help_bonus_day_text_value'] = 'Valor atual do bônus do dia: ';
 $string['help_bonus_badge_text'] = '<strong>Bônus por emblema</strong> - A conclusão de um curso é uma vitória que você alcança, portanto ao concluir um curso você receberá um emblema como recompensa, esse emblema agrega um bônus de grande valor que será somado a sua pontuação!<br/>';

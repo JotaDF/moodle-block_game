@@ -172,6 +172,7 @@ $string['help_score_titulo'] = 'About points';
 $string['help_score_text'] = 'The game has a scoring system because the score of the player will define their rank and the level that is. So it is very important that you know how to earn points to improve your placement and your level.<br/>
 <br/><strong>How to get points:</strong><br/>';
 $string['help_score_activities_text'] = '<strong>Activity Points</strong> - when doing the proposed activities in the courses that are enrolled, the grade achieved will be converted into points of the game! So get the best grades in the activities to earn more points!<br/>';
+$string['help_score_sections_text'] = '<strong>Scoring for section completion</strong> - When you have completed all the activities provided for in a section, you will be able to receive a score! See how many points you can earn in each section:<br/>';
 $string['help_bonus_day_text'] = '<strong>Bonus of the day</strong> - Just to access the environment or your course you will receive, once a day, a bonus that will be added to your score!<br/>';
 $string['help_bonus_day_text_value'] = 'Current Bonus Value of the Day: ';
 $string['help_bonus_badge_text'] = '<strong>Bonus per badge</strong> - Upon completing a course you will receive a reward badge, this badge adds a great bonus that will add up to your score!<br/>';

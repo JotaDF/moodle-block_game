@@ -98,6 +98,25 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         if ($game->config->score_activities == 1) {
             $outputhtml .= '<p align="justify">' . get_string('help_score_activities_text', 'block_game') . '</p>';
         }
+
+        if ($COURSE->id > 1) {
+            // Sum score sections complete.
+            $sections = get_sections_course($COURSE->id);
+            $scoresections = 0;
+            $outputhtmlsecion = get_string('help_score_sections_text', 'block_game');
+            foreach ($sections as $section) {
+                $txtsection = "section_" . $section->section;
+                if ($game->config->$txtsection > 0) {
+                    $outputhtmlsecion .= ' - ' . get_string('section', 'block_game') . ' '
+                            . $section->section . ': <strong>' . $game->config->$txtsection . 'pts</strong><br/>';
+                    $scoresections += (int) $game->config->$txtsection;
+                }
+            }
+            if ($scoresections > 0) {
+                $outputhtml .= $outputhtmlsecion . '<br/>';
+            }
+        }
+
         if ($game->config->bonus_day > 0) {
             $outputhtml .= '<p align="justify">' . get_string('help_bonus_day_text', 'block_game');
             $outputhtml .= ' ' . get_string('help_bonus_day_text_value', 'block_game');
