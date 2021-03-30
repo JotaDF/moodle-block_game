@@ -22,9 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
-require_once(dirname(__FILE__) . '/../../config.php');
 
-// Load game user of de block.
 /**
  * Return the game user
  *
@@ -67,7 +65,6 @@ function load_game($game) {
     return false;
 }
 
-// Get games user.
 /**
  * Return the games user
  *
@@ -83,7 +80,6 @@ function get_games_user($userid) {
     return false;
 }
 
-// Update avatar user.
 /**
  * Return update avatar user
  *
@@ -102,7 +98,6 @@ function update_avatar_game($game) {
     return false;
 }
 
-// Update score game.
 /**
  * Return update score user
  *
@@ -125,7 +120,6 @@ function update_score_game($game) {
     return false;
 }
 
-// Update level game.
 /**
  * Return update level user
  *
@@ -148,7 +142,6 @@ function update_level_game($game) {
     return false;
 }
 
-// Update achievements game.
 /**
  * Return update achievements user
  *
@@ -171,7 +164,6 @@ function update_achievements_game($game) {
     return false;
 }
 
-// Update rewards game.
 /**
  * Return update rewards user
  *
@@ -194,7 +186,6 @@ function update_rewards_game($game) {
     return false;
 }
 
-// Update phases game.
 /**
  * Return update phases user
  *
@@ -217,7 +208,6 @@ function update_phases_game($game) {
     return false;
 }
 
-// Update badges game.
 /**
  * Return update badge user
  *
@@ -240,7 +230,6 @@ function update_badges_game($game) {
     return false;
 }
 
-// Update frame game.
 /**
  * Return update frame user
  *
@@ -263,7 +252,6 @@ function update_frame_game($game) {
     return false;
 }
 
-// Update bonus of the day course.
 /**
  * Reset bonus of day course
  *
@@ -280,7 +268,6 @@ function reset_points_game($courseid) {
     return false;
 }
 
-// Update bonus of the day game.
 /**
  * Return update bonus of day user
  *
@@ -304,7 +291,6 @@ function bonus_of_day($game, $bonus) {
     return false;
 }
 
-// Score activity notes.
 /**
  * Return update score activities user
  *
@@ -333,7 +319,6 @@ function score_activities($game) {
     return false;
 }
 
-// No score not activity notes.
 /**
  * Return update game user
  *
@@ -349,7 +334,6 @@ function no_score_activities($game) {
     return false;
 }
 
-// Score badges of course completed.
 /**
  * Return update game user
  *
@@ -385,7 +369,6 @@ function score_badge($game, $value) {
     return $game;
 }
 
-// Ranking user.
 /**
  * Return update ranking game
  *
@@ -521,7 +504,6 @@ function rank_list($courseid, $groupid = 0) {
     return false;
 }
 
-// Ranking group.
 /**
  * Return list ranking group game
  *
@@ -602,7 +584,6 @@ function ranking_group_md($courseid) {
     return false;
 }
 
-// Seting new level.
 /**
  * Return set level user
  *
@@ -627,7 +608,6 @@ function set_level($game, $levelup, $levelnumber) {
     return $game;
 }
 
-// Seting level.
 /**
  * Return set level user
  *
@@ -870,7 +850,6 @@ function get_sections_course($courseid) {
     return false;
 }
 
-// Update score sections.
 /**
  * Return update score sections user
  *

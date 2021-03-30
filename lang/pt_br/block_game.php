@@ -151,7 +151,7 @@ $string['config_module_help'] = 'Configurar pontos para conclusão de módulo.';
 
 $string['reset_points_btn'] = 'Resetar pontos';
 $string['reset_points_title'] = 'Resetar pontos do curso';
-$string['label_cornfirm_reset_points'] = 'Ao resetar os pontos do curso, todos os usuários perderam seus pontos.<br/> Deseja mesmo fazer isso?<br/><br/><span class="text-muted">Obs.: Essa ação não exclui pontos adquiridos por meio de notas de atividades, para fazer isso deverá resetar as notas das atividades.</span>';
+$string['label_cornfirm_reset_points'] = 'Ao resetar os pontos do curso, todos os usuários perderam seus pontos.<br/> Deseja mesmo fazer isso?<br/><br/><span class="text-muted">Obs.: Essa ação não exclui pontos adquiridos por meio de notas de atividades ou conclusão de seções, para fazer isso deverá resetar as notas das atividades.</span>';
 $string['reset_points_sucess'] = 'Pontos do curso resetado para todos os usuários com sucesso!!';
 $string['reset_points_error'] = 'Erro ao resetar os pontos do curso!!';
 $string['reset_points_not_permission'] = 'Você não possui permissão para fazer essa ação!';

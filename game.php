@@ -24,7 +24,7 @@
  */
 
 require_once('../../config.php');
-require_once($CFG->dirroot . '/blocks/game/libgame.php');
+require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/completionlib.php');
 
 require_login();

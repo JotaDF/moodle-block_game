@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once($CFG->dirroot . '/blocks/game/libgame.php');
+require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_login();
 
 global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
@@ -68,6 +68,7 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_avatar_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
         $outputhtml .= '<td valign="top">';
+        $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/a0.png" align="center" hspace="12"/></td>';
         if ($cfggame->change_avatar_course == 1 && $courseid > 1) {
             $outputhtml .= '<td valign="top"><p align="justify">'
                     . get_string('help_avatar_text_course', 'block_game') . '</p><hr/></td>';
