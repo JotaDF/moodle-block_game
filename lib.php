@@ -261,7 +261,8 @@ function update_frame_game($game) {
 function reset_points_game($courseid) {
     global $DB, $CFG;
     if (!empty($courseid)) {
-        $sql = "UPDATE {block_game} SET score_bonus_day=0, score=0  WHERE courseid=" . $courseid;
+        $sql = "UPDATE {block_game} SET score_bonus_day=0, score=0, score_activities=0,"
+                . " score_section=0, score_badges=0  WHERE courseid=" . $courseid;
         $DB->execute($sql);
         return true;
     }
@@ -596,7 +597,10 @@ function set_level($game, $levelup, $levelnumber) {
     global $DB, $CFG;
 
     if (!empty($game->id)) {
-        $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges + $game->score_section;
+        $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_section;
+        if ($game->courseid == 1) {
+            $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges + $game->score_section;
+        }
         if (sets_level($pt, $levelup) >= $levelnumber) {
             $level = $levelnumber;
         } else {

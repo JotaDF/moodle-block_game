@@ -67,7 +67,7 @@ if ($courseid > 1) {
                 $outputhtml .= '<strong>' . get_string('reset_points_error', 'block_game') . '</strong><br/>';
             }
         } else {
-            $outputhtml .= '<strong>' . get_string('label_cornfirm_reset_points', 'block_game') . '</strong><br/><br/>';
+            $outputhtml .= '<strong>' . get_string('label_confirm_reset_points', 'block_game') . '</strong><br/><br/>';
             $outputhtml .= '<a class="btn btn-secondary" href="' . $CFG->wwwroot . '/course/view.php?id=' . $courseid . '">'
                     . get_string('no', 'block_game') . '</a>' . '  <a class="btn btn-danger" href="reset_points_course.php?id='
                     . $courseid . '&c=1">' . get_string('yes', 'block_game') . '</a>' . '<br/>';

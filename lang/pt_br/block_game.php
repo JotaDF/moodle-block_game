@@ -120,9 +120,18 @@ $string['perfil_gamer_title'] = 'Informações do jogador';
 $string['set_avatar_title'] = 'Selecione seu Avatar';
 $string['rank_group_game_title'] = 'Lista de classificação de Grupos';
 $string['rank_game_title'] = 'Lista de classificação';
+$string['order'] = 'Ordem';
+$string['name'] = 'Nome';
+$string['score_atv'] = 'Atividades';
+$string['score_section'] = 'Seções';
+$string['score_bonus_day'] = 'Bônus do dia';
+$string['score_total'] = 'Total';
+
 $string['help_game_title'] = 'Ajuda do jogo';
 $string['not_start_game'] = 'Usuário não começou a jogar';
 $string['not_start_game_s'] = 'Usuários não começaram a jogar';
+
+
 
 $string['label_course'] = 'Curso';
 $string['label_badge'] = 'Emblemas';
@@ -151,7 +160,7 @@ $string['config_module_help'] = 'Configurar pontos para conclusão de módulo.';
 
 $string['reset_points_btn'] = 'Resetar pontos';
 $string['reset_points_title'] = 'Resetar pontos do curso';
-$string['label_cornfirm_reset_points'] = 'Ao resetar os pontos do curso, todos os usuários perderam seus pontos.<br/> Deseja mesmo fazer isso?<br/><br/><span class="text-muted">Obs.: Essa ação não exclui pontos adquiridos por meio de notas de atividades ou conclusão de seções, para fazer isso deverá resetar as notas das atividades.</span>';
+$string['label_confirm_reset_points'] = 'Ao resetar os pontos do curso, todos os usuários perderam seus pontos.<br/> Deseja mesmo fazer isso?<br/><br/>';
 $string['reset_points_sucess'] = 'Pontos do curso resetado para todos os usuários com sucesso!!';
 $string['reset_points_error'] = 'Erro ao resetar os pontos do curso!!';
 $string['reset_points_not_permission'] = 'Você não possui permissão para fazer essa ação!';

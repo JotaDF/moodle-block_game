@@ -99,8 +99,8 @@ if ($ok) {
                 $ordtxt = '<strong>' . $ord . '&ordm;</trong>';
             }
             $outputhtml .= '<tr>';
-            $outputhtml .= '<td>';
-            $outputhtml .= $ordtxt . '<hr/></td><td> ' . $usertxt . ' <hr/></td><td> ' . $scoretxt . '<hr/></td>';
+            $outputhtml .= '<td>' . $ordtxt . '<hr/></td><td> ' . $usertxt . ' <hr/></td>';
+            $outputhtml .= '<td> ' . $scoretxt . '<hr/></td>';
             $outputhtml .= '</tr>';
 
             if ($limit > 0 && $limit == $ord) {

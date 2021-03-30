@@ -120,6 +120,13 @@ $string['perfil_gamer_title'] = 'Player information';
 $string['set_avatar_title'] = 'Select your Avatar';
 $string['rank_group_game_title'] = 'Groups ranking list';
 $string['rank_game_title'] = 'Ranking list';
+$string['order'] = 'Ordem';
+$string['name'] = 'Nome';
+$string['score_atv'] = 'Atividades';
+$string['score_section'] = 'Seções';
+$string['score_bonus_day'] = 'Bônus do dia';
+$string['score_total'] = 'Total';
+
 $string['help_game_title'] = 'Help of game';
 $string['not_start_game'] = 'User did not start playing';
 $string['not_start_game_s'] = 'Users they did not start playing';
@@ -150,7 +157,7 @@ $string['config_module_help'] = 'Configure points for module completion.';
 
 $string['reset_points_btn'] = 'Reset ponits';
 $string['reset_points_title'] = 'Reset course points';
-$string['label_cornfirm_reset_points'] = 'When resetting the course points, all users lost their points. <br/> Do you really want to do this? <br/> <br/> <span class="text-muted">Note: This action does not exclude points acquired through activity notes or completion of sections, to do this you must reset the activity notes.</span>';
+$string['label_confirm_reset_points'] = 'When resetting the course points, all users lost their points. <br/> Do you really want to do this? <br/> <br/>';
 $string['reset_points_sucess'] = 'Course points reset for all users successfully !!';
 $string['reset_points_error'] = 'Error when resetting course points!';
 $string['reset_points_not_permission'] = 'You are not allowed to do this!';
