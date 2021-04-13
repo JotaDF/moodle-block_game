@@ -155,7 +155,7 @@ class block_game extends block_base {
             $levelnumber = (int) $game->config->level_number;
             $levelup = array();
             for ($i = 1; $i <= $game->config->level_number; $i++) {
-                $xlevel = 'level_up'.$i;
+                $xlevel = 'level_up' . $i;
                 $levelup[] = (int) $game->config->$xlevel;
             }
         }
@@ -177,10 +177,9 @@ class block_game extends block_base {
             }
         }
         // Bonus of day.
+        $addbonusday = 0;
         if (isset($game->config->bonus_day)) {
             $addbonusday = $game->config->bonus_day;
-        } else {
-            $addbonusday = 0;
         }
         if ($addbonusday > 0 && $scoreok) {
             bonus_of_day($game, $addbonusday);
@@ -233,10 +232,12 @@ class block_game extends block_base {
             $context = context_course::instance($COURSE->id, MUST_EXIST);
             if (has_capability('moodle/course:update', $context, $USER->id)) {
                 // Teacher.
-                $resetgame = '<a title="' . get_string('reset_points_btn', 'block_game') . '" href="'
-                        . $CFG->wwwroot . '/blocks/game/reset_points_course.php?id=' . $COURSE->id
-                        . '"><img alt="' . get_string('reset_points_btn', 'block_game') . '" hspace="12" src="'
-                        . $CFG->wwwroot . '/blocks/game/pix/reset.png"/></a>';
+                if (isset($USER->editing) && $USER->editing && $COURSE->id > 1) {
+                    $resetgame = '<a title="' . get_string('reset_points_btn', 'block_game') . '" href="'
+                            . $CFG->wwwroot . '/blocks/game/reset_points_course.php?id=' . $COURSE->id
+                            . '"><img alt="' . get_string('reset_points_btn', 'block_game') . '" hspace="12" src="'
+                            . $CFG->wwwroot . '/blocks/game/pix/reset.png"/></a>';
+                }
             }
             $linkinfo = '';
             if ($showinfo) {
@@ -249,8 +250,7 @@ class block_game extends block_base {
             $row = array();
             $icontxt = $OUTPUT->pix_icon('logo', '', 'theme');
             if ($COURSE->id != 1 && $shownamecourse) {
-                $coursetxt = '(' . $COURSE->shortname . ')';
-                $row[] = $coursetxt;
+                $row[] = '(' . $COURSE->shortname . ')';
                 $table->data[] = $row;
             }
             if ($showrank) {
@@ -261,15 +261,14 @@ class block_game extends block_base {
                 $table->data[] = $row;
             }
             $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities +
-                        $game->score_badges + $game->score_section);
+                    $game->score_badges + $game->score_section);
             if ($COURSE->id > 1) {
-                $scorefull = (int) ($game->score + $game->score_bonus_day
-                        + $game->score_activities + $game->score_section);
+                $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_section);
             }
             if ($showscore) {
                 $row = array();
                 $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/score.png" height="20" width="20"/>';
-                $row[] = $icontxt . ' ' . get_string('label_score', 'block_game') . ': '. $scorefull . '';
+                $row[] = $icontxt . ' ' . get_string('label_score', 'block_game') . ': ' . $scorefull . '';
                 $table->data[] = $row;
             }
             if ($showlevel && isset($game->config->show_level)) {
