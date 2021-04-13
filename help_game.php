@@ -155,22 +155,12 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td valign="top">';
         $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_level.png" align="center" hspace="12"/></td>';
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_level_text', 'block_game') . '</p>';
-        $levelup[0] = (int) $game->config->level_up1;
-        $levelup[1] = (int) $game->config->level_up2;
-        $levelup[2] = (int) $game->config->level_up3;
-        $levelup[3] = (int) $game->config->level_up4;
-        $levelup[4] = (int) $game->config->level_up5;
-        $levelup[5] = (int) $game->config->level_up6;
-        $levelup[6] = (int) $game->config->level_up7;
-        $levelup[7] = (int) $game->config->level_up8;
-        $levelup[8] = (int) $game->config->level_up9;
-        $levelup[9] = (int) $game->config->level_up10;
-        $levelup[10] = (int) $game->config->level_up11;
-        $levelup[11] = (int) $game->config->level_up12;
 
         $outputhtml .= '<p>';
-        for ($i = 0; $i < $game->config->level_number; $i++) {
-            $outputhtml .= ' - ' . get_string('label_level', 'block_game') . ' ' . ($i + 1) . ': ' . $levelup[$i] . 'pts <br/>';
+        for ($i = 1; $i <= $game->config->level_number; $i++) {
+            $xlevel = 'level_up'.$i;
+            $outputhtml .= ' - ' . get_string('label_level', 'block_game')
+                    . ' ' . $i  . ': ' . $game->config->$xlevel . 'pts <br/>';
         }
         $outputhtml .= '</p>';
         $outputhtml .= '<p>' . get_string('help_progress_level_text', 'block_game') . '<br/>';

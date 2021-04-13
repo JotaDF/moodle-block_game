@@ -259,7 +259,7 @@ function update_frame_game($game) {
  * @return boolean
  */
 function reset_points_game($courseid) {
-    global $DB, $CFG;
+    global $DB;
     if (!empty($courseid)) {
         $sql = "UPDATE {block_game} SET score_bonus_day=0, score=0, score_activities=0,"
                 . " score_section=0, score_badges=0  WHERE courseid=" . $courseid;
@@ -277,7 +277,7 @@ function reset_points_game($courseid) {
  * @return boolean
  */
 function bonus_of_day($game, $bonus) {
-    global $DB, $CFG;
+    global $DB;
     if (!empty($game->id)) {
         $sql = 'SELECT CURRENT_DATE as hoje, bonus_day, score_bonus_day'
                 . '  FROM {block_game} WHERE courseid=? AND userid=?';
@@ -299,7 +299,7 @@ function bonus_of_day($game, $bonus) {
  * @return boolean
  */
 function score_activities($game) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!empty($game->id)) {
 
@@ -343,7 +343,7 @@ function no_score_activities($game) {
  * @return mixed
  */
 function score_badge($game, $value) {
-    global $DB, $CFG;
+    global $DB;
 
     $badges = array();
     if (!empty($game->userid)) {
@@ -378,7 +378,7 @@ function score_badge($game, $value) {
  * @return mixed
  */
 function ranking($game, $groupid = 0) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!empty($game->id)) {
         if ($game->courseid == 1) {
@@ -455,7 +455,7 @@ function ranking($game, $groupid = 0) {
  * @return mixed
  */
 function rank_list($courseid, $groupid = 0) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!empty($courseid)) {
         if ($courseid == 1) {
@@ -512,7 +512,7 @@ function rank_list($courseid, $groupid = 0) {
  * @return mixed
  */
 function ranking_group($courseid) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!empty($courseid)) {
         if ($courseid != 1) {
@@ -541,7 +541,7 @@ function ranking_group($courseid) {
  * @return mixed
  */
 function ranking_group_md($courseid) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!empty($courseid)) {
         if ($courseid != 1) {
@@ -594,7 +594,7 @@ function ranking_group_md($courseid) {
  * @return stdClass $game
  */
 function set_level($game, $levelup, $levelnumber) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!empty($game->id)) {
         $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_section;
@@ -719,7 +719,7 @@ function get_avatar_user($userid) {
  * @return mixed
  */
 function get_modules_tracking($courseid) {
-    global $DB, $CFG;
+    global $DB;
 
     if (!empty($courseid)) {
         if ($courseid != 1) {
@@ -732,82 +732,6 @@ function get_modules_tracking($courseid) {
         }
     }
     return false;
-}
-
-/**
- * Get the time the user has spent in the course.
- *
- * @param int $courseid
- * @param int $userid
- * @return int the total time spent in seconds
- */
-function get_course_time($courseid, $userid = 0) {
-    global $CFG, $DB, $USER;
-
-    if (empty($userid)) {
-        $userid = $USER->id;
-    }
-
-    $logmanager = get_log_manager();
-    $readers = $logmanager->get_readers();
-    $enabledreaders = get_config('tool_log', 'enabled_stores');
-    if (empty($enabledreaders)) {
-        return 0;
-    }
-    $enabledreaders = explode(',', $enabledreaders);
-
-    // Go through all the readers until we find one that we can use.
-    foreach ($enabledreaders as $enabledreader) {
-        $reader = $readers[$enabledreader];
-        if ($reader instanceof \logstore_legacy\log\store) {
-            $logtable = 'log';
-            $coursefield = 'course';
-            $timefield = 'time';
-            break;
-        } else if ($reader instanceof \core\log\sql_internal_table_reader) {
-            $logtable = $reader->get_internal_log_table_name();
-            $coursefield = 'courseid';
-            $timefield = 'timecreated';
-            break;
-        }
-    }
-
-    // If we didn't find a reader then return 0.
-    if (!isset($logtable)) {
-        return 0;
-    }
-
-    $sql = "SELECT id, $timefield
-                  FROM {{$logtable}}
-                 WHERE userid = :userid
-                   AND $coursefield = :courseid
-              ORDER BY $timefield ASC";
-    $params = array('userid' => $userid, 'courseid' => $courseid);
-    $totaltime = 0;
-    if ($logs = $DB->get_recordset_sql($sql, $params)) {
-        foreach ($logs as $log) {
-            if (!isset($login)) {
-                // For the first time $login is not set so the first log is also the first login.
-                $login = $log->$timefield;
-                $lasthit = $log->$timefield;
-                $totaltime = 0;
-            }
-            $delay = $log->$timefield - $lasthit;
-            if ($delay > ($CFG->sessiontimeout * 60)) {
-                // The difference between the last log and the current log is more than
-                // the timeout Register session value so that we have found a session!
-                $login = $log->$timefield;
-            } else {
-                $totaltime += $delay;
-            }
-            // Now the actual log became the previous log for the next cycle.
-            $lasthit = $log->$timefield;
-        }
-
-        return $totaltime;
-    }
-
-    return 0;
 }
 
 /**
@@ -868,42 +792,6 @@ function score_section($game, $scoresections) {
         return true;
     }
     return false;
-}
-
-/**
- * Get the time the user registration in the course.
- *
- * @param int $courseid
- * @param int $userid
- * @return int timestamp
- */
-function get_registration_course_time($courseid, $userid = 0) {
-    global $CFG, $DB, $USER;
-
-    if (empty($userid)) {
-        $userid = $USER->id;
-    }
-
-    $sql = "SELECT ue.timestart total FROM {enrol} e INNER JOIN {user_enrolments} ue ON e.id=ue.enrolid "
-            . "INNER JOIN {user} u ON u.id=ue.userid WHERE u.id=? AND e.courseid=?";
-    $params = array('userid' => $userid, 'courseid' => $courseid);
-    $busca = $DB->get_record_sql($sql, $params);
-    $datatimeenrol = $busca->total;
-
-    $time = new DateTime("now", core_date::get_user_timezone_object());
-    $timestamp = $time->getTimestamp();
-
-    $timeenrol = new DateTime();
-    $timeenrol->setTimestamp($datatimeenrol);
-
-    $totaltime = 0;
-    if ($datatimeenrol > 0) {
-        $diff = $timeenrol->diff($time);
-        $horas = $diff->h + ($diff->days * 24);
-        $totaltime = $horas;
-    }
-
-    return $totaltime;
 }
 
 /**
