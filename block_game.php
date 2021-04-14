@@ -222,10 +222,10 @@ class block_game extends block_base {
                     $userpicture = '<a href="' . $CFG->wwwroot
                             . '/blocks/game/set_avatar_form.php?id=' . $COURSE->id . '&avatar='
                             . $game->avatar . '">' . '<img hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a'
-                            . $game->avatar . '.png" height="40" width="40"/></a>';
+                            . $game->avatar . '.png" height="80" width="80"/></a>';
                 } else {
                     $userpicture = '<img hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a'
-                            . $game->avatar . '.png" height="40" width="40"/>';
+                            . $game->avatar . '.png" height="80" width="80"/>';
                 }
             }
             $resetgame = '';
@@ -255,7 +255,7 @@ class block_game extends block_base {
             }
             if ($showrank) {
                 $row = array();
-                $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/rank.png" height="20" width="20"/>';
+                $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/rank.png" height="30" width="30"/>';
                 $row[] = $icontxt . ' ' . get_string('label_rank', 'block_game')
                         . ': ' . $game->ranking . '&ordm; / ' . get_players($game->courseid, $groupid);
                 $table->data[] = $row;
@@ -267,13 +267,13 @@ class block_game extends block_base {
             }
             if ($showscore) {
                 $row = array();
-                $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/score.png" height="20" width="20"/>';
+                $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/score.png" height="30" width="30"/>';
                 $row[] = $icontxt . ' ' . get_string('label_score', 'block_game') . ': ' . $scorefull . '';
                 $table->data[] = $row;
             }
             if ($showlevel && isset($game->config->show_level)) {
                 $row = array();
-                $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/level.png" height="20" width="20"/>';
+                $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/level.png" height="30" width="30"/>';
                 $row[] = $icontxt . ' ' . get_string('label_level', 'block_game') . ': ' . $game->level . '';
                 $table->data[] = $row;
 
@@ -304,19 +304,19 @@ class block_game extends block_base {
                         . $CFG->wwwroot . '/blocks/game/rank_game.php?id=' . $COURSE->id . $linkgroup . '"><img alt="'
                         . get_string('label_rank', 'block_game') . '" title="'
                         . get_string('label_rank', 'block_game') . '" src="'
-                        . $CFG->wwwroot . '/blocks/game/pix/rank_list.png" height="24" width="24"/></a></td>';
+                        . $CFG->wwwroot . '/blocks/game/pix/rank_list.png" height="28" width="28"/></a></td>';
             }
             if ($showrankgroup && $COURSE->id > 1) {
                 $icontxtrank .= '<td align="center" width="33%"><a href="'
                         . $CFG->wwwroot . '/blocks/game/rank_group_game.php?id=' . $COURSE->id . '"><img alt="'
                         . get_string('label_rank_group', 'block_game') . '" title="'
                         . get_string('label_rank_group', 'block_game') . '" src="'
-                        . $CFG->wwwroot . '/blocks/game/pix/rank_group_list.png" height="24" width="35"/></a></td>';
+                        . $CFG->wwwroot . '/blocks/game/pix/rank_group_list.png" height="28" width="41"/></a></td>';
             }
             $icontxtrank .= '<td align="right" width="33%"><a href="' . $CFG->wwwroot . '/blocks/game/help_game.php?id='
                     . $COURSE->id . '"><img alt="' . get_string('help', 'block_game') . '" title="'
                     . get_string('help', 'block_game') . '" src="'
-                    . $CFG->wwwroot . '/blocks/game/pix/help.png"  height="24" width="24"/></a></td>';
+                    . $CFG->wwwroot . '/blocks/game/pix/help.svg"  height="28" width="28"/></a></td>';
             $icontxtrank .= '</tr></table>';
             $row[] = $icontxtrank;
             $table->data[] = $row;
