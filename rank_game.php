@@ -80,12 +80,12 @@ if ($ok) {
             $outputhtml .= '<h3>( ' . get_string('general', 'block_game') . ' )</h3><br/>';
         }
         $outputhtml .= '<table border="0" width="100%">';
-        $rs = rank_list($courseid, $groupid);
+        $rs = block_game_rank_list($courseid, $groupid);
         $ord = 1;
         foreach ($rs as $gamer) {
             $avatartxt = '';
             if ($cfggame->use_avatar == 1) {
-                $avatartxt = $OUTPUT->pix_icon('a' . get_avatar_user($gamer->userid), 'Avatar', 'block_game');
+                $avatartxt = $OUTPUT->pix_icon('a' . block_game_get_avatar_user($gamer->userid), 'Avatar', 'block_game');
             }
             $ordtxt = $ord . '&ordm;';
             $usertxt = $avatartxt . ' ******** ';
@@ -110,7 +110,7 @@ if ($ok) {
         }
         $outputhtml .= '</table>';
 
-        $usernotstart = get_no_players($courseid, $groupid);
+        $usernotstart = block_game_get_no_players($courseid, $groupid);
         if ($usernotstart > 0) {
             if ($usernotstart == 1) {
                 $outputhtml .= '<br/>(' . $usernotstart . ' ' . get_string('not_start_game', 'block_game') . ' )';

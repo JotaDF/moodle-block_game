@@ -69,7 +69,7 @@ if ($ADMIN->fulltree) {
     $leveluppoints = array(1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
         5 => 4000, 6 => 6000, 7 => 10000, 8 => 20000,
         9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000);
-    for ($i = 1; $i <= count($leveluppoints); $i++) {
+    for ($i = 1; $i <= 12; $i++) {
         $settings->add(new admin_setting_configtext('block_game/level_up' . $i,
                 get_string('config_level_up' . $i, 'block_game'), '', $leveluppoints[$i], PARAM_INT));
     }

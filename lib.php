@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param stdClass $game
  * @return mixed
  */
-function load_game($game) {
+function block_game_load_game($game) {
     global $DB;
     if (!empty($game->userid) && !empty($game->courseid)) {
         $sql = 'SELECT count(*) as total  FROM {block_game} WHERE courseid=? AND userid=?';
@@ -41,7 +41,7 @@ function load_game($game) {
             $newgame = new stdClass();
             $newgame->courseid = $game->courseid;
             $newgame->userid = $game->userid;
-            $newgame->avatar = get_avatar_user($game->userid);
+            $newgame->avatar = block_game_get_avatar_user($game->userid);
             $newgame->score = 0;
             $newgame->score_activities = 0;
             $newgame->score_bonus_day = 0;
@@ -71,7 +71,7 @@ function load_game($game) {
  * @param int $userid
  * @return mixed
  */
-function get_games_user($userid) {
+function block_game_get_games_user($userid) {
     global $DB;
     if (!empty($userid)) {
         $games = $DB->get_records_sql('SELECT * FROM {block_game} WHERE userid=? ORDER BY courseid DESC', array($userid));
@@ -86,7 +86,7 @@ function get_games_user($userid) {
  * @param stdClass $game
  * @return boolean
  */
-function update_avatar_game($game) {
+function block_game_update_avatar_game($game) {
     global $DB;
 
     if (!empty($game->userid) && !empty($game->avatar)) {
@@ -104,7 +104,7 @@ function update_avatar_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function update_score_game($game) {
+function block_game_block_game_block_game_update_level_game($game) {
     global $DB;
 
     if (!empty($game->id) && !empty($game->score)) {
@@ -126,7 +126,7 @@ function update_score_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function update_level_game($game) {
+function block_game_update_level_game($game) {
     global $DB;
 
     if (!empty($game->id) && !empty($game->level)) {
@@ -148,7 +148,7 @@ function update_level_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function update_achievements_game($game) {
+function block_game_update_achievements_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -170,7 +170,7 @@ function update_achievements_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function update_rewards_game($game) {
+function block_game_update_rewards_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -192,7 +192,7 @@ function update_rewards_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function update_phases_game($game) {
+function block_game_update_phases_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -214,7 +214,7 @@ function update_phases_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function update_badges_game($game) {
+function block_game_update_badges_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -236,7 +236,7 @@ function update_badges_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function update_frame_game($game) {
+function block_game_update_frame_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -258,7 +258,7 @@ function update_frame_game($game) {
  * @param int $courseid
  * @return boolean
  */
-function reset_points_game($courseid) {
+function block_game_reset_points_game($courseid) {
     global $DB;
     if (!empty($courseid)) {
         $sql = "UPDATE {block_game} SET score_bonus_day=0, score=0, score_activities=0,"
@@ -276,7 +276,7 @@ function reset_points_game($courseid) {
  * @param int $bonus
  * @return boolean
  */
-function bonus_of_day($game, $bonus) {
+function block_game_bonus_of_day($game, $bonus) {
     global $DB;
     if (!empty($game->id)) {
         $sql = 'SELECT CURRENT_DATE as hoje, bonus_day, score_bonus_day'
@@ -298,7 +298,7 @@ function bonus_of_day($game, $bonus) {
  * @param stdClass $game
  * @return boolean
  */
-function score_activities($game) {
+function block_game_score_activities($game) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -326,7 +326,7 @@ function score_activities($game) {
  * @param stdClass $game
  * @return boolean
  */
-function no_score_activities($game) {
+function block_game_no_score_activities($game) {
     global $DB;
     if (!empty($game->id)) {
         $DB->execute("UPDATE {block_game} SET score_activities=0 WHERE id=?", array($game->id));
@@ -342,7 +342,7 @@ function no_score_activities($game) {
  * @param int $value
  * @return mixed
  */
-function score_badge($game, $value) {
+function block_game_score_badge($game, $value) {
     global $DB;
 
     $badges = array();
@@ -377,7 +377,7 @@ function score_badge($game, $value) {
  * @param int $groupid
  * @return mixed
  */
-function ranking($game, $groupid = 0) {
+function block_game_ranking($game, $groupid = 0) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -454,7 +454,7 @@ function ranking($game, $groupid = 0) {
  * @param int $groupid
  * @return mixed
  */
-function rank_list($courseid, $groupid = 0) {
+function block_game_rank_list($courseid, $groupid = 0) {
     global $DB;
 
     if (!empty($courseid)) {
@@ -511,7 +511,7 @@ function rank_list($courseid, $groupid = 0) {
  * @param int $courseid
  * @return mixed
  */
-function ranking_group($courseid) {
+function block_game_ranking_group($courseid) {
     global $DB;
 
     if (!empty($courseid)) {
@@ -540,7 +540,7 @@ function ranking_group($courseid) {
  * @param int $courseid
  * @return mixed
  */
-function ranking_group_md($courseid) {
+function block_game_ranking_group_md($courseid) {
     global $DB;
 
     if (!empty($courseid)) {
@@ -593,7 +593,7 @@ function ranking_group_md($courseid) {
  * @param int $levelnumber
  * @return stdClass $game
  */
-function set_level($game, $levelup, $levelnumber) {
+function block_game_set_level($game, $levelup, $levelnumber) {
     global $DB;
 
     if (!empty($game->id)) {
@@ -601,10 +601,10 @@ function set_level($game, $levelup, $levelnumber) {
         if ($game->courseid == 1) {
             $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges + $game->score_section;
         }
-        if (sets_level($pt, $levelup) >= $levelnumber) {
+        if (block_game_sets_level($pt, $levelup) >= $levelnumber) {
             $level = $levelnumber;
         } else {
-            $level = sets_level($pt, $levelup);
+            $level = block_game_sets_level($pt, $levelup);
         }
         $game->level = $level;
     }
@@ -619,7 +619,7 @@ function set_level($game, $levelup, $levelnumber) {
  * @param array $levelup
  * @return int
  */
-function sets_level($scorefull, $levelup) {
+function block_game_sets_level($scorefull, $levelup) {
     $level = 0;
     foreach ($levelup as $levelvalue) {
         if ($scorefull >= $levelvalue) {
@@ -636,7 +636,7 @@ function sets_level($scorefull, $levelup) {
  * @param int $groupid
  * @return int
  */
-function get_players($courseid, $groupid = 0) {
+function block_game_get_players($courseid, $groupid = 0) {
     global $DB;
     if (!empty($courseid)) {
         if ($courseid == 1) {
@@ -666,7 +666,7 @@ function get_players($courseid, $groupid = 0) {
  * @param int $groupid
  * @return int
  */
-function get_no_players($courseid, $groupid = 0) {
+function block_game_get_no_players($courseid, $groupid = 0) {
     global $DB;
     if (!empty($courseid)) {
         if ($courseid == 1) {
@@ -697,7 +697,7 @@ function get_no_players($courseid, $groupid = 0) {
  * @param int $userid
  * @return int the total time spent in seconds
  */
-function get_avatar_user($userid) {
+function block_game_get_avatar_user($userid) {
     global $DB;
     if (!empty($userid)) {
         $sql = 'SELECT MAX(avatar) avatar FROM {block_game} '
@@ -713,12 +713,12 @@ function get_avatar_user($userid) {
 }
 
 /**
- * Return ranking list.
+ * Return modules list.
  *
  * @param int $courseid
  * @return mixed
  */
-function get_modules_tracking($courseid) {
+function block_game_get_modules_tracking($courseid) {
     global $DB;
 
     if (!empty($courseid)) {
@@ -742,7 +742,7 @@ function get_modules_tracking($courseid) {
  * @param string $sectionid the font size integer to validate.
  * @return true|false
  */
-function is_check_section($userid, $courseid, $sectionid) {
+function block_game_is_check_section($userid, $courseid, $sectionid) {
     global $DB; // Check section.
     $atvok = $DB->get_record_sql("SELECT COUNT(c.id) AS total "
             . "FROM {course_modules_completion} c "
@@ -765,7 +765,7 @@ function is_check_section($userid, $courseid, $sectionid) {
  * @param string $courseid the font size integer to validate.
  * @return mixed
  */
-function get_sections_course($courseid) {
+function block_game_get_sections_course($courseid) {
     global $DB; // Check section.
     if (!empty($courseid)) {
         if ($courseid > 1) {
@@ -785,7 +785,7 @@ function get_sections_course($courseid) {
  * @param int $scoresections
  * @return boolean
  */
-function score_section($game, $scoresections) {
+function block_game_score_section($game, $scoresections) {
     global $DB;
     if (!empty($game->id)) {
         $DB->execute("UPDATE {block_game} SET score_section=?  WHERE id=?", array((int) $scoresections, $game->id));
@@ -801,7 +801,7 @@ function score_section($game, $scoresections) {
  * @param int $courseid
  * @return int the total time spent in seconds
  */
-function is_student_user($userid, $courseid) {
+function block_game_is_student_user($userid, $courseid) {
     global $DB;
     if ($courseid > 1) {
         $sql = 'SELECT count(*) as total '

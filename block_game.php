@@ -115,7 +115,7 @@ class block_game extends block_base {
         $game->courseid = $COURSE->id;
         $game->userid = $USER->id;
 
-        $game = load_game($game);
+        $game = block_game_load_game($game);
         $game->config = $this->config;
 
         if ($COURSE->id == 1) {
@@ -146,7 +146,7 @@ class block_game extends block_base {
 
         $scoreok = true;
         // If of course score oly student.
-        if ($COURSE->id > 1 && is_student_user($USER->id, $COURSE->id) == 0) {
+        if ($COURSE->id != SITEID && block_game_is_student_user($USER->id, $COURSE->id) == 0) {
             $scoreok = false;
         }
         $levelnumber = 0;
@@ -159,20 +159,20 @@ class block_game extends block_base {
                 $levelup[] = (int) $game->config->$xlevel;
             }
         }
-        if ($COURSE->id > 1) {
+        if ($COURSE->id != SITEID) {
             // Sum score sections complete.
-            $sections = get_sections_course($COURSE->id);
+            $sections = block_game_get_sections_course($COURSE->id);
             $scoresections = 0;
             foreach ($sections as $section) {
                 $txtsection = "section_" . $section->section;
-                if (is_check_section($USER->id, $COURSE->id, $section->id)) {
+                if (block_game_is_check_section($USER->id, $COURSE->id, $section->id)) {
                     if (isset($game->config->$txtsection)) {
                         $scoresections += (int) $game->config->$txtsection;
                     }
                 }
             }
             if ($scoreok) {
-                score_section($game, $scoresections);
+                block_game_score_section($game, $scoresections);
                 $game->score_section = $scoresections;
             }
         }
@@ -182,13 +182,13 @@ class block_game extends block_base {
             $addbonusday = $game->config->bonus_day;
         }
         if ($addbonusday > 0 && $scoreok) {
-            bonus_of_day($game, $addbonusday);
+            block_game_bonus_of_day($game, $addbonusday);
         }
         // Bonus of badge.
         if (isset($cfggame->bonus_badge)) {
             $bonusbadge = $cfggame->bonus_badge;
             if ($scoreok) {
-                $game = score_badge($game, $bonusbadge);
+                $game = block_game_score_badge($game, $bonusbadge);
             }
         }
         $groupid = 0;
@@ -199,16 +199,16 @@ class block_game extends block_base {
             }
         }
         if ($scoreactivities && $scoreok) {
-            score_activities($game);
-            $game = ranking($game, $groupid);
+            block_game_score_activities($game);
+            $game = block_game_ranking($game, $groupid);
             if ($showlevel && isset($game->config->show_level)) {
-                $game = set_level($game, $levelup, $levelnumber);
+                $game = block_game_set_level($game, $levelup, $levelnumber);
             }
         } else {
-            no_score_activities($game);
-            $game = ranking($game, $groupid);
+            block_game_no_score_activities($game);
+            $game = block_game_ranking($game, $groupid);
             if ($showlevel && isset($game->config->show_level)) {
-                $game = set_level($game, $levelup, $levelnumber);
+                $game = block_game_set_level($game, $levelup, $levelnumber);
             }
         }
         $table = new html_table();
@@ -218,7 +218,7 @@ class block_game extends block_base {
             $userpictureparams = array('size' => 20, 'link' => false, 'alt' => 'User');
             $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
             if ($showavatar) {
-                if ($COURSE->id == 1 || $changeavatar) {
+                if ($COURSE->id == SITEID || $changeavatar) {
                     $userpicture = '<a href="' . $CFG->wwwroot
                             . '/blocks/game/set_avatar_form.php?id=' . $COURSE->id . '&avatar='
                             . $game->avatar . '">' . '<img hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a'
@@ -249,7 +249,7 @@ class block_game extends block_base {
             $table->data[] = $row;
             $row = array();
             $icontxt = $OUTPUT->pix_icon('logo', '', 'theme');
-            if ($COURSE->id != 1 && $shownamecourse) {
+            if ($COURSE->id != SITEID && $shownamecourse) {
                 $row[] = '(' . $COURSE->shortname . ')';
                 $table->data[] = $row;
             }
@@ -257,12 +257,12 @@ class block_game extends block_base {
                 $row = array();
                 $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/rank.png" height="30" width="30"/>';
                 $row[] = $icontxt . ' ' . get_string('label_rank', 'block_game')
-                        . ': ' . $game->ranking . '&ordm; / ' . get_players($game->courseid, $groupid);
+                        . ': ' . $game->ranking . '&ordm; / ' . block_game_get_players($game->courseid, $groupid);
                 $table->data[] = $row;
             }
             $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities +
                     $game->score_badges + $game->score_section);
-            if ($COURSE->id > 1) {
+            if ($COURSE->id != SITEID) {
                 $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_section);
             }
             if ($showscore) {

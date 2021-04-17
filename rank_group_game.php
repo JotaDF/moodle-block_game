@@ -58,9 +58,9 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
 
         $outputhtml .= '<table border="0" width="100%">';
         if (isset($game->config->rank_group_calc) && $game->config->rank_group_calc == 1) {
-            $rs = ranking_group_md($courseid);
+            $rs = block_game_ranking_group_md($courseid);
         } else {
-            $rs = ranking_group($courseid);
+            $rs = block_game_ranking_group($courseid);
         }
 
         $ord = 1;

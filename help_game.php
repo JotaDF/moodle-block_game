@@ -48,7 +48,7 @@ $PAGE->set_heading(get_string('help_game_title', 'block_game'));
 echo $OUTPUT->header();
 
 $outputhtml = '<div class="help">';
-if ($courseid != 1) {
+if ($courseid != SITEID) {
     $outputhtml .= '<h2>( ' . $course->fullname . ' )</h2><br/>';
 } else {
     $outputhtml .= '<h2>( ' . get_string('general', 'block_game') . ' )</h2><hr/><br/>';
@@ -100,9 +100,9 @@ if (!isset($game->config->show_info) && $courseid > 1) {
             $outputhtml .= '<p align="justify">' . get_string('help_score_activities_text', 'block_game') . '</p>';
         }
 
-        if ($COURSE->id > 1) {
+        if ($COURSE->id != SITEID) {
             // Sum score sections complete.
-            $sections = get_sections_course($COURSE->id);
+            $sections = block_game_get_sections_course($COURSE->id);
             $scoresections = 0;
             $outputhtmlsecion = get_string('help_score_sections_text', 'block_game');
             foreach ($sections as $section) {

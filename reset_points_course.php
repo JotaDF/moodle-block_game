@@ -48,7 +48,7 @@ $PAGE->set_heading(get_string('reset_points_title', 'block_game'));
 echo $OUTPUT->header();
 $outputhtml = '<div class="boxs">';
 
-if ($courseid > 1) {
+if ($courseid > SITEID) {
 
     $context = context_course::instance($courseid, MUST_EXIST);
     if (has_capability('moodle/course:update', $context, $USER->id)) {
@@ -59,7 +59,7 @@ if ($courseid > 1) {
 
         $outputhtml .= '<br/><h5>';
         if ($confirm > 0) {
-            if (reset_points_game($courseid)) {
+            if (block_game_reset_points_game($courseid)) {
                 $outputhtml .= '<strong>' . get_string('reset_points_sucess', 'block_game')
                         . '</strong><br/><br/><a class="btn btn-success" href="' . $CFG->wwwroot . '/course/view.php?id='
                         . $courseid . '">' . get_string('ok', 'block_game') . '</a>';

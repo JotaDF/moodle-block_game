@@ -112,8 +112,7 @@ class block_game_edit_form extends block_edit_form {
             $leveluppoints = array(1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
                 5 => 4000, 6 => 6000, 7 => 10000, 8 => 20000,
                 9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000);
-            $count = count($leveluppoints);
-            for ($i = 1; $i <= $count; $i++) {
+            for ($i = 1; $i <= 12; $i++) {
                 $mform->addElement('text', 'config_level_up' . $i, get_string('config_level_up' . $i, 'block_game'));
                 $mform->setDefault('config_level_up' . $i, $leveluppoints[$i]);
                 $mform->disabledIf('config_level_up' . $i, 'config_show_level', 'eq', 0);
@@ -128,7 +127,7 @@ class block_game_edit_form extends block_edit_form {
             // Options controlling sections.
             $mform->addElement('html', '<hr/>');
             $mform->addElement('html', get_string('title_config_section', 'block_game'));
-            $sections = get_sections_course($SESSION->game->courseid);
+            $sections = block_game_get_sections_course($SESSION->game->courseid);
             foreach ($sections as $section) {
                 $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 50 => 50, 60 => 60, 80 => 80, 100 => 100);
                 $mform->addElement('select', 'config_section_' . $section->section, get_string('section', 'block_game')

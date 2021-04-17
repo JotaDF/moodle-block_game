@@ -46,7 +46,7 @@ if ($avatar > 0) {
     $gamenew->id = $game->id;
     $gamenew->userid = $USER->id;
     $gamenew->avatar = $avatar;
-    update_avatar_game($gamenew);
+    block_game_update_avatar_game($gamenew);
     if ($back > 0) {
         redirect($CFG->wwwroot . "/course/view.php?id=" . $couseid);
     }
@@ -59,7 +59,7 @@ $PAGE->set_title(get_string('set_avatar_title', 'block_game'));
 $PAGE->set_heading(get_string('set_avatar_title', 'block_game'));
 echo $OUTPUT->header();
 $outputhtml = "";
-if ($changeavatar || $couseid == 1) {
+if ($changeavatar || $couseid == SITEID) {
     $outputhtml .= '<table order="0">';
     $outputhtml .= '<tr>';
     $contlevel = 0;

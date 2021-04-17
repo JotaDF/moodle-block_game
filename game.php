@@ -38,7 +38,7 @@ switch ($op) {
     case "load":
         $game->courseid = $SESSION->game->courseid;
         $game->userid   = $USER->id;
-        $game = load_game($game);
+        $game = block_game_load_game($game);
         $game->url_avatar = $CFG->wwwroot."/blocks/game/pix/a".$game->avatar.".png";
         $json = array(
                 'game' => array(
@@ -80,7 +80,7 @@ switch ($op) {
         $game->phases       = $phases;
         $game->frame        = $frame;
 
-        echo update_game($game);
+        echo block_game_update_game($game);
         break;
     case "avatar":
 
@@ -92,7 +92,7 @@ switch ($op) {
         $game->userid   = $userid;
         $game->avatar   = $avatar;
 
-        echo update_avatar_game($game);
+        echo block_game_update_avatar_game($game);
         break;
     case "score":
 
@@ -102,7 +102,7 @@ switch ($op) {
         $game->id      = $id;
         $game->score   = $score;
 
-        echo update_score_game($game);
+        echo block_game_update_score_game($game);
         break;
     case "level":
 
@@ -112,7 +112,7 @@ switch ($op) {
         $game->id     = $id;
         $game->level  = $level;
 
-        echo update_level_game($game);
+        echo block_game_update_level_game($game);
         break;
 
     case "achievements":
@@ -123,7 +123,7 @@ switch ($op) {
         $game->id            = $id;
         $game->achievements  = $achievements;
 
-        echo update_achievements_game($game);
+        echo block_game_update_achievements_game($game);
         break;
     case "rewards":
 
@@ -133,7 +133,7 @@ switch ($op) {
         $game->id           = $id;
         $game->rewards  = $rewards;
 
-        echo update_rewards_game($game);
+        echo block_game_update_rewards_game($game);
         break;
 
     case "phases":
@@ -144,7 +144,7 @@ switch ($op) {
         $game->id     = $id;
         $game->phases = $phases;
 
-        echo update_phases_game($game);
+        echo block_game_update_phases_game($game);
         break;
 
     case "frame":
@@ -155,7 +155,7 @@ switch ($op) {
         $game->id     = $id;
         $game->frame  = $frame;
 
-        echo update_frame_game($game);
+        echo block_game_update_frame_game($game);
         break;
 
     default:

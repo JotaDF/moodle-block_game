@@ -52,7 +52,7 @@ $PAGE->set_heading(get_string('perfil_gamer_title', 'block_game'));
 echo $OUTPUT->header();
 $outputhtml = '<div class="boxs">';
 
-if ($couseid == 1) {
+if ($couseid == SITEID) {
     if ($showavatar == 1) {
         $outputhtml .= '<div class="boxgame">';
         $outputhtml .= '<img  align="center" hspace="12" src="';
@@ -62,14 +62,14 @@ if ($couseid == 1) {
     }
     $outputhtml .= '  <strong>' . $USER->firstname .' '. $USER->lastname . '</strong></div>';
     $outputhtml .= '<hr/>';
-    $rs = get_games_user($USER->id);
+    $rs = block_game_get_games_user($USER->id);
     $fullpoints = 0;
     foreach ($rs as $gameuser) {
         $fullpoints = ($fullpoints + ($gameuser->score + $gameuser->score_bonus_day +
                 $gameuser->score_activities + $gameuser->score_badges + $gameuser->score_section));
 
         $course = $DB->get_record('course', array('id' => $gameuser->courseid));
-        if ($gameuser->courseid != 1) {
+        if ($gameuser->courseid != SITEID) {
             $outputhtml .= '<h3>( ' . $course->fullname . ' )</h3><br/>';
         } else {
             $outputhtml .= '<h3>( ' . get_string('general', 'block_game') . ' )</h3><br/>';
@@ -79,7 +79,8 @@ if ($couseid == 1) {
             $outputhtml .= '<div class="boxgame"><img src="';
             $outputhtml .= $CFG->wwwroot . '/blocks/game/pix/big_rank.png" align="center" hspace="12"/>';
             $outputhtml .= '<strong>' . get_string('label_rank', 'block_game');
-            $outputhtml .= ': ' . $gameuser->ranking . '&ordm; / ' . get_players($gameuser->courseid) . '</strong></div>';
+            $outputhtml .= ': ' . $gameuser->ranking . '&ordm; / '
+                    . block_game_get_players($gameuser->courseid) . '</strong></div>';
         }
         if ($showscore == 1) {
             if ($gameuser->courseid != 1) {
@@ -129,7 +130,7 @@ if ($couseid == 1) {
         $outputhtml .= '<br/>';
         $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_rank.png" align="center" hspace="12"/>';
         $outputhtml .= '<strong>' . get_string('label_rank', 'block_game');
-        $outputhtml .= ': ' . $game->ranking . '&ordm; / ' . get_players($game->courseid) . '</strong><br/>';
+        $outputhtml .= ': ' . $game->ranking . '&ordm; / ' . block_game_get_players($game->courseid) . '</strong><br/>';
     }
     if ($showscore == 1) {
         $outputhtml .= '<br/>';
