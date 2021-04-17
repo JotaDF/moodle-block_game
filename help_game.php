@@ -68,8 +68,8 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_avatar_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
         $outputhtml .= '<td valign="top">';
-        $outputhtml .= '<img src="'.$CFG->wwwroot.'/blocks/game/pix/a0.png" align="center" hspace="12"/></td>';
-        if ($cfggame->change_avatar_course == 1 && $courseid > 1) {
+        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/a0.png" align="center" hspace="12"/></td>';
+        if ($cfggame->change_avatar_course == 1 && $courseid != SITEID) {
             $outputhtml .= '<td valign="top"><p align="justify">'
                     . get_string('help_avatar_text_course', 'block_game') . '</p><hr/></td>';
         } else {
@@ -96,7 +96,7 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_score.png" align="center" hspace="12"/></td>';
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_score_text', 'block_game') . '</p>';
 
-        if ($game->config->score_activities == 1) {
+        if (isset($game->config->score_activities) && $game->config->score_activities == 1) {
             $outputhtml .= '<p align="justify">' . get_string('help_score_activities_text', 'block_game') . '</p>';
         }
 
@@ -118,12 +118,12 @@ if (!isset($game->config->show_info) && $courseid > 1) {
             }
         }
 
-        if ($game->config->bonus_day > 0) {
+        if (isset($game->config->bonus_day) && $game->config->bonus_day > 0) {
             $outputhtml .= '<p align="justify">' . get_string('help_bonus_day_text', 'block_game');
             $outputhtml .= ' ' . get_string('help_bonus_day_text_value', 'block_game');
             $outputhtml .= '<strong>' . $game->config->bonus_day . 'pts</strong><br/></p>';
         }
-        if ($cfggame->bonus_badge >= 1) {
+        if (isset($cfggame->bonus_badge) && $cfggame->bonus_badge >= 1) {
             $outputhtml .= '<p align="justify">' . get_string('help_bonus_badge_text', 'block_game');
             $outputhtml .= ' ' . get_string('help_bonus_badge_text_value', 'block_game');
             $outputhtml .= '<strong>' . $cfggame->bonus_badge . 'pts</strong><br/></p>';
@@ -139,7 +139,7 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_rank.png" align="center" hspace="12"/></td>';
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_rank_text', 'block_game') . '</p>';
 
-        if ($game->config->show_identity == 0) {
+        if (isset($game->config->show_identity) && $game->config->show_identity == 0) {
             $outputhtml .= '<p align="justify">' . get_string('help_rank_list_restrict_text', 'block_game') . '</p>';
         } else {
             $outputhtml .= '<p align="justify">' . get_string('help_rank_list_text', 'block_game') . '</p>';
@@ -157,10 +157,12 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_level_text', 'block_game') . '</p>';
 
         $outputhtml .= '<p>';
-        for ($i = 1; $i <= $game->config->level_number; $i++) {
-            $xlevel = 'level_up'.$i;
-            $outputhtml .= ' - ' . get_string('label_level', 'block_game')
-                    . ' ' . $i  . ': ' . $game->config->$xlevel . 'pts <br/>';
+        if (isset($game->config->level_number) && $game->config->level_number > 0) {
+            for ($i = 1; $i <= $game->config->level_number; $i++) {
+                $xlevel = 'level_up' . $i;
+                $outputhtml .= ' - ' . get_string('label_level', 'block_game')
+                        . ' ' . $i . ': ' . $game->config->$xlevel . 'pts <br/>';
+            }
         }
         $outputhtml .= '</p>';
         $outputhtml .= '<p>' . get_string('help_progress_level_text', 'block_game') . '<br/>';

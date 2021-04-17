@@ -49,7 +49,6 @@ echo $OUTPUT->header();
 $outputhtml = '<div class="boxs">';
 
 if ($courseid > SITEID) {
-
     $context = context_course::instance($courseid, MUST_EXIST);
     if (has_capability('moodle/course:update', $context, $USER->id)) {
         $outputhtml .= '<div align="center">';

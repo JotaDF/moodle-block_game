@@ -47,13 +47,13 @@ $PAGE->set_heading(get_string('rank_group_game_title', 'block_game'));
 
 echo $OUTPUT->header();
 $cfggame = get_config('block_game');
-if ($courseid == 1) {
+if ($courseid == SITEID) {
     $game->config = $cfggame;
 }
 $limit = 0;
 if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
     $outputhtml = '<div class="rank">';
-    if ($courseid != 1) {
+    if ($courseid != SITEID) {
         $outputhtml .= '<h3>( ' . $course->fullname . ' ) </h3><br/>';
 
         $outputhtml .= '<table border="0" width="100%">';
@@ -65,9 +65,7 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
 
         $ord = 1;
         foreach ($rs as $group) {
-
             $ordtxt = $ord . '&ordm;';
-
             $grouptxt = $group->name;
             $groupcount = $group->members;
             $scoretxt = number_format($group->pt, 2);

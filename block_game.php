@@ -118,7 +118,7 @@ class block_game extends block_base {
         $game = block_game_load_game($game);
         $game->config = $this->config;
 
-        if ($COURSE->id == 1) {
+        if ($COURSE->id == SITEID) {
             $game->config = get_config('block_game');
         }
         $SESSION->game = $game;

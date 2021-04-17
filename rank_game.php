@@ -29,7 +29,6 @@ require_login();
 
 global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
 
-
 $courseid = required_param('id', PARAM_INT);
 
 $groupid = optional_param('group', 0, PARAM_INT);
@@ -62,13 +61,13 @@ if ($course->groupmode == 1 and ! has_capability('moodle/site:accessallgroups', 
 }
 
 if ($ok) {
-    if ($courseid == 1) {
+    if ($courseid == SITEID) {
         $game->config = $cfggame;
     }
     $limit = 0;
     if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
         $outputhtml = '<div class="rank">';
-        if ($courseid != 1) {
+        if ($courseid != SITEID) {
             $limit = $game->config->limit_rank;
             $txtlimit = "";
             if ($limit > 0) {
@@ -84,12 +83,12 @@ if ($ok) {
         $ord = 1;
         foreach ($rs as $gamer) {
             $avatartxt = '';
-            if ($cfggame->use_avatar == 1) {
+            if (isset($cfggame->use_avatar) && $cfggame->use_avatar == 1) {
                 $avatartxt = $OUTPUT->pix_icon('a' . block_game_get_avatar_user($gamer->userid), 'Avatar', 'block_game');
             }
             $ordtxt = $ord . '&ordm;';
             $usertxt = $avatartxt . ' ******** ';
-            if ($game->config->show_identity == 0) {
+            if (isset($game->config->show_identity) && $game->config->show_identity == 0) {
                 $usertxt = $avatartxt . ' ' . $gamer->firstname . ' ' . $gamer->lastname;
             }
             $scoretxt = $gamer->pt;

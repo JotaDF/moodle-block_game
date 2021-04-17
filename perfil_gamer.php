@@ -41,8 +41,8 @@ $showavatar = !isset($game->config->use_avatar) || $game->config->use_avatar == 
 $showrank = !isset($game->config->show_rank) || $game->config->show_rank == 1;
 $showscore = !isset($game->config->show_score) || $game->config->show_score == 1;
 $showlevel = !isset($game->config->show_level) || $game->config->show_level == 1;
-require_login($course);
 
+require_login($course);
 $PAGE->set_pagelayout('course');
 $PAGE->set_url('/blocks/game/perfil_gamer.php', array('id' => $couseid));
 $PAGE->set_context(context_course::instance($couseid));
@@ -83,7 +83,7 @@ if ($couseid == SITEID) {
                     . block_game_get_players($gameuser->courseid) . '</strong></div>';
         }
         if ($showscore == 1) {
-            if ($gameuser->courseid != 1) {
+            if ($gameuser->courseid != SITEID) {
                 $outputhtml .= '<div class="boxgame">';
                 $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_score.png" align="center" hspace="12"/>';
                 $outputhtml .= '<strong>' . get_string('label_score', 'block_game');

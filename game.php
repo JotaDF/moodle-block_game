@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Game block language strings
  *
@@ -29,7 +28,7 @@ require_once($CFG->libdir . '/completionlib.php');
 
 require_login();
 
-global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
+global $USER, $SESSION, $CFG;
 
 $op = optional_param('op', '', PARAM_ALPHA);
 $game = new stdClass();

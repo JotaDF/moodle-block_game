@@ -381,7 +381,7 @@ function block_game_ranking($game, $groupid = 0) {
     global $DB;
 
     if (!empty($game->id)) {
-        if ($game->courseid == 1) {
+        if ($game->courseid == SITEID) {
 
             $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
@@ -458,7 +458,7 @@ function block_game_rank_list($courseid, $groupid = 0) {
     global $DB;
 
     if (!empty($courseid)) {
-        if ($courseid == 1) {
+        if ($courseid == SITEID) {
 
             $sql = 'SELECT g.userid, u.firstname, u.lastname ,SUM(g.score) sum_score,'
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
@@ -515,7 +515,7 @@ function block_game_ranking_group($courseid) {
     global $DB;
 
     if (!empty($courseid)) {
-        if ($courseid != 1) {
+        if ($courseid != SITEID) {
             $sql = 'SELECT g.id, g.name, COUNT(m.id) AS members,'
                     . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))'
                     . '+SUM(COALESCE(bg.score_activities, 0))'
@@ -544,7 +544,7 @@ function block_game_ranking_group_md($courseid) {
     global $DB;
 
     if (!empty($courseid)) {
-        if ($courseid != 1) {
+        if ($courseid != SITEID) {
 
             $sql = 'SELECT g.id, g.name, COUNT(m.id) AS members,'
                     . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))'
@@ -598,7 +598,7 @@ function block_game_set_level($game, $levelup, $levelnumber) {
 
     if (!empty($game->id)) {
         $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_section;
-        if ($game->courseid == 1) {
+        if ($game->courseid == SITEID) {
             $pt = $game->score + $game->score_bonus_day + $game->score_activities + $game->score_badges + $game->score_section;
         }
         if (block_game_sets_level($pt, $levelup) >= $levelnumber) {
@@ -639,7 +639,7 @@ function block_game_sets_level($scorefull, $levelup) {
 function block_game_get_players($courseid, $groupid = 0) {
     global $DB;
     if (!empty($courseid)) {
-        if ($courseid == 1) {
+        if ($courseid == SITEID) {
             $sql = 'SELECT count(*) as total FROM {user} '
                     . 'WHERE confirmed=1 AND deleted=0 AND suspended=0 AND id > 1';
             $busca = $DB->get_record_sql($sql);
@@ -669,7 +669,7 @@ function block_game_get_players($courseid, $groupid = 0) {
 function block_game_get_no_players($courseid, $groupid = 0) {
     global $DB;
     if (!empty($courseid)) {
-        if ($courseid == 1) {
+        if ($courseid == SITEID) {
             $sql = 'SELECT count(*) as total FROM {user} '
                     . 'WHERE confirmed=1 AND deleted=0 AND suspended=0 AND id > 1 '
                     . 'AND id NOT IN(SELECT userid FROM {block_game})';
@@ -722,7 +722,7 @@ function block_game_get_modules_tracking($courseid) {
     global $DB;
 
     if (!empty($courseid)) {
-        if ($courseid != 1) {
+        if ($courseid != SITEID) {
             $sql = 'SELECT DISTINCT m.id, m.name as module '
                     . ' FROM {modules} m, {course_modules} cm '
                     . ' WHERE cm.module=m.id AND cm.completion > 0 AND deletioninprogress=0 AND cm.course=? '
@@ -768,7 +768,7 @@ function block_game_is_check_section($userid, $courseid, $sectionid) {
 function block_game_get_sections_course($courseid) {
     global $DB; // Check section.
     if (!empty($courseid)) {
-        if ($courseid > 1) {
+        if ($courseid != SITEID) {
             $sql = 'SELECT * FROM {course_sections} WHERE course = ?'
                     . 'ORDER BY section';
             $sections = $DB->get_records_sql($sql, array($courseid));
@@ -803,7 +803,7 @@ function block_game_score_section($game, $scoresections) {
  */
 function block_game_is_student_user($userid, $courseid) {
     global $DB;
-    if ($courseid > 1) {
+    if ($courseid != SITEID) {
         $sql = 'SELECT count(*) as total '
                 . 'FROM {role_assignments} rs '
                 . 'INNER JOIN {user} u ON u.id=rs.userid '
