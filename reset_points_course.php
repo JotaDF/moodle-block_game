@@ -58,6 +58,7 @@ if ($courseid > SITEID) {
 
         $outputhtml .= '<br/><h5>';
         if ($confirm > 0) {
+            require_sesskey();
             if (block_game_reset_points_game($courseid)) {
                 $outputhtml .= '<strong>' . get_string('reset_points_sucess', 'block_game')
                         . '</strong><br/><br/><a class="btn btn-success" href="' . $CFG->wwwroot . '/course/view.php?id='
@@ -69,7 +70,7 @@ if ($courseid > SITEID) {
             $outputhtml .= '<strong>' . get_string('label_confirm_reset_points', 'block_game') . '</strong><br/><br/>';
             $outputhtml .= '<a class="btn btn-secondary" href="' . $CFG->wwwroot . '/course/view.php?id=' . $courseid . '">'
                     . get_string('no', 'block_game') . '</a>' . '  <a class="btn btn-danger" href="reset_points_course.php?id='
-                    . $courseid . '&c=1">' . get_string('yes', 'block_game') . '</a>' . '<br/>';
+                    . $courseid  . '&c=1&sesskey=' . sesskey() . '">' . get_string('yes', 'block_game') . '</a>' . '<br/>';
         }
         $outputhtml .= '</h5>';
         $outputhtml .= '</div>';
