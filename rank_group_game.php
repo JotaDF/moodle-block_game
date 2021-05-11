@@ -27,8 +27,7 @@ require_once($CFG->libdir . '/filelib.php');
 
 require_login();
 
-global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
-
+global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
 
@@ -36,7 +35,7 @@ $courseid = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
 $game = new stdClass();
-$game = $SESSION->game;
+$game->config = block_game_get_config_block($courseid);
 
 require_login($course);
 $PAGE->set_pagelayout('course');
@@ -76,9 +75,11 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
 
             $outputhtml .= '<tr>';
             $outputhtml .= '<td width="10%" align="center">' . $ordtxt . '</td>';
-            $outputhtml .= '<td width="10%" align="right">' . print_group_picture($group, $courseid, false, true, false) . '</td>';
+            $outputhtml .= '<td width="10%" align="right">'
+                    . print_group_picture($group, $courseid, false, true, false) . '</td>';
             $outputhtml .= '<td  width="70%" align="left"> ' . $grouptxt . '(' . $groupcount . ')</td>';
-            $outputhtml .= '<td width="10%" align="left"> ' . $scoretxt . '</td>';
+            $outputhtml .= '<td width="10%" align="left"> ' . $scoretxt;
+            $outputhtml .= get_string('abbreviate_score', 'block_game') . '</td>';
             $outputhtml .= '</tr>';
 
             $outputhtml .= '<tr><td colspan="4"><hr/></td></tr>';

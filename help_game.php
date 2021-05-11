@@ -26,16 +26,14 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_login();
 
-global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
+global $USER, $COURSE, $OUTPUT, $CFG;
 
 
 $courseid = required_param('id', PARAM_INT);
 
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
-$game = new stdClass();
-$game = $SESSION->game;
-$cfggame = get_config('block_game');
+
 
 require_login($course);
 $PAGE->set_pagelayout('course');
@@ -48,13 +46,21 @@ $PAGE->set_heading(get_string('help_game_title', 'block_game'));
 echo $OUTPUT->header();
 
 $outputhtml = '<div class="help">';
+
+$game = new stdClass();
+
+
+$cfggame = get_config('block_game');
+
 if ($courseid != SITEID) {
     $outputhtml .= '<h2>( ' . $course->fullname . ' )</h2><br/>';
+    $game->config = block_game_get_config_block($courseid);
 } else {
     $outputhtml .= '<h2>( ' . get_string('general', 'block_game') . ' )</h2><hr/><br/>';
+    $game->config = $cfggame;
 }
 
-if (!isset($game->config->show_info) && $courseid > 1) {
+if (!isset($game->config->show_info) && $courseid != SITEID) {
     $outputhtml = "... <br/><br/>";
     $context = context_course::instance($courseid, MUST_EXIST);
     if (has_capability('moodle/course:update', $context, $USER->id)) {
@@ -68,7 +74,8 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_avatar_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
         $outputhtml .= '<td valign="top">';
-        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/a0.png" align="center" hspace="12"/></td>';
+        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/a0.svg"';
+        $outputhtml .= ' height="80" width="80" align="center" hspace="12"/></td>';
         if ($cfggame->change_avatar_course == 1 && $courseid != SITEID) {
             $outputhtml .= '<td valign="top"><p align="justify">'
                     . get_string('help_avatar_text_course', 'block_game') . '</p><hr/></td>';
@@ -84,7 +91,8 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_info_user_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
         $outputhtml .= '<td valign="top">';
-        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_info.png" align="center" hspace="12"/></td>';
+        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/info.svg"';
+        $outputhtml .= ' height="60" width="60" align="center" hspace="12"/></td>';
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_info_user_text', 'block_game') . '</p><hr/></td>';
         $outputhtml .= '</tr>';
     }
@@ -93,7 +101,8 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_score_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
         $outputhtml .= '<td valign="top">';
-        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_score.png" align="center" hspace="12"/></td>';
+        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/score.svg"';
+        $outputhtml .= ' height="90" width="90" align="center" hspace="12"/></td>';
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_score_text', 'block_game') . '</p>';
 
         if (isset($game->config->score_activities) && $game->config->score_activities == 1) {
@@ -136,7 +145,8 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_rank_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
         $outputhtml .= '<td valign="top">';
-        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_rank.png" align="center" hspace="12"/></td>';
+        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/rank.svg"';
+        $outputhtml .= ' height="90" width="90" align="center" hspace="12"/></td>';
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_rank_text', 'block_game') . '</p>';
 
         if (isset($game->config->show_identity) && $game->config->show_identity == 0) {
@@ -153,7 +163,8 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_level_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
         $outputhtml .= '<td valign="top">';
-        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/big_level.png" align="center" hspace="12"/></td>';
+        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/level.svg"';
+        $outputhtml .= ' height="90" width="90" align="center" hspace="12"/></td>';
         $outputhtml .= '<td valign="top"><p align="justify">' . get_string('help_level_text', 'block_game') . '</p>';
 
         $outputhtml .= '<p>';
@@ -166,7 +177,8 @@ if (!isset($game->config->show_info) && $courseid > 1) {
         }
         $outputhtml .= '</p>';
         $outputhtml .= '<p>' . get_string('help_progress_level_text', 'block_game') . '<br/>';
-        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/help_progress_level.png" align="center" hspace="2"/>';
+        $outputhtml .= '<img src="' . $CFG->wwwroot . '/blocks/game/pix/help_progress_level.svg"';
+        $outputhtml .= ' height="45" width="280" align="center" hspace="2"/>';
         $outputhtml .= '</p><hr/></td></tr>';
     }
     $outputhtml .= '</table>';

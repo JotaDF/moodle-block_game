@@ -28,14 +28,14 @@ require_once($CFG->libdir . '/completionlib.php');
 
 require_login();
 
-global $USER, $SESSION, $CFG;
+global $USER, $COURSE, $CFG;
 
 $op = optional_param('op', '', PARAM_ALPHA);
 $game = new stdClass();
 
 switch ($op) {
     case "load":
-        $game->courseid = $SESSION->game->courseid;
+        $game->courseid = $COURSE->id;
         $game->userid   = $USER->id;
         $game = block_game_load_game($game);
         $game->url_avatar = $CFG->wwwroot."/blocks/game/pix/a".$game->avatar.".png";

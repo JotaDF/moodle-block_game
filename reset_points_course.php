@@ -28,14 +28,11 @@ require_once($CFG->libdir . '/completionlib.php');
 
 require_login();
 
-global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
+global $USER, $OUTPUT, $CFG;
 
 $confirm = optional_param('c', 0, PARAM_INT);
 $courseid = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-
-$game = new stdClass();
-$game = $SESSION->game;
 
 require_login($course);
 
@@ -48,7 +45,7 @@ $PAGE->set_heading(get_string('reset_points_title', 'block_game'));
 echo $OUTPUT->header();
 $outputhtml = '<div class="boxs">';
 
-if ($courseid > SITEID) {
+if ($courseid != SITEID) {
     $context = context_course::instance($courseid, MUST_EXIST);
     if (has_capability('moodle/course:update', $context, $USER->id)) {
         $outputhtml .= '<div align="center">';
@@ -70,7 +67,7 @@ if ($courseid > SITEID) {
             $outputhtml .= '<strong>' . get_string('label_confirm_reset_points', 'block_game') . '</strong><br/><br/>';
             $outputhtml .= '<a class="btn btn-secondary" href="' . $CFG->wwwroot . '/course/view.php?id=' . $courseid . '">'
                     . get_string('no', 'block_game') . '</a>' . '  <a class="btn btn-danger" href="reset_points_course.php?id='
-                    . $courseid  . '&c=1&sesskey=' . sesskey() . '">' . get_string('yes', 'block_game') . '</a>' . '<br/>';
+                    . $courseid . '&c=1&sesskey=' . sesskey() . '">' . get_string('yes', 'block_game') . '</a>' . '<br/>';
         }
         $outputhtml .= '</h5>';
         $outputhtml .= '</div>';

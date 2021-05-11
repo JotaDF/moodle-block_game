@@ -23,9 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
-require_login();
 
 /**
  *  Block Game config form definition class
@@ -43,12 +41,12 @@ class block_game_edit_form extends block_edit_form {
      * @return void
      */
     protected function specific_definition($mform) {
-        global $SESSION;
+        global $COURSE;
 
         // Start block specific section in config form.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
-        if ($SESSION->game->courseid > 1) {
+        if ($COURSE->id != SITEID) {
             // Game block instance alternate title.
             $mform->addElement('text', 'config_game_title', get_string('config_title', 'block_game'));
             $mform->setDefault('config_game_title', '');
@@ -56,7 +54,7 @@ class block_game_edit_form extends block_edit_form {
             $mform->addHelpButton('config_game_title', 'config_title', 'block_game');
             // Control visibility name course.
             $mform->addElement('selectyesno', 'config_show_name_course', get_string('config_name_course', 'block_game'));
-            $mform->setDefault('config_show_name_course', 1);
+            $mform->setDefault('config_show_name_course', 0);
             $mform->addHelpButton('config_show_name_course', 'config_name_course', 'block_game');
 
             // Control visibility of link info user game.
@@ -106,7 +104,7 @@ class block_game_edit_form extends block_edit_form {
             // Options controlling level up.
             $levels = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12);
             $mform->addElement('select', 'config_level_number', get_string('config_level_number', 'block_game'), $levels);
-            $mform->setDefault('config_level_number', 4);
+            $mform->setDefault('config_level_number', 6);
             $mform->disabledIf('config_level_number', 'config_show_level', 'eq', 0);
             $mform->addHelpButton('config_level_number', 'config_level_number', 'block_game');
             $leveluppoints = array(1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
@@ -127,11 +125,14 @@ class block_game_edit_form extends block_edit_form {
             // Options controlling sections.
             $mform->addElement('html', '<hr/>');
             $mform->addElement('html', get_string('title_config_section', 'block_game'));
-            $sections = block_game_get_sections_course($SESSION->game->courseid);
+            $sections = block_game_get_sections_course($COURSE->id);
             foreach ($sections as $section) {
                 $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 50 => 50, 60 => 60, 80 => 80, 100 => 100);
-                $mform->addElement('select', 'config_section_' . $section->section, get_string('section', 'block_game')
-                        . ' ' . $section->section, $limit);
+                $txtsection = get_string('section', 'block_game') . ' ' . $section->section;
+                if (isset($section->name) && $section->name != "") {
+                    $txtsection = $section->name;
+                }
+                $mform->addElement('select', 'config_section_' . $section->section, $txtsection, $limit);
                 $mform->addHelpButton('config_section_' . $section->section, 'config_section', 'block_game');
             }
         }

@@ -33,7 +33,6 @@ require_once($CFG->dirroot . '/blocks/game/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_game extends block_base {
-
     /**
      * Sets the block title
      *
@@ -108,7 +107,6 @@ class block_game extends block_base {
      */
     public function get_content() {
         global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
-
         // Load Game of user.
         $game = new stdClass();
         $game->courseid = $COURSE->id;
@@ -117,14 +115,11 @@ class block_game extends block_base {
 
         if ($game) {
             $game->config = $this->config;
-
-            if ($COURSE->id == SITEID) {
-                $game->config = get_config('block_game');
-            }
-            $SESSION->game = $game;
-
             // Get block ranking configuration.
             $cfggame = get_config('block_game');
+            if ($COURSE->id == SITEID) {
+                $game->config = $cfggame;
+            }
 
             if (isset($this->content)) {
                 return $this->content;
@@ -149,176 +144,147 @@ class block_game extends block_base {
             if ($COURSE->id != SITEID && block_game_is_student_user($USER->id, $COURSE->id) == 0) {
                 $scoreok = false;
             }
-            $levelnumber = 0;
-            // Config level up.
-            if ($showlevel && isset($game->config->show_level)) {
-                $levelnumber = (int) $game->config->level_number;
-                $levelup = array();
-                for ($i = 1; $i <= $game->config->level_number; $i++) {
-                    $xlevel = 'level_up' . $i;
-                    $levelup[] = (int) $game->config->$xlevel;
-                }
-            }
-            if ($COURSE->id != SITEID) {
-                // Sum score sections complete.
-                $sections = block_game_get_sections_course($COURSE->id);
-                $scoresections = 0;
-                foreach ($sections as $section) {
-                    $txtsection = "section_" . $section->section;
-                    if (block_game_is_check_section($USER->id, $COURSE->id, $section->id)) {
-                        if (isset($game->config->$txtsection)) {
-                            $scoresections += (int) $game->config->$txtsection;
-                        }
-                    }
-                }
-                if ($scoreok) {
-                    block_game_score_section($game, $scoresections);
-                    $game->score_section = $scoresections;
-                }
-            }
-            // Bonus of day.
-            $addbonusday = 0;
-            if (isset($game->config->bonus_day)) {
-                $addbonusday = $game->config->bonus_day;
-            }
-            if ($addbonusday > 0 && $scoreok) {
-                block_game_bonus_of_day($game, $addbonusday);
-            }
-            // Bonus of badge.
-            if (isset($cfggame->bonus_badge)) {
-                $bonusbadge = $cfggame->bonus_badge;
-                if ($scoreok) {
-                    $game = block_game_score_badge($game, $bonusbadge);
-                }
-            }
-            $groupid = 0;
-            if ($COURSE->groupmode == 1 || $COURSE->groupmode == 2) {
-                $groups = groups_get_all_groups($COURSE->id, $USER->id);
-                foreach ($groups as $group) {
-                    $groupid = $group->id;
-                }
-            }
-            if ($scoreactivities && $scoreok) {
-                block_game_score_activities($game);
-                $game = block_game_ranking($game, $groupid);
-                if ($showlevel && isset($game->config->show_level)) {
-                    $game = block_game_set_level($game, $levelup, $levelnumber);
-                }
-            } else {
-                block_game_no_score_activities($game);
-                $game = block_game_ranking($game, $groupid);
-                if ($showlevel && isset($game->config->show_level)) {
-                    $game = block_game_set_level($game, $levelup, $levelnumber);
-                }
-            }
+            $game = block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, $cfggame);
             $table = new html_table();
             $table->attributes = array('class' => 'gameTable', 'style' => 'width: 100%;');
             if ($USER->id != 0) {
-                $row = array();
-                $userpictureparams = array('size' => 20, 'link' => false, 'alt' => 'User');
-                $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
-                if ($showavatar) {
-                    if ($COURSE->id == SITEID || $changeavatar) {
-                        $userpicture = '<a href="' . $CFG->wwwroot
-                                . '/blocks/game/set_avatar_form.php?id=' . $COURSE->id . '&avatar='
-                                . $game->avatar . '">' . '<img hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a'
-                                . $game->avatar . '.png" height="80" width="80"/></a>';
-                    } else {
-                        $userpicture = '<img hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a'
-                                . $game->avatar . '.png" height="80" width="80"/>';
-                    }
-                }
+                // Links info and reset.
+                $showlinks = false;
                 $resetgame = '';
                 $context = context_course::instance($COURSE->id, MUST_EXIST);
                 if (has_capability('moodle/course:update', $context, $USER->id)) {
                     // Teacher.
-                    if (isset($USER->editing) && $USER->editing && $COURSE->id > 1) {
-                        $resetgame = '<a title="' . get_string('reset_points_btn', 'block_game') . '" href="'
-                                . $CFG->wwwroot . '/blocks/game/reset_points_course.php?id=' . $COURSE->id
-                                . '"><img alt="' . get_string('reset_points_btn', 'block_game') . '" hspace="12" src="'
-                                . $CFG->wwwroot . '/blocks/game/pix/reset.png"/></a>';
+                    if (isset($USER->editing) && $USER->editing && $COURSE->id != SITEID) {
+                        $resetgame = '<a title="' . get_string('reset_points_btn', 'block_game') . '" href="';
+                        $resetgame .= $CFG->wwwroot . '/blocks/game/reset_points_course.php?id=' . $COURSE->id;
+                        $resetgame .= '"><img alt="' . get_string('reset_points_btn', 'block_game') . '" hspace="5" src="';
+                        $resetgame .= $CFG->wwwroot . '/blocks/game/pix/reset.svg" height="24" width="24"/></a>';
+                        $showlinks = true;
                     }
                 }
                 $linkinfo = '';
                 if ($showinfo) {
-                    $linkinfo = '<a href="' . $CFG->wwwroot . '/blocks/game/perfil_gamer.php?id='
-                            . $COURSE->id . '">' . '<img hspace="12" src="'
-                            . $CFG->wwwroot . '/blocks/game/pix/info.png"/></a>';
+                    $linkinfo = '<a href="' . $CFG->wwwroot . '/blocks/game/perfil_gamer.php?id=';
+                    $linkinfo .= $COURSE->id . '">' . '<img title="';
+                    $linkinfo .= get_string('help_info_user_titulo', 'block_game') . '" hspace="5" src="';
+                    $linkinfo .= $CFG->wwwroot . '/blocks/game/pix/info.svg" height="24" width="24"/></a>';
+                    $showlinks = true;
                 }
-                $row[] = $userpicture . get_string('label_you', 'block_game') . $linkinfo . ' ' . $resetgame;
+                $userpictureparams = array('size' => 80, 'link' => false, 'alt' => 'User');
+                $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
+                if ($showavatar) {
+                    if ($COURSE->id == SITEID || $changeavatar) {
+                        $userpicture = '<a title="' . get_string('set_avatar_title', 'block_game') . '" href="' . $CFG->wwwroot;
+                        $userpicture .= '/blocks/game/set_avatar_form.php?id=' . $COURSE->id . '&avatar=';
+                        $userpicture .= $game->avatar . '">' . '<img hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a';
+                        $userpicture .= $game->avatar . '.svg" height="140" width="140"/></a>';
+                    } else {
+                        $userpicture = '<img title="' . get_string('label_avatar', 'block_game');
+                        $userpicture .= '" hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a';
+                        $userpicture .= $game->avatar . '.svg" height="140" width="140"/>';
+                    }
+                }
+                $row = array();
+                $div = '<div class="t-100 text-center border-bottom">';
+                if ($showlinks) {
+                    $div .= '<div class="text-right" style="position: absolute; top: 50px; right: 25px;">';
+                    $div .= $linkinfo . ' ' . $resetgame . '</div>';
+                }
+                $div .= $userpicture . '</div>';
+                $row[] = $div;
                 $table->data[] = $row;
+
                 $row = array();
                 $icontxt = $OUTPUT->pix_icon('logo', '', 'theme');
-                if ($COURSE->id != SITEID && $shownamecourse) {
+                if ($COURSE->id != 1 && $shownamecourse) {
                     $row[] = '(' . $COURSE->shortname . ')';
                     $table->data[] = $row;
                 }
-                if ($showrank) {
-                    $row = array();
-                    $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/rank.png" height="30" width="30"/>';
-                    $row[] = $icontxt . ' ' . get_string('label_rank', 'block_game')
-                            . ': ' . $game->ranking . '&ordm; / ' . block_game_get_players($game->courseid, $groupid);
-                    $table->data[] = $row;
-                }
-                $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities +
-                        $game->score_badges + $game->score_section);
-                if ($COURSE->id != SITEID) {
-                    $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_section);
-                }
+                $row = array();
+                $div = '<div class="container" style="font-size:11px; background-color: #F7F9F9;"><div class="row">';
                 if ($showscore) {
-                    $row = array();
-                    $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/score.png" height="30" width="30"/>';
-                    $row[] = $icontxt . ' ' . get_string('label_score', 'block_game') . ': ' . $scorefull . '';
-                    $table->data[] = $row;
+                    $div .= '<div class="col- text-center" style="min-width:33%; max-width:100%;">';
+                    $icontxt = '<img title="' . get_string('label_score', 'block_game') . '" src="';
+                    $icontxt .= $CFG->wwwroot . '/blocks/game/pix/score.svg" height="65" width="65"/>';
+                    $div .= $icontxt . '<br/>' . get_string('label_score', 'block_game') . '<br/><strong style="font-size:14px;">';
+                    $div .= $game->scorefull . '</strong>';
+                    $div .= '</div>';
+                }
+                if ($showrank) {
+                    $div .= '<div class="col- text-center" style="min-width:33%; max-width:100%;">';
+                    $icontxt = '<img title="' . get_string('label_rank', 'block_game') . '" src="';
+                    $icontxt .= $CFG->wwwroot . '/blocks/game/pix/rank.svg" height="65" width="65"/>';
+                    $div .= $icontxt . '<br/>' . get_string('label_rank', 'block_game');
+                    $div .= '<br/><strong style="font-size:14px;">' . $game->ranking . '&ordm; / ';
+                    $div .= block_game_get_players($game->courseid, $game->groupid) . '</strong>';
+                    $div .= '</div>';
                 }
                 if ($showlevel && isset($game->config->show_level)) {
-                    $row = array();
-                    $icontxt = '<img src="' . $CFG->wwwroot . '/blocks/game/pix/level.png" height="30" width="30"/>';
-                    $row[] = $icontxt . ' ' . get_string('label_level', 'block_game') . ': ' . $game->level . '';
-                    $table->data[] = $row;
-
-                    $percent = 0;
-                    $nextlevel = $game->level + 1;
-                    if ($nextlevel <= $levelnumber) {
-                        $percent = 0;
-                        if ($scorefull > 0) {
-                            $percent = ($scorefull * 100) / $levelup[$game->level];
-                        }
-                    }
-                    $row = array();
-                    $progressbar = '<div style="height:12px; padding:2px; background-color:#ccc; text-align:right; font-size:12px;">';
-                    $progressbar .= '<div style="height: 8px; width:' . $percent;
-                    $progressbar .= '%; padding: 0px; background-color: #356ebc;"></div>';
-                    $progressbar .= get_string('next_level', 'block_game') . ' =>' . $levelup[$game->level] . '</div>';
-                    $row[] = $progressbar;
-                    $table->data[] = $row;
+                    $div .= '<div class="col- text-center" style="min-width:33%; max-width:100%;">';
+                    $icontxt = '<img title="' . get_string('label_level', 'block_game');
+                    $icontxt .= '" src="' . $CFG->wwwroot . '/blocks/game/pix/level.svg" height="65" width="65"/>';
+                    $div .= $icontxt . '<br/>' . get_string('label_level', 'block_game');
+                    $div .= '<br/><strong style="font-size:14px;">' . $game->level . '</strong>';
+                    $div .= '</div>';
+                    // Progress Bar.
+                    $xlevel = 'level_up' . ($game->level + 1);
+                    $div .= '</div>';
+                    $div .= '<div class="row">';
+                    $div .= '<div class="col-sm">';
+                    $div .= '<div class="progress" title="' . get_string('help_progress_level_text', 'block_game') . '">';
+                    $percent = round($game->percent, 1);
+                    $div .= '<div class="progress-bar" role="progressbar" style="width: ' . $percent . '%;" aria-valuenow="';
+                    $div .= $percent . '" aria-valuemin="0" aria-valuemax="100">';
+                    $div .= $percent . '%';
+                    $div .= '</div></div></div></div>';
+                    $div .= '<div class="row">';
+                    $div .= '<div class="col-sm text-right" title="' . get_string('help_progress_level_text', 'block_game') . '">';
+                    $div .= get_string('next_level', 'block_game') . ' =>' . $game->config->$xlevel;
+                    $div .= get_string('abbreviate_score', 'block_game') . '</div>';
+                    $div .= '</div>';
+                }
+                $div .= '</div></div>';
+                $row[] = $div;
+                $table->data[] = $row;
+                $widthtools = '100%';
+                if ($showrank) {
+                    $widthtools = '50%';
+                }
+                if ($showrankgroup && $COURSE->id != SITEID) {
+                    $widthtools = '33%';
                 }
                 $row = array();
-                $icontxtrank = '<hr/><table border="0" width="100%"><tr>';
+                $toolsbar = '<div class="container pt-2 pb-2 border-top"  style="background-color: #F7F9F9;"><div class="row">';
                 if ($showrank) {
                     $linkgroup = '';
                     if ($COURSE->groupmode == 1 || $COURSE->groupmode == 2) {
-                        $linkgroup = '&group=' . $groupid;
+                        $linkgroup = '&group=' . $game->groupid;
                     }
-                    $icontxtrank .= '<td align="left" width="33%"><a href="'
+                    $toolsbar .= '<div class="pl-3 col- text-left" style="min-width:' . $widthtools . ';">';
+                    $toolsbar .= '<a href="'
                             . $CFG->wwwroot . '/blocks/game/rank_game.php?id=' . $COURSE->id . $linkgroup . '"><img alt="'
                             . get_string('label_rank', 'block_game') . '" title="'
                             . get_string('label_rank', 'block_game') . '" src="'
-                            . $CFG->wwwroot . '/blocks/game/pix/rank_list.png" height="28" width="28"/></a></td>';
+                            . $CFG->wwwroot . '/blocks/game/pix/rank_list.svg" height="28" width="28"/></a>';
+                    $toolsbar .= '</div>';
                 }
-                if ($showrankgroup && $COURSE->id > 1) {
-                    $icontxtrank .= '<td align="center" width="33%"><a href="'
+                if ($showrankgroup && $COURSE->id != SITEID) {
+                    $toolsbar .= '<div class="col- text-center" style="min-width:' . $widthtools . ';">';
+                    $toolsbar .= '<a href="'
                             . $CFG->wwwroot . '/blocks/game/rank_group_game.php?id=' . $COURSE->id . '"><img alt="'
                             . get_string('label_rank_group', 'block_game') . '" title="'
                             . get_string('label_rank_group', 'block_game') . '" src="'
-                            . $CFG->wwwroot . '/blocks/game/pix/rank_group_list.png" height="28" width="41"/></a></td>';
+                            . $CFG->wwwroot . '/blocks/game/pix/rank_group_list.svg" height="28" width="41"/></a>';
+                    $toolsbar .= '</div>';
                 }
-                $icontxtrank .= '<td align="right" width="33%"><a href="' . $CFG->wwwroot . '/blocks/game/help_game.php?id='
+                $toolsbar .= '<div class="pr-3  col- text-right" style="min-width:' . $widthtools . ';">';
+                $toolsbar .= '<a href="' . $CFG->wwwroot . '/blocks/game/help_game.php?id='
                         . $COURSE->id . '"><img alt="' . get_string('help', 'block_game') . '" title="'
                         . get_string('help', 'block_game') . '" src="'
-                        . $CFG->wwwroot . '/blocks/game/pix/help.svg"  height="28" width="28"/></a></td>';
-                $icontxtrank .= '</tr></table>';
-                $row[] = $icontxtrank;
+                        . $CFG->wwwroot . '/blocks/game/pix/help.svg"  height="28" width="28"/></a>';
+                $toolsbar .= '</div>';
+                $toolsbar .= '</div></div>';
+                $row[] = $toolsbar;
                 $table->data[] = $row;
             } else {
                 $row[] = '';

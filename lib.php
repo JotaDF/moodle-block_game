@@ -104,7 +104,7 @@ function block_game_update_avatar_game($game) {
  * @param stdClass $game
  * @return boolean
  */
-function block_game_block_game_block_game_update_level_game($game) {
+function block_game_update_score_game($game) {
     global $DB;
 
     if (!empty($game->id) && !empty($game->score)) {
@@ -284,8 +284,8 @@ function block_game_bonus_of_day($game, $bonus) {
         $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
         if ($busca->bonus_day == null || $busca->bonus_day < $busca->hoje) {
             $game->score_bonus_day = ((int) $game->score_bonus_day + (int) $bonus);
-            $DB->execute("UPDATE {block_game} SET score_bonus_day=?, bonus_day=?  WHERE id=?",
-                    array((int) $game->score_bonus_day, $busca->hoje, $game->id));
+            $sqlupdate = "UPDATE {block_game} SET score_bonus_day=?, bonus_day=?  WHERE id=?";
+            $DB->execute($sqlupdate, array((int) $game->score_bonus_day, $busca->hoje, $game->id));
         }
         return ((int) $game->score + (int) $bonus);
     }
@@ -816,4 +816,164 @@ function block_game_is_student_user($userid, $courseid) {
         return $busca->total;
     }
     return 0;
+}
+
+/**
+ * Return update score sections user
+ *
+ * @param stdClass $game
+ * @param boolean $scoreok
+ * @param boolean $showlevel
+ * @param boolean $scoreactivities
+ * @param stdClass $cfggame
+ * @return stdClass $game
+ */
+function block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, $cfggame) {
+    global $USER, $COURSE;
+    $levelnumber = 0;
+    // Config level up.
+    if ($showlevel && isset($game->config->show_level)) {
+        $levelnumber = (int) $game->config->level_number;
+        $levelup = array();
+        for ($i = 1; $i <= $game->config->level_number; $i++) {
+            $xlevel = 'level_up' . $i;
+            $levelup[] = (int) $game->config->$xlevel;
+        }
+    }
+    if ($game->courseid > 1) {
+        // Sum score sections complete.
+        $sections = block_game_get_sections_course($COURSE->id);
+        $scoresections = 0;
+        foreach ($sections as $section) {
+            $txtsection = "section_" . $section->section;
+            if (block_game_is_check_section($USER->id, $COURSE->id, $section->id)) {
+                if (isset($game->config->$txtsection)) {
+                    $scoresections += (int) $game->config->$txtsection;
+                }
+            }
+        }
+        if ($scoreok) {
+            block_game_score_section($game, $scoresections);
+            $game->score_section = $scoresections;
+        }
+    }
+    // Bonus of day.
+    $addbonusday = 0;
+    if (isset($game->config->bonus_day)) {
+        $addbonusday = $game->config->bonus_day;
+    }
+    if ($addbonusday > 0 && $scoreok) {
+        block_game_bonus_of_day($game, $addbonusday);
+    }
+    // Bonus of badge.
+    if (isset($cfggame->bonus_badge)) {
+        $bonusbadge = $cfggame->bonus_badge;
+        if ($scoreok) {
+            $game = block_game_score_badge($game, $bonusbadge);
+        }
+    }
+    // Search user group.
+    $groupid = 0;
+    if ($COURSE->groupmode == 1 || $COURSE->groupmode == 2) {
+        $groups = \groups_get_all_groups($COURSE->id, $USER->id);
+        foreach ($groups as $group) {
+            $groupid = $group->id;
+        }
+    }
+    $game->groupid = $groupid;
+    // Pontuation activities.
+    if ($scoreactivities && $scoreok) {
+        block_game_score_activities($game);
+        $game = block_game_ranking($game, $groupid);
+        if ($showlevel && isset($game->config->show_level)) {
+            $game = block_game_set_level($game, $levelup, $levelnumber);
+        }
+    } else {
+        block_game_no_score_activities($game);
+        $game = block_game_ranking($game, $groupid);
+        if ($showlevel && isset($game->config->show_level)) {
+            $game = block_game_set_level($game, $levelup, $levelnumber);
+        }
+    }
+    // Calculate score full.
+    $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities +
+            $game->score_badges + $game->score_section);
+    if ($COURSE->id != SITEID) {
+        $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_section);
+    }
+    $game->scorefull = $scorefull;
+    // Calculate percentage to the next level.
+    $percent = 0;
+    $nextlevel = $game->level + 1;
+    if ($nextlevel <= $levelnumber) {
+        $percent = 0;
+        if ($scorefull > 0) {
+            $percent = ($scorefull * 100) / $levelup[$game->level];
+        }
+    }
+    $game->percent = $percent;
+
+    return $game;
+}
+
+/**
+ * Get the last block configuration.
+ *
+ * @param int $courseid
+ * @return mixed the config
+ */
+function block_game_get_config_block($courseid) {
+    global $DB;
+    $coursecontext = \context_course::instance($courseid);
+    $blockrecords = $DB->get_records('block_instances', array('blockname' => 'game', 'parentcontextid' => $coursecontext->id));
+    foreach ($blockrecords as $b) {
+        $blockinstance = \block_instance('game', $b);
+    }
+    if (isset($blockinstance->config)) {
+        return $blockinstance->config;
+    }
+    return false;
+}
+
+/**
+ * Get the last block configuration.
+ *
+ * @param stdClass $game
+ * @return stdClass $game
+ */
+function block_game_get_percente_level($game) {
+    if ($game->courseid == SITEID) {
+        $game->config = get_config('block_game');
+    } else {
+        $game->config = block_game_get_config_block($game->courseid);
+    }
+
+    $levelnumber = 0;
+    // Config level up.
+    if (isset($game->config->show_level) && $game->config->show_level == 1) {
+        $levelnumber = (int) $game->config->level_number;
+        $levelup = array();
+        for ($i = 1; $i <= $game->config->level_number; $i++) {
+            $xlevel = 'level_up' . $i;
+            $levelup[] = (int) $game->config->$xlevel;
+        }
+    }
+    // Calculate score full.
+    $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities +
+            $game->score_badges + $game->score_section);
+    if ($game->courseid != SITEID) {
+        $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities + $game->score_section);
+    }
+    $game->scorefull = $scorefull;
+    // Calculate percentage to the next level.
+    $percent = 0;
+    $nextlevel = $game->level + 1;
+    if ($nextlevel <= $levelnumber) {
+        $percent = 0;
+        if ($scorefull > 0) {
+            $percent = ($scorefull * 100) / $levelup[$game->level];
+        }
+    }
+    $game->percent = $percent;
+    return $game;
 }

@@ -23,8 +23,6 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_login();
-
 if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('block_game/displaysettings',
             get_string('defaultdisplaysettings', 'block_game'), ''));
@@ -36,7 +34,7 @@ if ($ADMIN->fulltree) {
             get_string('config_avatar_course', 'block_game'), '', 0));
 
     $settings->add(new admin_setting_configcheckbox('block_game/show_info',
-            get_string('config_info', 'block_game'), '', 1));
+            get_string('config_info', 'block_game'), get_string('config_info_help', 'block_game'), 1));
 
     $settings->add(new admin_setting_configcheckbox('block_game/score_activities',
             get_string('config_score_activities', 'block_game'), '', 1));
@@ -64,7 +62,7 @@ if ($ADMIN->fulltree) {
     // Options controlling level up.
     $leveloptions = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12);
     $settings->add(new admin_setting_configselect('block_game/level_number',
-            get_string('config_level_number', 'block_game'), '', -2, $leveloptions));
+            get_string('config_level_number', 'block_game'), '', 12, $leveloptions));
 
     $leveluppoints = array(1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
         5 => 4000, 6 => 6000, 7 => 10000, 8 => 20000,

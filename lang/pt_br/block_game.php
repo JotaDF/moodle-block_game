@@ -24,7 +24,13 @@
  */
 
 
-$string['pluginname'] = 'Bloco Game';
+$string['pluginname'] = 'Game';
+$string['privacy:metadata:block_game'] = "O Bloco Game armazena o avatar escolhido pelo usuário no ambiente ou curso e registra a pontuação no jogo de acordo com a configuração da plataforma.";
+$string['privacy:metadata:score_game_database:courseid'] = "ID do Curso";
+$string['privacy:metadata:score_game_database:cmid'] = "ID de atividade do curso";
+$string['privacy:metadata:score_game_database:userid'] = "ID Usuário";
+$string['privacy:metadata:avatar_game_database:avatar'] = "Os avatares variam de 0 a 51, cada um com uma imagem correspondente no bloco de jogo.";
+
 $string['block_game:addinstance'] = 'Adcionar novo bloco Game';
 $string['block_game:myaddinstance'] = 'Adcionar novo bloco Game na sua Moodle page';
 
@@ -122,6 +128,7 @@ $string['rank_group_game_title'] = 'Lista de classificação de Grupos';
 $string['rank_game_title'] = 'Lista de classificação';
 $string['order'] = 'Ordem';
 $string['name'] = 'Nome';
+$string['score_detail'] = 'Detalhamento de pontos';
 $string['score_atv'] = 'Atividades';
 $string['score_section'] = 'Seções';
 $string['score_bonus_day'] = 'Bônus do dia';
@@ -134,10 +141,12 @@ $string['not_start_game_s'] = 'Usuários não começaram a jogar';
 
 
 $string['label_course'] = 'Curso';
+$string['label_avatar'] = 'Avatar';
 $string['label_badge'] = 'Emblemas';
-$string['label_rank'] = 'Classificação';
-$string['label_rank_group'] = 'Classificação de grupos';
+$string['label_rank'] = 'Ranking';
+$string['label_rank_group'] = 'Ranking de grupos';
 $string['label_score'] = 'Pontos';
+$string['abbreviate_score'] = 'pts';
 $string['label_level'] = 'Nível';
 
 $string['general'] = 'Geral';
@@ -167,7 +176,7 @@ $string['reset_points_not_permission'] = 'Você não possui permissão para faze
 
 // Help page!
 $string['help_avatar_titulo'] = 'Sobre o avatar';
-$string['help_avatar_text'] = 'O jogo permite que você escolha ou mude seu avatar a hora que desejar. Quando aparece o ícone pontilhado significa que você ainda não escolheu seu, clicando no mesmo, ou no seu avatar, ele te leva para a página de seleção, basta clicar no avatar desejado para fazer sua escolha.<br/>
+$string['help_avatar_text'] = 'O jogo permite que você escolha ou mude seu avatar a hora que desejar. Quando aparece o ícone mostrado ao lado, significa que você ainda não escolheu seu, clicando no mesmo ou no seu avatar, ele te leva para a página de seleção, basta clicar no avatar desejado para fazer sua escolha.<br/>
 <br/><strong>Dicas sobre avatar:</strong><br/>
 - Você só poderá trocar de avatar na página inicial ou na página de painel! <br/>
 - O avatar em tom de cinza só estará disponível quando você atingir o nível necessário!<br/>';

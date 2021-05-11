@@ -27,7 +27,7 @@ require_once($CFG->libdir . '/grouplib.php');
 
 require_login();
 
-global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
+global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
 
@@ -36,7 +36,7 @@ $groupid = optional_param('group', 0, PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
 $game = new stdClass();
-$game = $SESSION->game;
+$game->config = block_game_get_config_block($courseid);
 
 require_login($course);
 
@@ -52,7 +52,7 @@ $cfggame = get_config('block_game');
 
 /* Now verify grading user has access to all groups or is member of the same group when separate groups used in course */
 $ok = false;
-if ($course->groupmode == 1 and ! has_capability('moodle/site:accessallgroups', $context)) {
+if ($course->groupmode == 1 and ! has_capability('moodle/course:viewhiddenactivities', $context)) {
     if (groups_is_member($groupid, $USER->id)) {
         $ok = true;
     }
@@ -78,28 +78,69 @@ if ($ok) {
         } else {
             $outputhtml .= '<h3>( ' . get_string('general', 'block_game') . ' )</h3><br/>';
         }
-        $outputhtml .= '<table border="0" width="100%">';
+        $outputhtml .= '<table class="generaltable" width="100%">';
+        // View details.
+        $context = context_course::instance($COURSE->id, MUST_EXIST);
+        $header = '';
+        $showreader = false;
+        if (has_capability('moodle/course:update', $context, $USER->id)) {
+            $header .= '<tr class="">';
+            $header .= '<td width="9%" align="center" class="cell c0 " style=""><strong>'
+                    . get_string('order', 'block_game') . '</strong></td>';
+            $header .= '<td width="42%" class="cell c1 " style=""><strong>'
+                    . get_string('name', 'block_game') . '</strong></td>';
+            $header .= '<td width="15%" align="center" class="cell c2 " style=""><strong>'
+                    . get_string('score_atv', 'block_game') . '</strong></td>';
+            $header .= '<td width="10%" align="center" class="cell c3 " style=""><strong>'
+                    . get_string('score_section', 'block_game') . '</strong></td>';
+            $header .= '<td width="15%" align="center" class="cell c4 " style=""><strong>'
+                    . get_string('score_bonus_day', 'block_game') . '</strong></td>';
+            $header .= '<td width="9%" align="center" class="cell c5 lastcol" style=""><strong>'
+                    . get_string('score_total', 'block_game') . '</strong></td>';
+            $header .= '</tr>';
+            $showreader = true;
+        } else {
+            $header .= '<tr class="">';
+            $header .= '<td width="10%" align="center" class="cell c0 " style=""><strong>'
+                    . get_string('order', 'block_game') . '</strong></td>';
+            $header .= '<td width="80%" class="cell c1 " style=""><strong>'
+                    . get_string('name', 'block_game') . '</strong></td>';
+            $header .= '<td width="10%" align="center" class="cell c2 lastcol" style=""><strong>'
+                    . get_string('score_total', 'block_game') . '</strong></td>';
+            $header .= '</tr>';
+        }
+        $outputhtml .= $header;
         $rs = block_game_rank_list($courseid, $groupid);
         $ord = 1;
         foreach ($rs as $gamer) {
             $avatartxt = '';
-            if (isset($cfggame->use_avatar) && $cfggame->use_avatar == 1) {
-                $avatartxt = $OUTPUT->pix_icon('a' . block_game_get_avatar_user($gamer->userid), 'Avatar', 'block_game');
+            if ($cfggame->use_avatar == 1) {
+                $avatartxt .= '<img  align="center"  height="40" width="40" ';
+                $avatartxt .= 'src="' . $CFG->wwwroot . '/blocks/game/pix/a';
+                $avatartxt .= block_game_get_avatar_user($gamer->userid) . '.svg" title="avatar"/>';
             }
             $ordtxt = $ord . '&ordm;';
             $usertxt = $avatartxt . ' ******** ';
-            if (isset($game->config->show_identity) && $game->config->show_identity == 0) {
+            if ($game->config->show_identity == 0) {
                 $usertxt = $avatartxt . ' ' . $gamer->firstname . ' ' . $gamer->lastname;
             }
-            $scoretxt = $gamer->pt;
+            $scoretxt = $gamer->pt . get_string('abbreviate_score', 'block_game');
             if ($gamer->userid == $USER->id) {
                 $usertxt = $avatartxt . ' <strong>' . $gamer->firstname . ' ' . $gamer->lastname . '</trong>';
-                $scoretxt = '<strong>' . (int) $gamer->pt . '</trong>';
+                $scoretxt = '<strong>' . $gamer->pt . get_string('abbreviate_score', 'block_game') . '</trong>';
                 $ordtxt = '<strong>' . $ord . '&ordm;</trong>';
             }
-            $outputhtml .= '<tr>';
-            $outputhtml .= '<td>' . $ordtxt . '<hr/></td><td> ' . $usertxt . ' <hr/></td>';
-            $outputhtml .= '<td> ' . $scoretxt . '<hr/></td>';
+            $outputhtml .= '<tr class="">';
+            $outputhtml .= '<td align="center" class="cell c0" style="">' . $ordtxt . '</td>';
+            $outputhtml .= '<td class="cell c2" style=""> ' . $usertxt . ' </td>';
+            $colltd = 'c3 lastcol';
+            if ($showreader) {
+                $outputhtml .= '<td align="center" class="cell c3 small" style="">' . $gamer->sum_score_activities . '</td>';
+                $outputhtml .= '<td align="center" class="cell c4 small" style="">' . $gamer->sum_score_section . '</td>';
+                $outputhtml .= '<td align="center" class="cell c5 small" style="">' . $gamer->sum_score_bonus_day . '</td>';
+                $colltd = 'c6 lastcol';
+            }
+            $outputhtml .= '<td align="center" class="cell ' . $colltd . ' small" style="">' . $scoretxt . '</td>';
             $outputhtml .= '</tr>';
 
             if ($limit > 0 && $limit == $ord) {

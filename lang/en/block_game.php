@@ -24,7 +24,13 @@
  */
 
 
-$string['pluginname'] = 'Block Game';
+$string['pluginname'] = 'Game';
+$string['privacy:metadata:block_game'] = "The Game block stores the avatar chosen by the user in the environment or course and records the score in the game according to the platform configuration.";
+$string['privacy:metadata:score_game_database:courseid'] = "Course ID";
+$string['privacy:metadata:score_game_database:cmid'] = "Course activity ID";
+$string['privacy:metadata:score_game_database:userid'] = "User ID";
+$string['privacy:metadata:avatar_game_database:avatar'] = "Avatars range from 0 to 51, each with a corresponding image in the Game block.";
+
 $string['block_game:addinstance'] = 'Add a new Game block';
 $string['block_game:myaddinstance'] = 'Add a new Game block to the My Moodle page';
 
@@ -101,8 +107,8 @@ $string['level_14_required'] = 'Level 14 required';
 $string['level_15_required'] = 'Level 15 required';
 $string['next_level'] = 'Next level';
 
-$string['config_name_course'] = 'Show course name';
-$string['config_name_course_help'] = 'Show course name in block';
+$string['config_name_course'] = 'Show name course';
+$string['config_name_course_help'] = 'Show name course in block';
 $string['config_info'] = 'Show player information';
 $string['config_info_help'] = 'Show player information for all courses attended';
 $string['config_avatar_course'] = 'Allow avatar change in course';
@@ -111,8 +117,8 @@ $string['config_score_activities'] = 'Score activity notes';
 $string['config_score_activities_help'] = '<p>use activity notes to score. For numerical scales only!</p>';
 $string['config_bonus_day'] = 'Bonus of the day';
 $string['config_bonus_day_help'] = '<p>Enable bonus of the day, set points per day of access.</p>';
-$string['config_bonus_badge'] = 'Bonus for badge';
-$string['config_bonus_badge_help'] = '<p>Bonus points per badge of course completed.</p>';
+$string['config_bonus_badge'] = 'Bonus for emblema';
+$string['config_bonus_badge_help'] = '<p>Bonus value per badge of course completed.</p>';
 $string['config_title'] = 'Edit title';
 $string['config_title_help'] = '<p>Editing the title of the block.</p>';
 
@@ -120,22 +126,25 @@ $string['perfil_gamer_title'] = 'Player information';
 $string['set_avatar_title'] = 'Select your Avatar';
 $string['rank_group_game_title'] = 'Groups ranking list';
 $string['rank_game_title'] = 'Ranking list';
-$string['order'] = 'Order';
-$string['name'] = 'Name';
+$string['order'] = 'Ordem';
+$string['name'] = 'Nome';
+$string['score_detail'] = 'Score detail';
 $string['score_atv'] = 'Activities';
 $string['score_section'] = 'Sections';
-$string['score_bonus_day'] = 'Bonus of the day';
+$string['score_bonus_day'] = 'Bonus of day';
 $string['score_total'] = 'Total';
 
-$string['help_game_title'] = 'Help for game';
-$string['not_start_game'] = 'User has not started playing';
-$string['not_start_game_s'] = 'Users who have not started playing';
+$string['help_game_title'] = 'Help of game';
+$string['not_start_game'] = 'User did not start playing';
+$string['not_start_game_s'] = 'Users they did not start playing';
 
 $string['label_course'] = 'Course';
+$string['label_avatar'] = 'Avatar';
 $string['label_badge'] = 'Badges';
 $string['label_rank'] = 'Ranking';
 $string['label_rank_group'] = 'Groups Ranking';
 $string['label_score'] = 'Score';
+$string['abbreviate_score'] = 'sco';
 $string['label_level'] = 'Level';
 
 $string['general'] = 'General';
@@ -155,40 +164,40 @@ $string['config_section_help'] = 'Configure section completion points.';
 $string['config_module'] = 'Configure points for module completion.';
 $string['config_module_help'] = 'Configure points for module completion.';
 
-$string['reset_points_btn'] = 'Reset points';
+$string['reset_points_btn'] = 'Reset ponits';
 $string['reset_points_title'] = 'Reset course points';
-$string['label_confirm_reset_points'] = 'When resetting the course points, all users loose their points. <br/> Do you really want to do this? <br/> <br/>';
-$string['reset_points_sucess'] = 'Course points reset for all users successfully !';
+$string['label_confirm_reset_points'] = 'When resetting the course points, all users lost their points. <br/> Do you really want to do this? <br/> <br/>';
+$string['reset_points_sucess'] = 'Course points reset for all users successfully !!';
 $string['reset_points_error'] = 'Error when resetting course points!';
 $string['reset_points_not_permission'] = 'You are not allowed to do this!';
 
 
 // Help page!
 $string['help_avatar_titulo'] = 'About avatar';
-$string['help_avatar_text'] = 'The game allows you to choose or change your avatar whenever you want. When The dotted icon appears it means you have not yet chosen your avatar. By clicking on it, or on your avatar, it takes you to the Avatar Selection page, just click on the desired avatar to make your choice.<br/>
+$string['help_avatar_text'] = 'The game allows you to choose or change your avatar whenever you want. When the icon shown on the side appears, it means that you have not yet chosen your, by clicking on it or on your avatar, it takes you to the Avatar Selection page, just click on the desired avatar to make your choice.<br/>
 <br/><strong>Avatar tips :</strong><br/>
 - You can only change your avatar on the homepage or the dashboard page! <br/>
 - The Gray-tone avatar will only be available when you reach the required level!<br/>';
-$string['help_avatar_text_course'] = 'The game allows you to choose or change your avatar whenever you want. When The dotted icon appears it means you have not yet chosen your avatar. By clicking on it, or on your avatar, it takes you to the Avatar Selection page, just click on the desired avatar to make your choice.<br/>
+$string['help_avatar_text_course'] = 'The game allows you to choose or change your avatar whenever you want. When The dotted icon appears means you have not yet chosen your avatar by clicking on it, or on your avatar, it takes you to the Avatar Selection page, just click on the desired avatar to make your choice.<br/>
 <br/><strong>Avatar tips :</strong><br/>
 - You can change your avatar on the main page of the course! <br/>
 - The Gray-tone avatar will only be available when you reach the required level!<br/>';
 $string['help_info_user_titulo'] = 'Player Information';
-$string['help_info_user_text'] = 'By clicking on the player information icon you can see your situation (Rating, Score and Level) in each course that is registered, that uses the Block Game plugin! You can still know your situation in the environment as a whole (General). And at the end, it shows which badges the player has already won!';
+$string['help_info_user_text'] = 'By clicking on the player information icon you can see what your situation (Rating, Score and Level) in each course that is registered, that uses the Block Game plugin! You can still know your situation in the ambinte as a whole (General). And at the end it shows when badges the player has already won!';
 $string['help_score_titulo'] = 'About points';
-$string['help_score_text'] = 'The game has a scoring system because the score of the player will define their rank and the level that he is in. So, it is very important that you know how to earn points to improve your placement and your level.<br/>
+$string['help_score_text'] = 'The game has a scoring system because the score of the player will define their rank and the level that is. So it is very important that you know how to earn points to improve your placement and your level.<br/>
 <br/><strong>How to get points:</strong><br/>';
-$string['help_score_activities_text'] = '<strong>Activity Points</strong> - when doing the proposed activities in the courses that you are enrolled in, the grade achieved will be converted into points of the game! So, get the best grades in the activities in order to earn more points!<br/>';
+$string['help_score_activities_text'] = '<strong>Activity Points</strong> - when doing the proposed activities in the courses that are enrolled, the grade achieved will be converted into points of the game! So get the best grades in the activities to earn more points!<br/>';
 $string['help_score_sections_text'] = '<strong>Scoring for section completion</strong> - When you have completed all the activities provided for in a section, you will be able to receive a score! See how many points you can earn in each section:<br/>';
 $string['help_bonus_day_text'] = '<strong>Bonus of the day</strong> - Just to access the environment or your course you will receive, once a day, a bonus that will be added to your score!<br/>';
-$string['help_bonus_day_text_value'] = 'Current Value of Bonus of the Day: ';
-$string['help_bonus_badge_text'] = '<strong>Bonus per badge</strong> - Upon completing a course you will receive a reward badge.This badge adds a great bonus that will add up to your score!<br/>';
+$string['help_bonus_day_text_value'] = 'Current Bonus Value of the Day: ';
+$string['help_bonus_badge_text'] = '<strong>Bonus per badge</strong> - Upon completing a course you will receive a reward badge, this badge adds a great bonus that will add up to your score!<br/>';
 $string['help_bonus_badge_text_value'] = 'Current bonus amount per badge: ';
 $string['help_rank_titulo'] = 'About Classification';
 $string['help_rank_text'] = 'Your position in relation to other players is calculated by the total number of points you have reached. This position can vary within the courses, in the areas out of the course the position is calculated by adding up the points earned in the courses you are enrolled in and out of them (General)!';
-$string['help_rank_list_text'] = '<strong>Ranking list</strong> - The ranking list displays not only your position, but also that of other players, following the tiebreaker criteria. In this listing you can see the position, the avatar, the name and their respective score!<br/>';
+$string['help_rank_list_text'] = '<strong>Ranking list</strong> - The ranking list displays not only your position but also that of other players, following the tiebreaker criteria. In this listing you can see the position, the avatar, the name and their respective score!<br/>';
 $string['help_rank_list_restrict_text'] = '<strong>Ranking list</strong> - The ranking list displays not only your position but also that of other players, following the tiebreaker criteria. In this listing you can see the position, the avatar and their respective score! The player name is not shown, preserving the player identity!<br/>';
-$string['help_rank_criterion_text'] = '<strong>Breakout Criteria</strong> - The total of points defines the classification of the users. However, in some situations this total can be the same of other players, causing a tie, in which case the position of the player is defined according to the following criteria:<br/><br/><strong>1&ordm; </strong> - The player with the highest score won by badge;<br/><strong>2&ordm; </strong> - The player who has the highest score earned by activities;<br/><strong>3&ordm; </strong> - The oldest player in the environment; that is, who that was registered first.<br/>';
+$string['help_rank_criterion_text'] = '<strong>Breakout Criteria</strong> - The total of points defines the classification of the users, however in some situations this total can be the same of other players occurring a tie, in which case the position of the player is defined according to the following criteria:<br/><br/><strong>1&ordm; </strong> - The player with the highest score won by badge;<br/><strong>2&ordm; </strong> - The player who has the highest score earned by activities;<br/><strong>3&ordm; </strong> - The oldest player in the environment, that is, that was registered first.<br/>';
 $string['help_level_titulo'] = 'About Level';
 $string['help_level_text'] = 'The player level is defined by the total score he reached! We can say that the higher the level reached, the greater is your degree of maturity in the game! In the game the level is also used to release avatars that are initially blocked. The more you participate in the courses, the more points you earn and consequently you will reach higher levels!<br/><br/><strong>See the score needed to reach each level:</strong><br/>';
 $string['help_progress_level_text'] = 'The progress bar indicates how much is left to reach the next level.';

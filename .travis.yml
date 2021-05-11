@@ -2,6 +2,7 @@ language: php
 
 os: linux
 dist: xenial
+sudo: false
 
 services:
   - mysql

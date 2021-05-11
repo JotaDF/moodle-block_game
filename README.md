@@ -2,7 +2,7 @@
 
 Moodle block Game repository
 ===========================
-VERSION 1.15
+VERSION 1.20
 ------------
 The goal of the Block Game plugin is to apply gamification techniques to the moodle platform in a simple and uncomplicated way.
 
@@ -27,6 +27,10 @@ The game has scoring system because the player's score will define his rating an
 **Show Ranking:**
 Allows you to show either the individual student rating on the platform or course and the classified list.
 - Preserve User Identity - If showing the rating, lets you preserve the identity of users in the classified list.
+
+**Show Group Ranking:**
+Allows you to show the group classified list of students on a course.
+- Possibility to calculate the score by sum or average.
 
 **Show Points:**
 Allows you to display or not the user score.
