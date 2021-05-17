@@ -195,6 +195,7 @@ if ($courseid == SITEID) {
     }
     $outputhtml .= '<hr/>';
 } else {
+    $outputhtml .= '<div>';
     $game->config = block_game_get_config_block($courseid);
     $outputhtml .= '<h3>( ' . $course->fullname . ' )</h3><br/>';
     if ($showavatar == 1) {
@@ -206,7 +207,7 @@ if ($courseid == SITEID) {
     }
     $outputhtml .= '  <strong style="font-size:14px;">' . $USER->firstname . ' ' . $USER->lastname . '</strong></div>';
 
-    $outputhtml .= '<div class="container"><div class="row"><div class="col- ">';
+    $outputhtml .= '<div class="boxgame"><div class="row"><div class="col- ">';
     if ($showrank == 1) {
         $outputhtml .= '<div class="container boxgame"><div class="row">';
         $outputhtml .= '<div class="col- "><img src="';
@@ -272,7 +273,7 @@ if ($courseid == SITEID) {
     $outputhtml .= '<div class="w-100 text-right" title="' . get_string('help_progress_level_text', 'block_game') . '">';
     $outputhtml .= get_string('next_level', 'block_game') . ' =>' . $game->config->$xlevel;
     $outputhtml .= get_string('abbreviate_score', 'block_game') . '</div>';
-    $outputhtml .= '</div></div></div>';
+    $outputhtml .= '</div></div>';
     $outputhtml .= '<hr/>';
     $outputhtml .= '<h4>' . get_string('label_badge', 'block_game') . '</h4><br/>';
     if ($game->badges != "") {
@@ -286,6 +287,6 @@ if ($courseid == SITEID) {
     }
     $outputhtml .= '<hr/>';
 }
-$outputhtml .= '</div>';
+$outputhtml .= '</div></div>';
 echo $outputhtml;
 echo $OUTPUT->footer();
