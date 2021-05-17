@@ -31,11 +31,7 @@ global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
 
-
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-
-$game = new stdClass();
-$game->config = block_game_get_config_block($courseid);
 
 require_login($course);
 $PAGE->set_pagelayout('course');
@@ -45,9 +41,12 @@ $PAGE->set_title(get_string('rank_group_game_title', 'block_game'));
 $PAGE->set_heading(get_string('rank_group_game_title', 'block_game'));
 
 echo $OUTPUT->header();
+$game = new stdClass();
 $cfggame = get_config('block_game');
 if ($courseid == SITEID) {
     $game->config = $cfggame;
+} else {
+    $game->config = block_game_get_config_block($courseid);
 }
 $limit = 0;
 if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
@@ -61,7 +60,6 @@ if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
         } else {
             $rs = block_game_ranking_group($courseid);
         }
-
         $ord = 1;
         foreach ($rs as $group) {
             $ordtxt = $ord . '&ordm;';

@@ -30,13 +30,9 @@ require_login();
 global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
-
 $groupid = optional_param('group', 0, PARAM_INT);
 
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-
-$game = new stdClass();
-$game->config = block_game_get_config_block($courseid);
 
 require_login($course);
 
@@ -59,10 +55,12 @@ if ($course->groupmode == 1 and ! has_capability('moodle/course:viewhiddenactivi
 } else {
     $ok = true;
 }
-
+$game = new stdClass();
 if ($ok) {
     if ($courseid == SITEID) {
         $game->config = $cfggame;
+    } else {
+        $game->config = block_game_get_config_block($courseid);
     }
     $limit = 0;
     if (isset($game->config->show_rank) && $game->config->show_rank == 1) {

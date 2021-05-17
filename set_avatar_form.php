@@ -37,11 +37,11 @@ $back = optional_param('back', 0, PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $game = $DB->get_record('block_game', array('courseid' => $courseid, 'userid' => $USER->id));
 
-$config = block_game_get_config_block($courseid);
-$cfggame = get_config('block_game');
 $changeavatar = !isset($cfggame->change_avatar_course) || $cfggame->change_avatar_course == 1;
 if ($courseid == SITEID) {
-    $config = $cfggame;
+    $config = get_config('block_game');
+} else {
+    $config = block_game_get_config_block($courseid);
 }
 if ($avatar > 0) {
     $gamenew = new stdClass();

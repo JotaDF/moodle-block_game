@@ -31,8 +31,8 @@ $string['privacy:metadata:score_game_database:cmid'] = "ID de atividade do curso
 $string['privacy:metadata:score_game_database:userid'] = "ID Usuário";
 $string['privacy:metadata:avatar_game_database:avatar'] = "Os avatares variam de 0 a 51, cada um com uma imagem correspondente no bloco de jogo.";
 
-$string['block_game:addinstance'] = 'Adcionar novo bloco Game';
-$string['block_game:myaddinstance'] = 'Adcionar novo bloco Game na sua Moodle page';
+$string['block_game:addinstance'] = 'Adicionar novo bloco Game';
+$string['block_game:myaddinstance'] = 'Adicionar novo bloco Game na sua Moodle page';
 
 $string['defaultdisplaysettings'] = 'Configurações gerais do bloco Game';
 $string['not_initial_config_game'] = 'É necessário realizar as configurações iniciais do Bloco Game no curso.';
@@ -116,7 +116,7 @@ $string['config_icons_help'] = '<p>Mostrando ícones.</p>';
 $string['config_score_activities'] = 'Pontuar notas de atividades';
 $string['config_score_activities_help'] = '<p>Utilizar notas de atividades para pontuar. Apenas para escalas numéricas!</p>';
 $string['config_bonus_day'] = 'Bônus do dia';
-$string['config_bonus_day_help'] = '<p>Habilitar bônus do dia, difinir pontos por dia de acesso.</p>';
+$string['config_bonus_day_help'] = '<p>Habilitar bônus do dia, definir pontos por dia de acesso.</p>';
 $string['config_bonus_badge'] = 'Bônus por emblema';
 $string['config_bonus_badge_help'] = '<p>Valor de bônus por emblema de curso concluído.</p>';
 $string['config_title'] = 'Alterar título';
