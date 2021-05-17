@@ -174,10 +174,13 @@ class block_game extends block_base {
                 $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
                 if ($showavatar) {
                     if ($COURSE->id == SITEID || $changeavatar) {
-                        $userpicture = '<a title="' . get_string('set_avatar_title', 'block_game') . '" href="' . $CFG->wwwroot;
-                        $userpicture .= '/blocks/game/set_avatar_form.php?id=' . $COURSE->id . '&avatar=';
-                        $userpicture .= $game->avatar . '">' . '<img hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a';
-                        $userpicture .= $game->avatar . '.svg" height="140" width="140"/></a>';
+                        $userpicture = '<form action="' . $CFG->wwwroot;
+                        $userpicture .= '/blocks/game/set_avatar_form.php" method="get">';
+                        $userpicture .= '<input name="id" type="hidden" value="' . $COURSE->id . '">';
+                        $userpicture .= '<input name="avatar" type="hidden" value="' . $game->avatar . '">';
+                        $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg"';
+                        $userpicture .= ' <input class="img-fluid" type="image" src="' . $img . '" height="140" width="140" /> ';
+                        $userpicture .= '</form>';
                     } else {
                         $userpicture = '<img title="' . get_string('label_avatar', 'block_game');
                         $userpicture .= '" hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a';
