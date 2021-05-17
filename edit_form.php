@@ -75,8 +75,8 @@ class block_game_edit_form extends block_edit_form {
             $mform->addHelpButton('config_show_rank_group', 'config_rank_group', 'block_game');
             // Control visibility of rank group calculation.
             $calcoptions = array(0 => get_string('sum', 'block_game'), 1 => get_string('med', 'block_game'));
-            $mform->addElement('select', 'config_rank_group_calc',
-                    get_string('config_rank_group_calc', 'block_game'), $calcoptions);
+            $mform->addElement('select', 'config_rank_group_calc', get_string('config_rank_group_calc',
+                    'block_game'), $calcoptions);
             $mform->setDefault('config_rank_group_calc', 0);
             $mform->disabledIf('config_rank_group_calc', 'config_show_rank_group', 'eq', 0);
             $mform->addHelpButton('config_rank_group_calc', 'config_rank_group_calc', 'block_game');
@@ -134,6 +134,14 @@ class block_game_edit_form extends block_edit_form {
                 }
                 $mform->addElement('select', 'config_section_' . $section->section, $txtsection, $limit);
                 $mform->addHelpButton('config_section_' . $section->section, 'config_section', 'block_game');
+            }
+        } else {
+            if (has_capability('moodle/site:config', context_system::instance())) {
+                // Game block instance alternate title.
+                $mform->addElement('text', 'config_game_title', get_string('config_title', 'block_game'));
+                $mform->setDefault('config_game_title', '');
+                $mform->setType('config_game_title', PARAM_MULTILANG);
+                $mform->addHelpButton('config_game_title', 'config_title', 'block_game');
             }
         }
     }
