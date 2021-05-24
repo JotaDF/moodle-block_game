@@ -61,6 +61,7 @@ $PAGE->set_heading(get_string('perfil_gamer_title', 'block_game'));
 echo $OUTPUT->header();
 $outputhtml = '';
 if ($courseid == SITEID) {
+    $outputhtml .= '<div>';
     if ($showavatar == 1) {
         $outputhtml .= '<div class="boxgame text-center">';
         $outputhtml .= '<img  align="center" hspace="12" height="140" width="140" src="';
@@ -71,7 +72,7 @@ if ($courseid == SITEID) {
     $outputhtml .= '  <strong style="font-size:14px;">' . $USER->firstname . ' ' . $USER->lastname . '</strong></div>';
     $outputhtml .= '<hr/>';
 
-    $outputhtml .= '<div class="boxs container" style="font-size:11px;"><div class="row">';
+    $outputhtml .= '<div class="boxs" style="font-size:11px;"><div class="row">';
     $rs = block_game_get_games_user($USER->id);
     $fullpoints = 0;
     $fullpointsbonus = 0;
