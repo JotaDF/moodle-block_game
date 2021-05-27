@@ -21,6 +21,7 @@
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/completionlib.php');
@@ -32,6 +33,8 @@ global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+
+require_login($course);
 
 $game = new stdClass();
 $game->courseid = $courseid;
@@ -51,7 +54,6 @@ $showrank = !isset($game->config->show_rank) || $game->config->show_rank == 1;
 $showscore = !isset($game->config->show_score) || $game->config->show_score == 1;
 $showlevel = !isset($game->config->show_level) || $game->config->show_level == 1;
 
-require_login($course);
 $PAGE->set_pagelayout('course');
 $PAGE->set_url('/blocks/game/perfil_gamer.php', array('id' => $courseid));
 $PAGE->set_context(context_course::instance($courseid));
