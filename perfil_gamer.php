@@ -123,7 +123,7 @@ if ($courseid == SITEID) {
                         . get_string('label_score', 'block_game');
                 $outputhtml .= '<br/><strong style="font-size:14px;">';
                 $outputhtml .= ($gameuser->score + $gameuser->score_bonus_day + $gameuser->score_activities
-                        + $game->score_module_completed +$gameuser->score_section) . '</strong></div></div></div>';
+                        + $game->score_module_completed + $gameuser->score_section) . '</strong></div></div></div>';
             } else {
                 $outputhtml .= '<div class="container boxgame"><div class="row">';
                 $outputhtml .= '<div class="col- "><img src="' . $CFG->wwwroot;
