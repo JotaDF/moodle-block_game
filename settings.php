@@ -30,6 +30,15 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('block_game/use_avatar',
             get_string('config_avatar', 'block_game'), '', 1));
 
+    $settings->add(new admin_setting_configstoredfile(
+            'block_game/imagens_avatar',
+            new lang_string('imagemavatar', 'block_game'),
+            new lang_string('imagemavatardesc', 'block_game'),
+            'imagens_avatar',
+            0,
+            ['subdirs' => 0, 'maxfiles' => 56, 'accepted_types' => array('.svg')]
+        ));
+
     $settings->add(new admin_setting_configcheckbox('block_game/change_avatar_course',
             get_string('config_avatar_course', 'block_game'), '', 0));
 
@@ -58,6 +67,15 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_configcheckbox('block_game/show_level',
             get_string('config_level', 'block_game'), '', 1));
+
+    $settings->add(new admin_setting_configstoredfile(
+            'block_game/imagens_levels',
+            new lang_string('imagemlevels', 'block_game'),
+            new lang_string('imagemlevelsdesc', 'block_game'),
+            'imagens_levels',
+            0,
+            ['subdirs' => 0, 'maxfiles' => 13, 'accepted_types' => array('.svg')]
+        ));
 
     // Options controlling level up.
     $leveloptions = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12);

@@ -89,11 +89,13 @@ if ($ok) {
                     . get_string('name', 'block_game') . '</strong></td>';
             $header .= '<td width="15%" align="center" class="cell c2 " style=""><strong>'
                     . get_string('score_atv', 'block_game') . '</strong></td>';
-            $header .= '<td width="10%" align="center" class="cell c3 " style=""><strong>'
+            $header .= '<td width="15%" align="center" class="cell c3 " style=""><strong>'
+                    . get_string('score_mod', 'block_game') . '</strong></td>';
+            $header .= '<td width="10%" align="center" class="cell c4 " style=""><strong>'
                     . get_string('score_section', 'block_game') . '</strong></td>';
-            $header .= '<td width="15%" align="center" class="cell c4 " style=""><strong>'
+            $header .= '<td width="15%" align="center" class="cell c5 " style=""><strong>'
                     . get_string('score_bonus_day', 'block_game') . '</strong></td>';
-            $header .= '<td width="9%" align="center" class="cell c5 lastcol" style=""><strong>'
+            $header .= '<td width="9%" align="center" class="cell c6 lastcol" style=""><strong>'
                     . get_string('score_total', 'block_game') . '</strong></td>';
             $header .= '</tr>';
             $showreader = true;
@@ -134,9 +136,10 @@ if ($ok) {
             $colltd = 'c3 lastcol';
             if ($showreader) {
                 $outputhtml .= '<td align="center" class="cell c3 small" style="">' . $gamer->sum_score_activities . '</td>';
-                $outputhtml .= '<td align="center" class="cell c4 small" style="">' . $gamer->sum_score_section . '</td>';
-                $outputhtml .= '<td align="center" class="cell c5 small" style="">' . $gamer->sum_score_bonus_day . '</td>';
-                $colltd = 'c6 lastcol';
+                $outputhtml .= '<td align="center" class="cell c4 small" style="">' . $gamer->sum_score_module_completed . '</td>';
+                $outputhtml .= '<td align="center" class="cell c5 small" style="">' . $gamer->sum_score_section . '</td>';
+                $outputhtml .= '<td align="center" class="cell c6 small" style="">' . $gamer->sum_score_bonus_day . '</td>';
+                $colltd = 'c7 lastcol';
             }
             $outputhtml .= '<td align="center" class="cell ' . $colltd . ' small" style="">' . $scoretxt . '</td>';
             $outputhtml .= '</tr>';

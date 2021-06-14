@@ -41,7 +41,7 @@ class block_game_edit_form extends block_edit_form {
      * @return void
      */
     protected function specific_definition($mform) {
-        global $COURSE;
+        global $COURSE, $OUTPUT;
 
         // Start block specific section in config form.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
@@ -134,6 +134,24 @@ class block_game_edit_form extends block_edit_form {
                 }
                 $mform->addElement('select', 'config_section_' . $section->section, $txtsection, $limit);
                 $mform->addHelpButton('config_section_' . $section->section, 'config_section', 'block_game');
+            }
+            // Options controlling activities and resources.
+            $mform->addElement('html', '<hr/>');
+            $mform->addElement('html', get_string('config_select_activitys', 'block_game'));
+            $coursedata = block_game_get_course_activities($COURSE->id);
+            $activities = $coursedata['activities'];
+            foreach ($activities as $activity) {
+                if (block_game_is_visibled_module($COURSE->id, $activity['id'])) {
+                    $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 50 => 50, 60 => 60, 80 => 80, 100 => 100);
+                    $attributes = ['class' => 'iconlarge activityicon'];
+                    $icon = $OUTPUT->pix_icon('icon', $activity['modulename'], $activity['type'], $attributes);
+                    $activityoption = array();
+                    $activityoption[] = & $mform->createElement('select', 'config_atv' . $activity['id'], '', $limit);
+                    $mform->addGroup(
+                            $activityoption, 'config_activity_' . $activity['id'],
+                            $icon . format_string($activity['name']), array(' '), false
+                    );
+                }
             }
         } else {
             if (has_capability('moodle/site:config', context_system::instance())) {

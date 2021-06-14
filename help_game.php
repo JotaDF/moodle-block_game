@@ -33,8 +33,6 @@ $courseid = required_param('id', PARAM_INT);
 
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
-
-
 require_login($course);
 $PAGE->set_pagelayout('course');
 $PAGE->set_url('/blocks/game/help_game.php', array('id' => $courseid));
@@ -42,13 +40,11 @@ $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('help_game_title', 'block_game'));
 $PAGE->set_heading(get_string('help_game_title', 'block_game'));
 
-
 echo $OUTPUT->header();
 
 $outputhtml = '<div class="help">';
 
 $game = new stdClass();
-
 
 $cfggame = get_config('block_game');
 
@@ -69,7 +65,6 @@ if (!isset($game->config->show_info) && $courseid != SITEID) {
 } else {
     $outputhtml .= '<table border="0">';
     if ($cfggame->use_avatar == 1) {
-
         $outputhtml .= '<tr>';
         $outputhtml .= '<td colspan="2" align="center"><h3>' . get_string('help_avatar_titulo', 'block_game') . '</h3></td>';
         $outputhtml .= '</tr><tr>';
@@ -108,7 +103,7 @@ if (!isset($game->config->show_info) && $courseid != SITEID) {
         if (isset($game->config->score_activities) && $game->config->score_activities == 1) {
             $outputhtml .= '<p align="justify">' . get_string('help_score_activities_text', 'block_game') . '</p>';
         }
-
+        $outputhtml .= '<p align="justify">' . get_string('help_score_modules_text', 'block_game') . '</p>';
         if ($COURSE->id != SITEID) {
             // Sum score sections complete.
             $sections = block_game_get_sections_course($COURSE->id);

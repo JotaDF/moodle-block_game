@@ -3,13 +3,22 @@ moodle-block_game
 
 Changes
 -------
+### Changes Version 1.30 Version for Moodle 3.5 onwards
+
+* 2021-06-14 - **Allow changing avatar images in plugin settings**
+* 2021-06-14 - **Allow changing images of levels in plugin settings**
+* 2021-06-14 - **Allow scoring completion of features/activities in block settings**
+* 2021-06-14 - Changes in the layout of the ranking list
+* 2021-06-14 - Update of the game help
+
+
 ### Changes Version 1.20 Version for Moodle 3.5 onwards
 
 * 2021-05-12 - Check compatibility for Moodle 3.11, no functionality change
 * 2021-05-12 - Changes in the layout of the block
 * 2021-05-12 - Changes in the layout of the player's profile
 * 2021-05-12 - Changes in the layout of the ranking list
-* 2021-05-12 - Reordering avatars by level of interest
+* 2021-05-12 - **Reordering avatars by level of interest**
 * 2021-05-12 - Update of the game help
 * 2021-05-12 - Replacement of all images and .png format to .svg, 75% reduction in the size of the end of the plugin
 

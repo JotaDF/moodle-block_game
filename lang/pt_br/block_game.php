@@ -129,6 +129,7 @@ $string['rank_game_title'] = 'Lista de classificação';
 $string['order'] = 'Ordem';
 $string['name'] = 'Nome';
 $string['score_detail'] = 'Detalhamento de pontos';
+$string['score_mod'] = 'Módulos';
 $string['score_atv'] = 'Atividades';
 $string['score_section'] = 'Seções';
 $string['score_bonus_day'] = 'Bônus do dia';
@@ -137,8 +138,6 @@ $string['score_total'] = 'Total';
 $string['help_game_title'] = 'Ajuda do jogo';
 $string['not_start_game'] = 'Usuário não começou a jogar';
 $string['not_start_game_s'] = 'Usuários não começaram a jogar';
-
-
 
 $string['label_course'] = 'Curso';
 $string['label_avatar'] = 'Avatar';
@@ -166,6 +165,8 @@ $string['config_section_help'] = 'Configurar pontos para conclusão da seção.'
 $string['config_module'] = 'Configurar pontos para conclusão de módulo.';
 $string['config_module_help'] = 'Configurar pontos para conclusão de módulo.';
 
+$string['config_select_activitys'] = '<legend>Pontuação por conclusão de atividade / recurso (necessário critérios de conclusão):</legend>';
+
 
 $string['reset_points_btn'] = 'Resetar pontos';
 $string['reset_points_title'] = 'Resetar pontos do curso';
@@ -190,7 +191,8 @@ $string['help_score_titulo'] = 'Sobre pontuação';
 $string['help_score_text'] = 'O jogo possui sistema de pontuação pois a pontuação do jogador definirá a sua classificação e o nível que se encontra. Por isso é muito importando você saber como ganhar pontos para melhorar sua colocação e seu nível.<br/>
 <br/><strong>Como conseguir pontos:</strong><br/>';
 $string['help_score_activities_text'] = '<strong>Pontos de atividades</strong> - ao fazer as atividades propostas nos cursos que está matriculado, a nota alcançada será convertida em pontos do jogo! Portanto alcance as melhores notas nas atividades para ganhas mais pontos!<br/>';
-$string['help_score_sections_text'] = '<strong>Pontuação por conclusão de seção</strong> - Ao concluir todas as atividades previstas em uma seção, você poderá receber uma pontuação! Veja quantos pontos você pode ganhar em cada seção:<br/>';
+$string['help_score_modules_text'] = '<strong>Pontos por conclusão de atividades/recursos</strong> - ao concluir as atividades/recursos propostos nos cursos que está matriculado, uma pontuação pode ser atribuída, de acordo com a definição do professor! Portanto não deixe de concluir todas as atividades/recursos do curso para ganhas mais pontos!<br/>';
+$string['help_score_sections_text'] = '<strong>Pontuação por conclusão de seção</strong> - ao concluir todas as atividades previstas em uma seção, você poderá receber uma pontuação! Veja quantos pontos você pode ganhar em cada seção:<br/>';
 $string['help_bonus_day_text'] = '<strong>Bônus do dia</strong> - Só de acessar o ambiente ou o seu curso você receberá, uma única vez por dia, um bônus que será somado a sua pontuação! Para garantir seu bônus, acesse seu curso pelo menos uma vez por dia!<br/>';
 $string['help_bonus_day_text_value'] = 'Valor atual do bônus do dia: ';
 $string['help_bonus_badge_text'] = '<strong>Bônus por emblema</strong> - A conclusão de um curso é uma vitória que você alcança, portanto ao concluir um curso você receberá um emblema como recompensa, esse emblema agrega um bônus de grande valor que será somado a sua pontuação!<br/>';
@@ -199,8 +201,13 @@ $string['help_rank_titulo'] = 'Sobre Classificação';
 $string['help_rank_text'] = 'A sua posição em relação aos demais jogadores é calculada pelo total de pontos que alcançou. Essa posição pode variar dentro dos cursos, nas áreas fora do curso a posição é calcula somando os pontos conquistados nos cursos que está matriculado e fora deles (Geral)!';
 $string['help_rank_list_text'] = '<strong>Lista de classificação</strong> - A lista de classificação exibe não só a sua posição como também a dos demais jogadores, seguindo os critérios de desempate. Nessa listagem é possível ver a posição, o avatar, o nome e a sua respectiva pontuação!<br/>';
 $string['help_rank_list_restrict_text'] = '<strong>Lista de classificação</strong> - A lista de classificação exibe não só a sua posição como também a dos demais jogadores, seguindo os critérios de desempate. Nessa listagem é possível ver a posição, o avatar e a sua respectiva pontuação! O nome do jogador não é mostrado, preservando a identidade do mesmo!<br/>';
-$string['help_rank_criterion_text'] = '<strong>Critérios de desempate</strong> - O total de pontos define a classificação dos usuários, porém em algumas situações esse total pode ser o mesmo de outros jogadores ocorrendo um empate, nesse caso a posição do jogador é definida de seguindo os seguintes critérios:<br/><br/><strong>1&ordm; </strong> - O jogador que tiver maior pontuação conquistada por emblema;<br/><strong>2&ordm; </strong> - O jogador que tiver maior pontuação conquistada por atividades;<br/><strong>3&ordm; </strong> - O jogador mais antigo do ambiente, ou seja, que foi cadastrado primeiro.<br/>';
+$string['help_rank_criterion_text'] = '<strong>Critérios de desempate</strong> - O total de pontos define a classificação dos usuários, porém em algumas situações esse total pode ser o mesmo de outros jogadores ocorrendo um empate, nesse caso a posição do jogador é definida de seguindo os seguintes critérios:<br/><br/><strong>1&ordm; </strong> - O jogador que tiver maior pontuação conquistada por emblema;<br/><strong>2&ordm; </strong> - O jogador que tiver maior pontuação conquistada por atividades;<br/><strong>3&ordm; </strong> - O jogador que tiver maior pontuação por conclusão de atividades/recursos;<br/><strong>4&ordm; </strong> - O jogador mais antigo do ambiente, ou seja, que foi cadastrado primeiro.<br/>';
 $string['help_level_titulo'] = 'Sobre Nível';
 $string['help_level_text'] = 'O nível do jogador é definido pela pontuação total que ele alcançou! Podemos dizer que quanto maior é o nível alcançado, maior é o seu grau de maturidade do jogador! No jogo o nível também é utilizado para liberar avatares que inicialmente estão bloqueados. Quando mais você participa dos cursos, mais pontos ganha e consequentemente alcançará níveis mais altos!<br/><br/><strong>Veja qual a pontuação necessária para alcançar cada nível:</strong><br/>';
 $string['help_progress_level_text'] = 'A barra de progresso indica quanto falta para alcançar o próximo nível.';
 
+$string['imagemavatar'] = "Substituir imagens de Avatares";
+$string['imagemavatardesc'] = "<h5 style='color:red'>Importante: (apenas arquivos SVG)</h5> Os arquivos de avatares devem seguir a seguinte nomenclatura <b><span style='font-family: Courier'>a1.svg, a2.svg, a3.svg... até a56.svg</span></b>. Não há necessidade de substituir todos os avatares, é possível substituir apenas o <b><span style='font-family: Courier'>a30.svg</span></b> por exemplo, basta fazer upload apenas dos arquivos desejados seguindo a nomenclatura.";
+
+$string['imagemlevels'] = "Substituir imagens de Níveis";
+$string['imagemlevelsdesc'] = "<h5 style='color:red'>Importante: (apenas arquivos SVG)</h5> Os arquivos de nível devem seguir a seguinte nomenclatura <b><span style='font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... até lv12.svg</span></b>. Não há necessidade de substituir todos os níveis, é possível substituir apenas o <b><span style='font-family: Courier'>lv5.svg</span></b> por exemplo, basta fazer upload apenas dos arquivos desejados seguindo a nomenclatura.";

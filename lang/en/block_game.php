@@ -129,6 +129,7 @@ $string['rank_game_title'] = 'Ranking list';
 $string['order'] = 'Order';
 $string['name'] = 'Name';
 $string['score_detail'] = 'Score detail';
+$string['score_mod'] = 'Modules';
 $string['score_atv'] = 'Activities';
 $string['score_section'] = 'Sections';
 $string['score_bonus_day'] = 'Bonus of day';
@@ -163,6 +164,7 @@ $string['config_section_help'] = 'Configure section completion points.';
 
 $string['config_module'] = 'Configure points for module completion.';
 $string['config_module_help'] = 'Configure points for module completion.';
+$string['config_select_activitys'] = '<legend>Scoring by Activity / Resource Completion (completion criteria required):</legend>';
 
 $string['reset_points_btn'] = 'Reset ponits';
 $string['reset_points_title'] = 'Reset course points';
@@ -188,6 +190,7 @@ $string['help_score_titulo'] = 'About points';
 $string['help_score_text'] = 'The game has a scoring system because the score of the player will define their rank and the level that is. So it is very important that you know how to earn points to improve your placement and your level.<br/>
 <br/><strong>How to get points:</strong><br/>';
 $string['help_score_activities_text'] = '<strong>Activity Points</strong> - when doing the proposed activities in the courses that are enrolled, the grade achieved will be converted into points of the game! So get the best grades in the activities to earn more points!<br/>';
+$string['help_score_modules_text'] = '<strong>Points for completion of activities/resources</strong> - when completing the activities/resources proposed in the courses you are enrolled in, a score can be assigned, as defined by the teacher! So be sure to complete all course activities/resources to earn more points!<br/>';
 $string['help_score_sections_text'] = '<strong>Scoring for section completion</strong> - When you have completed all the activities provided for in a section, you will be able to receive a score! See how many points you can earn in each section:<br/>';
 $string['help_bonus_day_text'] = '<strong>Bonus of the day</strong> - Just to access the environment or your course you will receive, once a day, a bonus that will be added to your score!<br/>';
 $string['help_bonus_day_text_value'] = 'Current Bonus Value of the Day: ';
@@ -197,7 +200,13 @@ $string['help_rank_titulo'] = 'About Classification';
 $string['help_rank_text'] = 'Your position in relation to other players is calculated by the total number of points you have reached. This position can vary within the courses, in the areas out of the course the position is calculated by adding up the points earned in the courses you are enrolled in and out of them (General)!';
 $string['help_rank_list_text'] = '<strong>Ranking list</strong> - The ranking list displays not only your position but also that of other players, following the tiebreaker criteria. In this listing you can see the position, the avatar, the name and their respective score!<br/>';
 $string['help_rank_list_restrict_text'] = '<strong>Ranking list</strong> - The ranking list displays not only your position but also that of other players, following the tiebreaker criteria. In this listing you can see the position, the avatar and their respective score! The player name is not shown, preserving the player identity!<br/>';
-$string['help_rank_criterion_text'] = '<strong>Breakout Criteria</strong> - The total of points defines the classification of the users, however in some situations this total can be the same of other players occurring a tie, in which case the position of the player is defined according to the following criteria:<br/><br/><strong>1&ordm; </strong> - The player with the highest score won by badge;<br/><strong>2&ordm; </strong> - The player who has the highest score earned by activities;<br/><strong>3&ordm; </strong> - The oldest player in the environment, that is, that was registered first.<br/>';
+$string['help_rank_criterion_text'] = '<strong>Tiebreaker Criteria</strong> - The total of points defines the classification of the users, but in some situations this total may be the same as other players with a tie occurring, in this case the players position is defined as following the following criteria:<br/><br/><strong>1&ordm; </strong> - The player with the highest earned badge score;<br/><strong>2&ordm; </strong> - The player with the highest score achieved by activities;<br/><strong>3&ordm; </strong> - The player with the highest score for completing activities/resources;<br/><strong>4&ordm; </strong> - The oldest player in the environment, that is, who was registered first.<br/>';
 $string['help_level_titulo'] = 'About Level';
 $string['help_level_text'] = 'The player level is defined by the total score he reached! We can say that the higher the level reached, the greater is your degree of maturity in the game! In the game the level is also used to release avatars that are initially blocked. The more you participate in the courses, the more points you earn and consequently you will reach higher levels!<br/><br/><strong>See the score needed to reach each level:</strong><br/>';
 $string['help_progress_level_text'] = 'The progress bar indicates how much is left to reach the next level.';
+
+$string['imagemavatar'] = "Replacing Avatars Images";
+$string['imagemavatardesc'] = "<h5 style='color:red'>Important: (SVG files only)</h5> avatars files must follow the following nomenclature <b><span style='font-family: Courier'>a1.svg, a2.svg, a3.svg... up to a56.svg</span></b>. There is no need to replace all avatars, it is possible to replace only <b><span style='font-family: Courier'>a30.svg</span></b> for example, just upload only the desired files following the nomenclature.";
+
+$string['imagemlevels'] = "Replace Levels images";
+$string['imagemlevelsdesc'] = "<h5 style = 'color: red'> Important: (SVG files only) </h5> The level files must follow the following nomenclature <b> <span style = 'font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... to lv12.svg </span> </b>. There is no need to replace all levels, you can just replace <b> <span style = 'font-family: Courier'> lv5.svg </span> </b> for example, just upload only the files you want following nomenclature.";

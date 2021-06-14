@@ -24,6 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/blocks/game/lib.php');
+require_once($CFG->libdir . '/filelib.php' );
 
 /**
  *  Block Game config form definition class
@@ -33,6 +34,7 @@ require_once($CFG->dirroot . '/blocks/game/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_game extends block_base {
+
     /**
      * Sets the block title
      *
@@ -139,12 +141,22 @@ class block_game extends block_base {
             $showlevel = !isset($game->config->show_level) || $game->config->show_level == 1;
             $scoreactivities = !isset($game->config->score_activities) || $game->config->score_activities == 1;
 
+            $coursedata = block_game_get_course_activities($COURSE->id);
+            $activities = $coursedata['activities'];
+            $atvscheck = array();
+            foreach ($activities as $activity) {
+                $atvcheck = 'atv' . $activity['id'];
+                if (isset($this->config->$atvcheck) && $this->config->$atvcheck > 0) {
+                    $atvscheck[] = $activity;
+                }
+            }
+
             $scoreok = true;
             // If of course score oly student.
             if ($COURSE->id != SITEID && block_game_is_student_user($USER->id, $COURSE->id) == 0) {
                 $scoreok = false;
             }
-            $game = block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, $cfggame);
+            $game = block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, $atvscheck, $cfggame);
             $table = new html_table();
             $table->attributes = array('class' => 'gameTable', 'style' => 'width: 100%;');
             if ($USER->id != 0) {
@@ -178,7 +190,12 @@ class block_game extends block_base {
                         $userpicture .= '/blocks/game/set_avatar_form.php" method="get">';
                         $userpicture .= '<input name="id" type="hidden" value="' . $COURSE->id . '">';
                         $userpicture .= '<input name="avatar" type="hidden" value="' . $game->avatar . '">';
-                        $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg"';
+                        $fs = get_file_storage();
+                        if ($fs->file_exists(1, 'block_game', 'imagens_avatar', 0, '/', 'a' . $game->avatar . '.svg')) {
+                            $img = block_game_pix_url(1, 'imagens_avatar', 'a' . $game->avatar);
+                        } else {
+                            $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg"';
+                        }
                         $userpicture .= ' <input class="img-fluid" type="image" src="' . $img . '" height="140" width="140" /> ';
                         $userpicture .= '</form>';
                     } else {
@@ -224,8 +241,14 @@ class block_game extends block_base {
                 }
                 if ($showlevel && isset($game->config->show_level)) {
                     $div .= '<div class="col- text-center" style="min-width:33%; max-width:100%;">';
+                    $fs = get_file_storage();
+                    if ($fs->file_exists(1, 'block_game', 'imagens_levels', 0, '/', 'lv' . $game->level . '.svg')) {
+                        $imglv = block_game_pix_url(1, 'imagens_levels', 'lv' . $game->level);
+                    } else {
+                        $imglv = $CFG->wwwroot . '/blocks/game/pix/lv' . $game->level . '.svg';
+                    }
                     $icontxt = '<img title="' . get_string('label_level', 'block_game');
-                    $icontxt .= '" src="' . $CFG->wwwroot . '/blocks/game/pix/level.svg" height="65" width="65"/>';
+                    $icontxt .= '" src="' . $imglv . '" height="65" width="65"/>';
                     $div .= $icontxt . '<br/>' . get_string('label_level', 'block_game');
                     $div .= '<br/><strong style="font-size:14px;">' . $game->level . '</strong>';
                     $div .= '</div>';

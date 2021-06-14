@@ -24,6 +24,7 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/blocklib.php');
+require_once($CFG->libdir . '/filelib.php' );
 
 require_login();
 
@@ -72,7 +73,14 @@ if ($changeavatar || $courseid == SITEID) {
         $outputhtml .= '<input name="id" type="hidden" value="' . $courseid . '"/>';
         $outputhtml .= '<input name="avatar" type="hidden" value="' . $i . '"/>';
         $outputhtml .= '<input name="back" type="hidden" value="1"/>';
-        $img = $CFG->wwwroot . "/blocks/game/pix/a" . $i . ".svg";
+
+        $fs = get_file_storage();
+        if ($fs->file_exists(1, 'block_game', 'imagens_avatar', 0, '/', 'a' . $i . '.svg')) {
+            $img = block_game_pix_url(1, 'imagens_avatar', 'a' . $i);
+        } else {
+            $img = $CFG->wwwroot . "/blocks/game/pix/a" . $i . ".svg";
+        }
+
         $border = '';
         if ($i == $avatar) {
             $border = ' border="1" ';

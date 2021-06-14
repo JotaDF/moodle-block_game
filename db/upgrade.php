@@ -85,6 +85,16 @@ function xmldb_block_game_upgrade($oldversion = 0) {
         // Block_game savepoint reached.
         upgrade_block_savepoint(true, 2020042996, 'game');
     }
+    if ($oldversion < 2021051022) {
+        // Add field 'score_bonus_day' to 'block_game'.
+        $table = new xmldb_table('block_game');
+        $field = new xmldb_field('score_module_completed', XMLDB_TYPE_INTEGER, '10', null, null, null, '0', 'score_activities');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Block_game savepoint reached.
+        upgrade_block_savepoint(true, 2021051022, 'game');
+    }
 
     return true;
 }

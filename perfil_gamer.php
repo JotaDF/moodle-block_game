@@ -21,10 +21,10 @@
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/completionlib.php');
+require_once($CFG->libdir . '/filelib.php' );
 
 global $USER, $COURSE, $OUTPUT, $CFG;
 
@@ -51,6 +51,7 @@ $showrank = !isset($game->config->show_rank) || $game->config->show_rank == 1;
 $showscore = !isset($game->config->show_score) || $game->config->show_score == 1;
 $showlevel = !isset($game->config->show_level) || $game->config->show_level == 1;
 
+require_login($course);
 $PAGE->set_pagelayout('course');
 $PAGE->set_url('/blocks/game/perfil_gamer.php', array('id' => $courseid));
 $PAGE->set_context(context_course::instance($courseid));
@@ -64,7 +65,13 @@ if ($courseid == SITEID) {
     if ($showavatar == 1) {
         $outputhtml .= '<div class="boxgame text-center">';
         $outputhtml .= '<img  align="center" hspace="12" height="140" width="140" src="';
-        $outputhtml .= $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg" title="avatar"/>';
+        $fs = get_file_storage();
+        if ($fs->file_exists(1, 'block_game', 'imagens_avatar', 0, '/', 'a' . $game->avatar . '.svg')) {
+            $img = block_game_pix_url(1, 'imagens_avatar', 'a' . $game->avatar);
+        } else {
+            $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg';
+        }
+        $outputhtml .= $img . '" title="avatar"/>';
     } else {
         $outputhtml .= '<div class="boxgame">' . $OUTPUT->user_picture($USER, array('size' => 80, 'hspace' => 12));
     }
@@ -76,13 +83,15 @@ if ($courseid == SITEID) {
     $fullpoints = 0;
     $fullpointsbonus = 0;
     $fullpointsactivities = 0;
+    $fullpointsmodulecompleted = 0;
     $fullpointssection = 0;
     $fullpointsbadges = 0;
     foreach ($rs as $gameuser) {
-        $fullpoints = ($fullpoints + ($gameuser->score + $gameuser->score_bonus_day +
-                $gameuser->score_activities + $gameuser->score_badges + $gameuser->score_section));
+        $fullpoints = ($fullpoints + ($gameuser->score + $gameuser->score_bonus_day + $gameuser->score_activities
+                + $gameuser->score_badges + $game->score_module_completed + $gameuser->score_section));
         $fullpointsbonus += $gameuser->score_bonus_day;
         $fullpointsactivities += $gameuser->score_activities;
+        $fullpointsmodulecompleted += $gameuser->score_module_completed;
         $fullpointssection += $gameuser->score_section;
         $fullpointsbadges += $gameuser->score_badges;
 
@@ -100,7 +109,7 @@ if ($courseid == SITEID) {
             $outputhtml .= '<div class="container boxgame"><div class="row">';
             $outputhtml .= '<div class="col- "><img src="';
             $outputhtml .= $CFG->wwwroot . '/blocks/game/pix/rank.svg" height="65" width="65" align="center" hspace="12"/>';
-            $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_rank', 'block_game');
+            $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_rank', 'block_game');
             $outputhtml .= '<br/><strong style="font-size:14px;">' . $gameuser->ranking . '&ordm; / '
                     . block_game_get_players($gameuser->courseid) . '</strong></div></div></div>';
         }
@@ -109,23 +118,29 @@ if ($courseid == SITEID) {
                 $outputhtml .= '<div class="container boxgame"><div class="row">';
                 $outputhtml .= '<div class="col- "><img src="' . $CFG->wwwroot;
                 $outputhtml .= '/blocks/game/pix/score.svg" height="65" width="65" align="center" hspace="12"/>';
-                $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_score', 'block_game');
+                $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_score', 'block_game');
                 $outputhtml .= '<br/><strong style="font-size:14px;">';
-                $outputhtml .= ($gameuser->score + $gameuser->score_bonus_day +
-                        $gameuser->score_activities + $gameuser->score_section) . '</strong></div></div></div>';
+                $outputhtml .= ($gameuser->score + $gameuser->score_bonus_day + $gameuser->score_activities
+                        + $game->score_module_completed +$gameuser->score_section) . '</strong></div></div></div>';
             } else {
                 $outputhtml .= '<div class="container boxgame"><div class="row">';
                 $outputhtml .= '<div class="col- "><img src="' . $CFG->wwwroot;
                 $outputhtml .= '/blocks/game/pix/score.svg" height="65" width="65" align="center" hspace="12"/>';
-                $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_score', 'block_game');
+                $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_score', 'block_game');
                 $outputhtml .= '<br/><strong style="font-size:14px;">' . $fullpoints . '</strong></div></div></div>';
             }
         }
         if ($showlevel == 1) {
             $outputhtml .= '<div class="container boxgame"><div class="row">';
-            $outputhtml .= '<div class="col- "><img src="' . $CFG->wwwroot;
-            $outputhtml .= '/blocks/game/pix/level.svg" height="65" width="65" align="center" hspace="12"/>';
-            $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_level', 'block_game');
+            $outputhtml .= '<div class="col- "><img src="';
+            $fs = get_file_storage();
+            if ($fs->file_exists(1, 'block_game', 'imagens_levels', 0, '/', 'lv' . $gameuser->level . '.svg')) {
+                $imglv = block_game_pix_url(1, 'imagens_levels', 'lv' . $gameuser->level);
+            } else {
+                $imglv = $CFG->wwwroot . '/blocks/game/pix/lv' . $gameuser->level . '.svg';
+            }
+            $outputhtml .= $imglv . '" height="65" width="65" align="center" hspace="12"/>';
+            $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_level', 'block_game');
             $outputhtml .= '<br/><strong style="font-size:14px;">';
             $outputhtml .= $gameuser->level . '</strong></div></div></div>';
         }
@@ -136,6 +151,9 @@ if ($courseid == SITEID) {
         if ($gameuser->courseid == SITEID) {
             $outputhtml .= '<tr><td>' . get_string('score_atv', 'block_game') . ':</td>';
             $outputhtml .= '<td class="text-right"><strong>' . $fullpointsactivities;
+            $outputhtml .= get_string('abbreviate_score', 'block_game') . '</strong></td></tr>';
+            $outputhtml .= '<tr><td>' . get_string('score_mod', 'block_game') . ':</td>';
+            $outputhtml .= '<td class="text-right"><strong>' . $fullpointsmodulecompleted;
             $outputhtml .= get_string('abbreviate_score', 'block_game') . '</strong></td></tr>';
             $outputhtml .= '<tr><td>' . get_string('score_section', 'block_game') . ':</td>';
             $outputhtml .= '<td class="text-right"><strong>' . $fullpointssection;
@@ -150,6 +168,9 @@ if ($courseid == SITEID) {
             $outputhtml .= '<tr><td>' . get_string('score_atv', 'block_game') . ':</td>';
             $outputhtml .= '<td class="text-right"><strong>' . $gameuser->score_activities;
             $outputhtml .= get_string('abbreviate_score', 'block_game') . '</strong></td></tr>';
+            $outputhtml .= '<tr><td>' . get_string('score_mod', 'block_game') . ':</td>';
+            $outputhtml .= '<td class="text-right"><strong>' . $gameuser->score_module_completed;
+            $outputhtml .= get_string('abbreviate_score', 'block_game') . '</strong></td></tr>';            
             $outputhtml .= '<tr><td>' . get_string('score_section', 'block_game') . ':</td>';
             $outputhtml .= '<td class="text-right"><strong>' . $gameuser->score_section;
             $outputhtml .= get_string('abbreviate_score', 'block_game') . '</strong></td></tr>';
@@ -162,6 +183,7 @@ if ($courseid == SITEID) {
         $gameuser = block_game_get_percente_level($gameuser);
         if ($gameuser->courseid == SITEID) {
             $gameuser->score_activities = $fullpointsactivities;
+            $gameuser->score_module_completed = $fullpointsmodulecompleted;
             $gameuser->score_section = $fullpointssection;
             $gameuser->score_bonus_day = $fullpointsbonus;
             $gameuser->score_badges = $fullpointsbadges;
@@ -200,8 +222,14 @@ if ($courseid == SITEID) {
     $outputhtml .= '<h3>( ' . $course->fullname . ' )</h3><br/>';
     if ($showavatar == 1) {
         $outputhtml .= '<div class="boxgame">';
-        $outputhtml .= '<img  align="center" hspace="12" height="140" width="140" ';
-        $outputhtml .= 'src="' . $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg" title="avatar"/>';
+        $outputhtml .= '<img  align="center" hspace="12" height="140" width="140" src="';
+        $fs = get_file_storage();
+        if ($fs->file_exists(1, 'block_game', 'imagens_avatar', 0, '/', 'a' . $game->avatar . '.svg')) {
+            $img = block_game_pix_url(1, 'imagens_avatar', 'a' . $game->avatar);
+        } else {
+            $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg';
+        }
+        $outputhtml .= $img . '" title="avatar"/>';
     } else {
         $outputhtml .= '<div class="boxgame">' . $OUTPUT->user_picture($USER, array('size' => 80, 'hspace' => 12));
     }
@@ -212,7 +240,7 @@ if ($courseid == SITEID) {
         $outputhtml .= '<div class="container boxgame"><div class="row">';
         $outputhtml .= '<div class="col- "><img src="';
         $outputhtml .= $CFG->wwwroot . '/blocks/game/pix/rank.svg" height="65" width="65" align="center" hspace="12"/>';
-        $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_rank', 'block_game');
+        $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_rank', 'block_game');
         $outputhtml .= '<br/><strong style="font-size:14px;">' . $game->ranking . '&ordm; / '
                 . block_game_get_players($game->courseid) . '</strong></div></div></div>';
     }
@@ -221,23 +249,29 @@ if ($courseid == SITEID) {
             $outputhtml .= '<div class="container boxgame"><div class="row">';
             $outputhtml .= '<div class="col- "><img src="' . $CFG->wwwroot;
             $outputhtml .= '/blocks/game/pix/score.svg" height="65" width="65" align="center" hspace="12"/>';
-            $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_score', 'block_game');
+            $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_score', 'block_game');
             $outputhtml .= '<br/><strong style="font-size:14px;">';
-            $outputhtml .= ($game->score + $game->score_bonus_day +
-                    $game->score_activities + $game->score_section) . '</strong></div></div></div>';
+            $outputhtml .= ($game->score + $game->score_bonus_day + $game->score_activities
+                    + $game->score_module_completed + $game->score_section) . '</strong></div></div></div>';
         } else {
             $outputhtml .= '<div class="container boxgame"><div class="row">';
             $outputhtml .= '<div class="col- "><img src="' . $CFG->wwwroot;
             $outputhtml .= '/blocks/game/pix/score.svg" height="65" width="65" align="center" hspace="12"/>';
-            $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_score', 'block_game');
+            $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_score', 'block_game');
             $outputhtml .= '<br/><strong style="font-size:14px;">' . $fullpoints . '</strong></div></div></div>';
         }
     }
     if ($showlevel == 1) {
         $outputhtml .= '<div class="container boxgame"><div class="row">';
-        $outputhtml .= '<div class="col- "><img src="' . $CFG->wwwroot;
-        $outputhtml .= '/blocks/game/pix/level.svg" height="65" width="65" align="center" hspace="12"/>';
-        $outputhtml .= '</div><div class="col- text-center"><br/>' . get_string('label_level', 'block_game');
+        $outputhtml .= '<div class="col- "><img src="';
+        $fs = get_file_storage();
+        if ($fs->file_exists(1, 'block_game', 'imagens_levels', 0, '/', 'lv' . $game->level . '.svg')) {
+            $imglv = block_game_pix_url(1, 'imagens_levels', 'lv' . $game->level);
+        } else {
+            $imglv = $CFG->wwwroot . '/blocks/game/pix/lv' . $game->level . '.svg';
+        }
+        $outputhtml .= $imglv . '" height="65" width="65" align="center" hspace="12"/>';
+        $outputhtml .= '</div><div class="col- text-center" style="width:65px;"><br/>' . get_string('label_level', 'block_game');
         $outputhtml .= '<br/><strong style="font-size:14px;">';
         $outputhtml .= $game->level . '</strong></div></div></div>';
     }
@@ -246,6 +280,9 @@ if ($courseid == SITEID) {
     $outputhtml .= '<table width="100%"class="generaltable">';
     $outputhtml .= '<tr><td>' . get_string('score_atv', 'block_game') . ':</td>';
     $outputhtml .= '<td class="text-right"><strong>' . $game->score_activities;
+    $outputhtml .= get_string('abbreviate_score', 'block_game') . '</strong></td></tr>';
+    $outputhtml .= '<tr><td>' . get_string('score_mod', 'block_game') . ':</td>';
+    $outputhtml .= '<td class="text-right"><strong>' . $game->score_module_completed;
     $outputhtml .= get_string('abbreviate_score', 'block_game') . '</strong></td></tr>';
     $outputhtml .= '<tr><td>' . get_string('score_section', 'block_game') . ':</td>';
     $outputhtml .= '<td class="text-right"><strong>' . $game->score_section;
