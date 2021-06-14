@@ -185,23 +185,21 @@ class block_game extends block_base {
                 $userpictureparams = array('size' => 80, 'link' => false, 'alt' => 'User');
                 $userpicture = $OUTPUT->user_picture($USER, $userpictureparams);
                 if ($showavatar) {
+                    $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg"';
+                    $fs = get_file_storage();
+                    if ($fs->file_exists(1, 'block_game', 'imagens_avatar', 0, '/', 'a' . $game->avatar . '.svg')) {
+                        $img = block_game_pix_url(1, 'imagens_avatar', 'a' . $game->avatar);
+                    }
                     if ($COURSE->id == SITEID || $changeavatar) {
                         $userpicture = '<form action="' . $CFG->wwwroot;
                         $userpicture .= '/blocks/game/set_avatar_form.php" method="get">';
                         $userpicture .= '<input name="id" type="hidden" value="' . $COURSE->id . '">';
                         $userpicture .= '<input name="avatar" type="hidden" value="' . $game->avatar . '">';
-                        $fs = get_file_storage();
-                        if ($fs->file_exists(1, 'block_game', 'imagens_avatar', 0, '/', 'a' . $game->avatar . '.svg')) {
-                            $img = block_game_pix_url(1, 'imagens_avatar', 'a' . $game->avatar);
-                        } else {
-                            $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg"';
-                        }
                         $userpicture .= ' <input class="img-fluid" type="image" src="' . $img . '" height="140" width="140" /> ';
                         $userpicture .= '</form>';
                     } else {
                         $userpicture = '<img title="' . get_string('label_avatar', 'block_game');
-                        $userpicture .= '" hspace="5" src="' . $CFG->wwwroot . '/blocks/game/pix/a';
-                        $userpicture .= $game->avatar . '.svg" height="140" width="140"/>';
+                        $userpicture .= '" hspace="5" src="' . $img . '" height="140" width="140"/>';
                     }
                 }
                 $row = array();

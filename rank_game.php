@@ -24,6 +24,7 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/grouplib.php');
+require_once($CFG->libdir . '/filelib.php' );
 
 require_login();
 
@@ -115,9 +116,15 @@ if ($ok) {
         foreach ($rs as $gamer) {
             $avatartxt = '';
             if ($cfggame->use_avatar == 1) {
-                $avatartxt .= '<img  align="center"  height="40" width="40" ';
-                $avatartxt .= 'src="' . $CFG->wwwroot . '/blocks/game/pix/a';
-                $avatartxt .= block_game_get_avatar_user($gamer->userid) . '.svg" title="avatar"/>';
+                $avatartxt .= '<img  align="center" height="40" width="40" src="';
+                $avatar = block_game_get_avatar_user($gamer->userid);
+                $fs = get_file_storage();
+                if ($fs->file_exists(1, 'block_game', 'imagens_avatar', 0, '/', 'a' . $avatar . '.svg')) {
+                    $img = block_game_pix_url(1, 'imagens_avatar', 'a' . $avatar);
+                } else {
+                    $img = $CFG->wwwroot . '/blocks/game/pix/a' . $avatar . '.svg';
+                }
+                $avatartxt .= $img . '" title="avatar"/>';
             }
             $ordtxt = $ord . '&ordm;';
             $usertxt = $avatartxt . ' ******** ';
