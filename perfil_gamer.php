@@ -26,10 +26,7 @@ require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/completionlib.php');
 
-require_login();
-
 global $USER, $COURSE, $OUTPUT, $CFG;
-
 
 $courseid = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
