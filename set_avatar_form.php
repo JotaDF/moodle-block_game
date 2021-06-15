@@ -26,10 +26,7 @@ require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/blocklib.php');
 require_once($CFG->libdir . '/filelib.php' );
 
-require_login();
-
 global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
-
 
 $courseid = required_param('id', PARAM_INT);
 
@@ -38,12 +35,15 @@ $back = optional_param('back', 0, PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $game = $DB->get_record('block_game', array('courseid' => $courseid, 'userid' => $USER->id));
 
+require_login($course);
+
 $changeavatar = !isset($cfggame->change_avatar_course) || $cfggame->change_avatar_course == 1;
 if ($courseid == SITEID) {
     $config = get_config('block_game');
 } else {
     $config = block_game_get_config_block($courseid);
 }
+
 if ($avatar > 0) {
     $gamenew = new stdClass();
     $gamenew->id = $game->id;
@@ -54,7 +54,7 @@ if ($avatar > 0) {
         redirect($CFG->wwwroot . "/course/view.php?id=" . $courseid);
     }
 }
-require_login($course);
+
 $PAGE->set_pagelayout('course');
 $PAGE->set_url('/blocks/game/set_avatar_form.php', array('id' => $courseid, 'back' => $back, 'avatar' => $avatar));
 $PAGE->set_context(context_course::instance($courseid));
