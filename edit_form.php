@@ -66,7 +66,7 @@ class block_game_edit_form extends block_edit_form {
             $mform->setDefault('config_score_activities', 1);
             $mform->addHelpButton('config_score_activities', 'config_score_activities', 'block_game');
             // Control bonus of day.
-            $bonusdayoptions = array(0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100);
+            $bonusdayoptions = array(0 => 0, 1 => 1, 3 => 3, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100);
             $mform->addElement('select', 'config_bonus_day', get_string('config_bonus_day', 'block_game'), $bonusdayoptions);
             $mform->addHelpButton('config_bonus_day', 'config_bonus_day', 'block_game');
             // Control visibility of rank group.
@@ -85,7 +85,7 @@ class block_game_edit_form extends block_edit_form {
             $mform->setDefault('config_show_rank', 1);
             $mform->addHelpButton('config_show_rank', 'config_rank', 'block_game');
             // Control limit rank.
-            $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 50 => 50, 100 => 100);
+            $limit = array(0 => 0, 3 => 3, 5 => 5, 10 => 10, 20 => 20, 50 => 50, 100 => 100, 200 => 200, 400 => 400);
             $mform->addElement('select', 'config_limit_rank', get_string('config_limit_rank', 'block_game'), $limit);
             $mform->addHelpButton('config_limit_rank', 'config_limit_rank', 'block_game');
             // Preserve user identity.

@@ -549,23 +549,24 @@ function block_game_rank_list($courseid, $groupid = 0) {
                 $wheregroup = " AND u.id IN(SELECT userid FROM {groups_members} WHERE groupid=$groupid) ";
             }
 
-            $sql = 'SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,'
-                    . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
-                    . ' SUM(COALESCE(g.score_module_completed, 0)) sum_score_module_completed,'
-                    . ' SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,'
-                    . ' SUM(COALESCE(g.score_section, 0)) sum_score_section,'
-                    . ' (SUM(score)+SUM(COALESCE(g.score_activities, 0))'
-                    . '+SUM(COALESCE(g.score_module_completed, 0))'
-                    . '+SUM(COALESCE(g.score_bonus_day, 0))'
-                    . '+SUM(COALESCE(g.score_section, 0))) pt'
-                    . ' FROM {role_assignments} rs '
-                    . ' INNER JOIN {user} u ON u.id=rs.userid '
-                    . ' INNER JOIN {context} e ON rs.contextid=e.id '
-                    . ' INNER JOIN {block_game} g ON g.userid=u.id '
-                    . ' WHERE e.contextlevel=50 AND rs.roleid=5 ' . $wheregroup
-                    . ' AND g.courseid=e.instanceid  AND e.instanceid=? '
-                    . ' GROUP BY g.userid, u.firstname, u.lastname, g.avatar ORDER BY pt DESC,'
-                    . ' sum_score_activities DESC,sum_score_module_completed DESC,sum_score DESC, g.userid ASC';
+            $sql = "SELECT g.userid, u.firstname, u.lastname, g.avatar,SUM(g.score) sum_score,"
+                    . " SUM(COALESCE(g.score_activities, 0)) sum_score_activities,"
+                    . " SUM(COALESCE(g.score_module_completed, 0)) sum_score_module_completed,"
+                    . " SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,"
+                    . " SUM(COALESCE(g.score_section, 0)) sum_score_section,"
+                    . " (SUM(score)+SUM(COALESCE(g.score_activities, 0))"
+                    . "+SUM(COALESCE(g.score_module_completed, 0))"
+                    . "+SUM(COALESCE(g.score_bonus_day, 0))"
+                    . "+SUM(COALESCE(g.score_section, 0))) pt"
+                    . " FROM {role_assignments} rs "
+                    . " INNER JOIN {user} u ON u.id=rs.userid "
+                    . " INNER JOIN {context} e ON rs.contextid=e.id "
+                    . " INNER JOIN {block_game} g ON g.userid=u.id "
+                    . " INNER JOIN {role} r ON r.id=rs.roleid"
+                    . " WHERE e.contextlevel=50 AND r.archetype = 'student'  " . $wheregroup
+                    . " AND g.courseid=e.instanceid  AND e.instanceid=? "
+                    . " GROUP BY g.userid, u.firstname, u.lastname, g.avatar ORDER BY pt DESC,"
+                    . " sum_score_activities DESC,sum_score_module_completed DESC,sum_score DESC, g.userid ASC";
 
             $ranking = $DB->get_records_sql($sql, array($courseid));
             return $ranking;
@@ -894,13 +895,13 @@ function block_game_is_student_user($userid, $courseid) {
     global $DB;
     if ($courseid != SITEID) {
         $sql = 'SELECT count(*) as total '
-                . 'FROM {role_assignments} rs '
-                . 'INNER JOIN {user} u ON u.id=rs.userid '
-                . 'INNER JOIN {context} e ON rs.contextid=e.id '
-                . 'WHERE e.contextlevel=50 '
-                . 'AND rs.roleid=5 '
-                . 'AND e.instanceid=? '
-                . 'AND u.id=?';
+                . " FROM {role_assignments} rs "
+                . " INNER JOIN {user} u ON u.id=rs.userid "
+                . " INNER JOIN {context} e ON rs.contextid=e.id "
+                . " INNER JOIN {role} r ON r.id=rs.roleid "
+                . " WHERE e.contextlevel=50 AND r.archetype = 'student' "
+                . " AND e.instanceid=? "
+                . " AND u.id=?";
         $busca = $DB->get_record_sql($sql, array($courseid, $userid));
         return $busca->total;
     }

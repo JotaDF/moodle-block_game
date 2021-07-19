@@ -48,11 +48,11 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('block_game/score_activities',
             get_string('config_score_activities', 'block_game'), '', 1));
 
-    $bonusdayoptions = array(0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100);
+    $bonusdayoptions = array(0 => 0, 1 => 1, 3 => 3, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100);
     $settings->add(new admin_setting_configselect('block_game/bonus_day',
             get_string('config_bonus_day', 'block_game'), '', -2, $bonusdayoptions));
 
-    $bonusbadgeoptions = array(0 => 0, 100 => 100, 200 => 200, 500 => 500, 1000 => 1000, 2000 => 2000);
+    $bonusbadgeoptions = array(0 => 0, 50 => 50, 100 => 100, 200 => 200, 500 => 500, 1000 => 1000, 2000 => 2000);
     $settings->add(new admin_setting_configselect('block_game/bonus_badge',
             get_string('config_bonus_badge', 'block_game'), '', -2, $bonusbadgeoptions));
 
