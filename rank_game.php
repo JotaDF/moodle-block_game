@@ -56,6 +56,10 @@ if ($course->groupmode == 1 and ! has_capability('moodle/course:viewhiddenactivi
 } else {
     $ok = true;
 }
+if (has_capability('moodle/course:update', $context, $USER->id)) {
+    echo $OUTPUT->download_dataformat_selector(get_string('downloadthis', 'block_game'), 'download.php',
+            'dataformat', ['id' => $courseid, 'op' => 'ranking']);
+}
 $game = new stdClass();
 if ($ok) {
     if ($courseid == SITEID) {

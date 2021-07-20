@@ -210,3 +210,5 @@ $string['imagemavatardesc'] = "<h5 style='color:red'>Important: (SVG files only)
 
 $string['imagemlevels'] = "Replace Levels images";
 $string['imagemlevelsdesc'] = "<h5 style = 'color: red'> Important: (SVG files only) </h5> The level files must follow the following nomenclature <b> <span style = 'font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... to lv12.svg </span> </b>. There is no need to replace all levels, you can just replace <b> <span style = 'font-family: Courier'> lv5.svg </span> </b> for example, just upload only the files you want following nomenclature.";
+
+$string['downloadthis'] = 'Download as';

@@ -23,7 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 $string['pluginname'] = 'Game';
 $string['privacy:metadata:block_game'] = "O Bloco Game armazena o avatar escolhido pelo usuário no ambiente ou curso e registra a pontuação no jogo de acordo com a configuração da plataforma.";
 $string['privacy:metadata:score_game_database:courseid'] = "ID do Curso";
@@ -211,3 +210,5 @@ $string['imagemavatardesc'] = "<h5 style='color:red'>Importante: (apenas arquivo
 
 $string['imagemlevels'] = "Substituir imagens de Níveis";
 $string['imagemlevelsdesc'] = "<h5 style='color:red'>Importante: (apenas arquivos SVG)</h5> Os arquivos de nível devem seguir a seguinte nomenclatura <b><span style='font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... até lv12.svg</span></b>. Não há necessidade de substituir todos os níveis, é possível substituir apenas o <b><span style='font-family: Courier'>lv5.svg</span></b> por exemplo, basta fazer upload apenas dos arquivos desejados seguindo a nomenclatura.";
+
+$string['downloadthis'] = 'Salvar como';
