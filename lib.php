@@ -818,16 +818,37 @@ function block_game_get_modules_tracking($courseid) {
  */
 function block_game_is_check_section($userid, $courseid, $sectionid) {
     global $DB; // Check section.
-    $atvok = $DB->get_record_sql("SELECT COUNT(c.id) AS total "
-            . "FROM {course_modules_completion} c "
-            . "INNER JOIN {course_modules} m ON c.coursemoduleid = m.id "
-            . "WHERE c.userid=" . $userid . " AND m.course=" . $courseid
-            . " AND m.section=" . $sectionid . " AND m.completion > 0 "
-            . "AND c.completionstate > 0 AND m.deletioninprogress = 0");
-    $atv = $DB->get_record_sql("SELECT COUNT(id) AS total FROM {course_modules} WHERE course="
-            . $courseid . " AND section=" . $sectionid
-            . " AND completion > 0 AND deletioninprogress = 0");
-    if ($atvok->total == $atv->total && $atv->total != 0) {
+    $countatvok = $DB->get_record_sql("SELECT COUNT(c.id) AS total FROM {course_modules_completion} c"
+    . " INNER JOIN {course_modules} m ON c.coursemoduleid = m.id WHERE c.userid="
+    . $userid . " AND m.course=" . $courseid . " AND m.section="
+    . $sectionid . " AND m.completion > 0 AND c.completionstate > 0 AND m.deletioninprogress = 0");
+
+    $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+    $wheregroup = "";
+     // Verification group mode.
+    if ($course->groupmode == 1) {
+        $groups = \groups_get_user_groups($courseid, $userid);
+        $iswhere = false;
+        foreach ($groups as $group) {
+            $countgroups = count($group);
+            for ($i = 0; $i <= $countgroups; $i++) {
+                if ($wheregroup == "" && isset($group[$i])) {
+                    $wheregroup = 'AND (availability IS NULL ';
+                    $iswhere = true;
+                }
+                if (isset($group[$i])) {
+                    $wheregroup .= ' OR availability LIKE \'%{"type":"group","id":' . $group[$i] . '}%\' ';
+                }
+            }
+        }
+        if ($iswhere) {
+            $wheregroup .= ') ';
+        }
+    }
+    $sql = "SELECT COUNT(id) AS total FROM {course_modules} WHERE course="
+            . $courseid . " AND section=" . $sectionid . " AND completion > 0 AND deletioninprogress = 0 " . $wheregroup;
+    $countatv = $DB->get_record_sql($sql);
+    if ($countatvok->total == $countatv->total && $countatv->total != 0) {
         return true;
     }
     return false;
