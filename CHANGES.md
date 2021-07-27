@@ -11,7 +11,7 @@ Changes
 * 2021-06-14 - Changes in the layout of the ranking list
 * 2021-06-14 - Update of the game help
 * 2021-07-20 - **Possibility of download the ranking list**
-
+* 2021-07-27 - **Fixed section completion with group restriction**
 
 ### Changes Version 1.20 Version for Moodle 3.5 onwards
 
