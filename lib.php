@@ -833,7 +833,7 @@ function block_game_is_check_section($userid, $courseid, $sectionid) {
             $countgroups = count($group);
             for ($i = 0; $i <= $countgroups; $i++) {
                 if ($wheregroup == "" && isset($group[$i])) {
-                    $wheregroup = 'AND (availability IS NULL ';
+                    $wheregroup = 'AND (availability IS NULL  OR availability NOT LIKE \'%{"type":"group"%\'';
                     $iswhere = true;
                 }
                 if (isset($group[$i])) {
