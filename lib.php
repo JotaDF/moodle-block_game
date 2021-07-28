@@ -826,7 +826,7 @@ function block_game_is_check_section($userid, $courseid, $sectionid) {
     $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
     $wheregroup = "";
      // Verification group mode.
-    if ($course->groupmode == 1) {
+    if ($course->groupmode >= 1) {
         $groups = \groups_get_user_groups($courseid, $userid);
         $iswhere = false;
         foreach ($groups as $group) {
@@ -844,6 +844,8 @@ function block_game_is_check_section($userid, $courseid, $sectionid) {
         if ($iswhere) {
             $wheregroup .= ') ';
         }
+    } else {
+        echo 'Não entrou no modo grupo!';
     }
     $sql = "SELECT COUNT(id) AS total FROM {course_modules} WHERE course="
             . $courseid . " AND section=" . $sectionid . " AND completion > 0 AND deletioninprogress = 0 " . $wheregroup;
