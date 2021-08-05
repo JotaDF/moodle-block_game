@@ -492,7 +492,7 @@ function block_game_ranking($game, $groupid = 0) {
                     . ' INNER JOIN {user} u ON u.id=rs.userid '
                     . ' INNER JOIN {context} e ON rs.contextid=e.id '
                     . ' INNER JOIN {block_game} g ON g.userid=u.id '
-                    . ' WHERE e.contextlevel=50 AND rs.roleid<6 ' . $wheregroup
+                    . ' WHERE e.contextlevel=50 AND rs.roleid < 6 ' . $wheregroup
                     . ' AND g.courseid=e.instanceid  AND e.instanceid=? '
                     . ' GROUP BY g.userid, u.firstname ORDER BY pt DESC,'
                     . ' sum_score_activities DESC,sum_score_module_completed DESC,sum_score DESC, g.userid ASC';
@@ -844,8 +844,6 @@ function block_game_is_check_section($userid, $courseid, $sectionid) {
         if ($iswhere) {
             $wheregroup .= ') ';
         }
-    } else {
-        echo 'Não entrou no modo grupo!';
     }
     $sql = "SELECT COUNT(id) AS total FROM {course_modules} WHERE course="
             . $courseid . " AND section=" . $sectionid . " AND completion > 0 AND deletioninprogress = 0 " . $wheregroup;
