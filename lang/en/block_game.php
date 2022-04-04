@@ -31,8 +31,8 @@ $string['privacy:metadata:score_game_database:cmid'] = "Course activity ID";
 $string['privacy:metadata:score_game_database:userid'] = "User ID";
 $string['privacy:metadata:avatar_game_database:avatar'] = "Avatars range from 0 to 51, each with a corresponding image in the Game block.";
 
-$string['block_game:addinstance'] = 'Add a new Game block';
-$string['block_game:myaddinstance'] = 'Add a new Game block to the My Moodle page';
+$string['game:addinstance'] = 'Add a new Game block';
+$string['game:myaddinstance'] = 'Add a new Game block to the My Moodle page';
 
 $string['defaultdisplaysettings'] = 'Game pack general settings';
 $string['not_initial_config_game'] = '<p>It is necessary to make the initial settings of the Game Block in the course.</p>';
