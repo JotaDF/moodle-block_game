@@ -14,9 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
- * Game block version identification
+ *  Block Game config form definition class
  *
  * @package    block_game
  * @copyright  2019 Jose Wilson
@@ -25,8 +24,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2022040410;
-$plugin->requires = 2018051700;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release  = '1.31 Version for Moodle 3.5 onwards';
-$plugin->component = 'block_game';
+$tasks = [
+    [
+        'classname' => 'block_game\task\cleargame',
+        'blocking' => 0,
+        'minute' => '30',
+        'hour' => '*',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*',
+    ],
+];

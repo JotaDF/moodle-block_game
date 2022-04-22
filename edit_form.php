@@ -102,15 +102,15 @@ class block_game_edit_form extends block_edit_form {
             $mform->setDefault('config_show_level', 1);
             $mform->addHelpButton('config_show_level', 'config_level', 'block_game');
             // Options controlling level up.
-            $levels = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12);
+            $levels = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12, 13 => 13, 14 => 14, 15 => 15);
             $mform->addElement('select', 'config_level_number', get_string('config_level_number', 'block_game'), $levels);
             $mform->setDefault('config_level_number', 6);
             $mform->disabledIf('config_level_number', 'config_show_level', 'eq', 0);
             $mform->addHelpButton('config_level_number', 'config_level_number', 'block_game');
             $leveluppoints = array(1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
                 5 => 4000, 6 => 6000, 7 => 10000, 8 => 20000,
-                9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000);
-            for ($i = 1; $i <= 12; $i++) {
+                9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000, 13 => 150000, 14 => 250000, 15 => 500000);
+            for ($i = 1; $i <= 15; $i++) {
                 $mform->addElement('text', 'config_level_up' . $i, get_string('config_level_up' . $i, 'block_game'));
                 $mform->setDefault('config_level_up' . $i, $leveluppoints[$i]);
                 $mform->disabledIf('config_level_up' . $i, 'config_show_level', 'eq', 0);

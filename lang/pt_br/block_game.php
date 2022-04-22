@@ -32,6 +32,8 @@ $string['privacy:metadata:avatar_game_database:avatar'] = "Os avatares variam de
 
 $string['block_game:addinstance'] = 'Adicionar novo bloco Game';
 $string['block_game:myaddinstance'] = 'Adicionar novo bloco Game na sua Moodle page';
+$string['game:addinstance'] = 'Adicionar novo bloco Game';
+$string['game:myaddinstance'] = 'Adicionar novo bloco Game na sua Moodle page';
 
 $string['defaultdisplaysettings'] = 'Configurações gerais do bloco Game';
 $string['not_initial_config_game'] = 'É necessário realizar as configurações iniciais do Bloco Game no curso.';
@@ -117,7 +119,7 @@ $string['config_score_activities_help'] = '<p>Utilizar notas de atividades para 
 $string['config_bonus_day'] = 'Bônus do dia';
 $string['config_bonus_day_help'] = '<p>Habilitar bônus do dia, definir pontos por dia de acesso.</p>';
 $string['config_bonus_badge'] = 'Bônus por emblema';
-$string['config_bonus_badge_help'] = '<p>Valor de bônus por emblema de curso concluído.</p>';
+$string['config_bonus_badge_help'] = '<p>Valor de bônus por emblema.</p>';
 $string['config_title'] = 'Alterar título';
 $string['config_title_help'] = '<p>Alterar o título do bloco.</p>';
 
@@ -194,8 +196,8 @@ $string['help_score_modules_text'] = '<strong>Pontos por conclusão de atividade
 $string['help_score_sections_text'] = '<strong>Pontuação por conclusão de seção</strong> - ao concluir todas as atividades previstas em uma seção, você poderá receber uma pontuação! Veja quantos pontos você pode ganhar em cada seção:<br/>';
 $string['help_bonus_day_text'] = '<strong>Bônus do dia</strong> - Só de acessar o ambiente ou o seu curso você receberá, uma única vez por dia, um bônus que será somado a sua pontuação! Para garantir seu bônus, acesse seu curso pelo menos uma vez por dia!<br/>';
 $string['help_bonus_day_text_value'] = 'Valor atual do bônus do dia: ';
-$string['help_bonus_badge_text'] = '<strong>Bônus por emblema</strong> - A conclusão de um curso é uma vitória que você alcança, portanto ao concluir um curso você receberá um emblema como recompensa, esse emblema agrega um bônus de grande valor que será somado a sua pontuação!<br/>';
-$string['help_bonus_badge_text_value'] = 'Valor atual do bônus por emblema: ';
+$string['help_bonus_badge'] = '<strong>Bônus por emblema</strong> - Emblemas são utilizados para premiar o usuário por completar uma meta ou desafio, concluir uma atividade ou um conjunto de atividades, preencher um campo de perfil, finalizar um curso, entre outros. Ao conquistar um emblema, um ótimo bônus será adicionado à sua pontuação!<br/>';
+$string['help_bonus_badge_value'] = 'Valor atual do bônus por emblema: ';
 $string['help_rank_titulo'] = 'Sobre Classificação';
 $string['help_rank_text'] = 'A sua posição em relação aos demais jogadores é calculada pelo total de pontos que alcançou. Essa posição pode variar dentro dos cursos, nas áreas fora do curso a posição é calcula somando os pontos conquistados nos cursos que está matriculado e fora deles (Geral)!';
 $string['help_rank_list_text'] = '<strong>Lista de classificação</strong> - A lista de classificação exibe não só a sua posição como também a dos demais jogadores, seguindo os critérios de desempate. Nessa listagem é possível ver a posição, o avatar, o nome e a sua respectiva pontuação!<br/>';
@@ -206,9 +208,13 @@ $string['help_level_text'] = 'O nível do jogador é definido pela pontuação t
 $string['help_progress_level_text'] = 'A barra de progresso indica quanto falta para alcançar o próximo nível.';
 
 $string['imagemavatar'] = "Substituir imagens de Avatares";
-$string['imagemavatardesc'] = "<h5 style='color:red'>Importante: (apenas arquivos SVG)</h5> Os arquivos de avatares devem seguir a seguinte nomenclatura <b><span style='font-family: Courier'>a1.svg, a2.svg, a3.svg... até a56.svg</span></b>. Não há necessidade de substituir todos os avatares, é possível substituir apenas o <b><span style='font-family: Courier'>a30.svg</span></b> por exemplo, basta fazer upload apenas dos arquivos desejados seguindo a nomenclatura.";
+$string['imagemavatardesc'] = "<h5 style='color:red'>Importante: (apenas arquivos SVG)</h5> Os arquivos de avatares devem seguir a seguinte nomenclatura <b><span style='font-family: Courier'>a1.svg, a2.svg, a3.svg... até a68.svg</span></b>. Não há necessidade de substituir todos os avatares, é possível substituir apenas o <b><span style='font-family: Courier'>a30.svg</span></b> por exemplo, basta fazer upload apenas dos arquivos desejados seguindo a nomenclatura.";
 
 $string['imagemlevels'] = "Substituir imagens de Níveis";
-$string['imagemlevelsdesc'] = "<h5 style='color:red'>Importante: (apenas arquivos SVG)</h5> Os arquivos de nível devem seguir a seguinte nomenclatura <b><span style='font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... até lv12.svg</span></b>. Não há necessidade de substituir todos os níveis, é possível substituir apenas o <b><span style='font-family: Courier'>lv5.svg</span></b> por exemplo, basta fazer upload apenas dos arquivos desejados seguindo a nomenclatura.";
+$string['imagemlevelsdesc'] = "<h5 style='color:red'>Importante: (apenas arquivos SVG)</h5> Os arquivos de nível devem seguir a seguinte nomenclatura <b><span style='font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... até lv15.svg</span></b>. Não há necessidade de substituir todos os níveis, é possível substituir apenas o <b><span style='font-family: Courier'>lv5.svg</span></b> por exemplo, basta fazer upload apenas dos arquivos desejados seguindo a nomenclatura.";
 
 $string['downloadthis'] = 'Salvar como';
+
+$string['cleargametask'] = 'Tarefa para limpar do block game os usuários e cursos deletados.';
+
+$string['level_max_ok'] = 'Nível máximo atingido!';
