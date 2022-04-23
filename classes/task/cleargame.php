@@ -23,9 +23,6 @@
  */
 namespace block_game\task;
 
-// This line protects the file from being accessed by a URL directly.
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Task to clear course deleted game
  *

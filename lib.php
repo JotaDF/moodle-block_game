@@ -23,8 +23,6 @@
  */
 use core\session\manager;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Block Game file function.
  *

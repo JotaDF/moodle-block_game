@@ -24,8 +24,6 @@
 
 namespace block_game\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 use \core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_userlist;
 use \core_privacy\local\request\contextlist;
@@ -40,15 +38,9 @@ use core_privacy\local\request\userlist;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
-    // This tool stores user data.
     \core_privacy\local\metadata\provider,
-
-    // This plugin is capable of determining which users have data within it.
     \core_privacy\local\request\core_userlist_provider,
-
-    // This tool may provide access to and deletion of user data.
-    \core_privacy\local\request\plugin\provider
-{
+    \core_privacy\local\request\plugin\provider {
 
     /**
      * Block Game Metadata
