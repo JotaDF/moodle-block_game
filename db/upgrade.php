@@ -30,7 +30,6 @@
  */
 function xmldb_block_game_upgrade($oldversion = 0) {
     global $CFG, $DB;
-    
     require_once($CFG->libdir.'/db/upgradelib.php'); // Core Upgrade-related functions.
 
     $dbman = $DB->get_manager();
@@ -97,6 +96,16 @@ function xmldb_block_game_upgrade($oldversion = 0) {
         }
         // Block_game savepoint reached.
         upgrade_block_savepoint(true, 2021051022, 'game');
+    }
+    if ($oldversion < 2022042725) {
+        // Define table block_game_completed_atv to be dropped.
+        $table = new xmldb_table('block_game_completed_atv');
+        // Conditionally launch drop table for role_sortorder.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+        // Block_game savepoint reached.
+        upgrade_block_savepoint(true, 2022042725, 'game');
     }
 
     return true;
