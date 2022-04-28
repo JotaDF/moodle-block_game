@@ -3,6 +3,12 @@ moodle-block_game
 
 Changes
 -------
+### Changes Version 1.31 Version for Moodle 3.5 onwards
+
+* 2022-04-04 - **Score by badges issued by moodle**
+* 2022-04-04 - **Changing player profile layout**
+* 2022-04-04 - **increased from 12 to 15 levels**
+
 ### Changes Version 1.30 Version for Moodle 3.5 onwards
 
 * 2021-06-14 - **Allow changing avatar images in plugin settings**
@@ -12,6 +18,7 @@ Changes
 * 2021-06-14 - Update of the game help
 * 2021-07-20 - **Possibility of download the ranking list**
 * 2021-07-27 - **Fixed section completion with group restriction**
+* 2021-08-06 - **Task to clear deleted users and courses from the block game**
 
 ### Changes Version 1.20 Version for Moodle 3.5 onwards
 

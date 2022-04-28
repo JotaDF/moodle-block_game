@@ -23,7 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 $string['pluginname'] = 'Game';
 $string['privacy:metadata:block_game'] = "The Game block stores the avatar chosen by the user in the environment or course and records the score in the game according to the platform configuration.";
 $string['privacy:metadata:score_game_database:courseid'] = "Course ID";
@@ -118,7 +117,7 @@ $string['config_score_activities_help'] = '<p>use activity notes to score. For n
 $string['config_bonus_day'] = 'Bonus of the day';
 $string['config_bonus_day_help'] = '<p>Badge bonus of the day, set points per day of access.</p>';
 $string['config_bonus_badge'] = 'Bonus for badge';
-$string['config_bonus_badge_help'] = '<p>Bonus value per badge of course completed.</p>';
+$string['config_bonus_badge_help'] = '<p>Bonus value per badge.</p>';
 $string['config_title'] = 'Edit title';
 $string['config_title_help'] = '<p>Editing the title of the block.</p>';
 
@@ -194,8 +193,8 @@ $string['help_score_modules_text'] = '<strong>Points for completion of activitie
 $string['help_score_sections_text'] = '<strong>Scoring for section completion</strong> - When you have completed all the activities provided for in a section, you will be able to receive a score! See how many points you can earn in each section:<br/>';
 $string['help_bonus_day_text'] = '<strong>Bonus of the day</strong> - Just to access the environment or your course you will receive, once a day, a bonus that will be added to your score!<br/>';
 $string['help_bonus_day_text_value'] = 'Current Bonus Value of the Day: ';
-$string['help_bonus_badge_text'] = '<strong>Bonus per badge</strong> - Upon completing a course you will receive a reward badge, this badge adds a great bonus that will add up to your score!<br/>';
-$string['help_bonus_badge_text_value'] = 'Current bonus amount per badge: ';
+$string['help_bonus_badge'] = '<strong>Bonus per badge</strong> - Badges are used to reward the user for completing a goal or challenge, completing an activity or set of activities, filling in a profile field, completing a course, among others. When you earn an emblem, a great bonus will be added to your score!<br/>';
+$string['help_bonus_badge_value'] = 'Current bonus amount per badge: ';
 $string['help_rank_titulo'] = 'About Classification';
 $string['help_rank_text'] = 'Your position in relation to other players is calculated by the total number of points you have reached. This position can vary within the courses, in the areas out of the course the position is calculated by adding up the points earned in the courses you are enrolled in and out of them (General)!';
 $string['help_rank_list_text'] = '<strong>Ranking list</strong> - The ranking list displays not only your position but also that of other players, following the tiebreaker criteria. In this listing you can see the position, the avatar, the name and their respective score!<br/>';
@@ -206,9 +205,13 @@ $string['help_level_text'] = 'The player level is defined by the total score he 
 $string['help_progress_level_text'] = 'The progress bar indicates how much is left to reach the next level.';
 
 $string['imagemavatar'] = "Replacing Avatars Images";
-$string['imagemavatardesc'] = "<h5 style='color:red'>Important: (SVG files only)</h5> avatars files must follow the following nomenclature <b><span style='font-family: Courier'>a1.svg, a2.svg, a3.svg... up to a56.svg</span></b>. There is no need to replace all avatars, it is possible to replace only <b><span style='font-family: Courier'>a30.svg</span></b> for example, just upload only the desired files following the nomenclature.";
+$string['imagemavatardesc'] = "<h5 style='color:red'>Important: (SVG files only)</h5> avatars files must follow the following nomenclature <b><span style='font-family: Courier'>a1.svg, a2.svg, a3.svg... up to a68.svg</span></b>. There is no need to replace all avatars, it is possible to replace only <b><span style='font-family: Courier'>a30.svg</span></b> for example, just upload only the desired files following the nomenclature.";
 
 $string['imagemlevels'] = "Replace Levels images";
-$string['imagemlevelsdesc'] = "<h5 style = 'color: red'> Important: (SVG files only) </h5> The level files must follow the following nomenclature <b> <span style = 'font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... to lv12.svg </span> </b>. There is no need to replace all levels, you can just replace <b> <span style = 'font-family: Courier'> lv5.svg </span> </b> for example, just upload only the files you want following nomenclature.";
+$string['imagemlevelsdesc'] = "<h5 style = 'color: red'> Important: (SVG files only) </h5> The level files must follow the following nomenclature <b> <span style = 'font-family: Courier'>lv0.svg, lv1.svg, lv2.svg, lv3.svg... to lv15.svg </span> </b>. There is no need to replace all levels, you can just replace <b> <span style = 'font-family: Courier'> lv5.svg </span> </b> for example, just upload only the files you want following nomenclature.";
 
 $string['downloadthis'] = 'Download as';
+
+$string['cleargametask'] = 'Task to clear deleted users and courses from the block game.';
+
+$string['level_max_ok'] = 'Maximum level reached!';

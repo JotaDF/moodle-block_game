@@ -100,7 +100,9 @@ if ($ok) {
                     . get_string('score_section', 'block_game') . '</strong></td>';
             $header .= '<td width="15%" align="center" class="cell c5 " style=""><strong>'
                     . get_string('score_bonus_day', 'block_game') . '</strong></td>';
-            $header .= '<td width="9%" align="center" class="cell c6 lastcol" style=""><strong>'
+            $header .= '<td width="9%" align="center" class="cell c6 " style=""><strong>'
+                    . get_string('label_badge', 'block_game') . '</strong></td>';
+            $header .= '<td width="9%" align="center" class="cell c7 lastcol" style=""><strong>'
                     . get_string('score_total', 'block_game') . '</strong></td>';
             $header .= '</tr>';
             $showreader = true;
@@ -150,6 +152,7 @@ if ($ok) {
                 $outputhtml .= '<td align="center" class="cell c4 small" style="">' . $gamer->sum_score_module_completed . '</td>';
                 $outputhtml .= '<td align="center" class="cell c5 small" style="">' . $gamer->sum_score_section . '</td>';
                 $outputhtml .= '<td align="center" class="cell c6 small" style="">' . $gamer->sum_score_bonus_day . '</td>';
+                $outputhtml .= '<td align="center" class="cell c6 small" style="">' . $gamer->sum_score_badges . '</td>';
                 $colltd = 'c7 lastcol';
             }
             $outputhtml .= '<td align="center" class="cell ' . $colltd . ' small" style="">' . $scoretxt . '</td>';

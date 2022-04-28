@@ -128,8 +128,8 @@ if (!isset($game->config->show_info) && $courseid != SITEID) {
             $outputhtml .= '<strong>' . $game->config->bonus_day . 'pts</strong><br/></p>';
         }
         if (isset($cfggame->bonus_badge) && $cfggame->bonus_badge >= 1) {
-            $outputhtml .= '<p align="justify">' . get_string('help_bonus_badge_text', 'block_game');
-            $outputhtml .= ' ' . get_string('help_bonus_badge_text_value', 'block_game');
+            $outputhtml .= '<p align="justify">' . get_string('help_bonus_badge', 'block_game');
+            $outputhtml .= ' ' . get_string('help_bonus_badge_value', 'block_game');
             $outputhtml .= '<strong>' . $cfggame->bonus_badge . 'pts</strong><br/></p>';
         }
         $outputhtml .= '<hr/></td></tr>';

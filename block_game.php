@@ -252,6 +252,11 @@ class block_game extends block_base {
                     $div .= '</div>';
                     // Progress Bar.
                     $xlevel = 'level_up' . ($game->level + 1);
+                    $maxok = false;
+                    if ($game->level == $game->config->level_number) {
+                        $xlevel = 'level_up' . $game->level;
+                        $maxok = true;
+                    }
                     $div .= '</div>';
                     $div .= '<div class="row">';
                     $div .= '<div class="col-sm">';
@@ -263,8 +268,12 @@ class block_game extends block_base {
                     $div .= '</div></div></div></div>';
                     $div .= '<div class="row">';
                     $div .= '<div class="col-sm text-right" title="' . get_string('help_progress_level_text', 'block_game') . '">';
-                    $div .= get_string('next_level', 'block_game') . ' =>' . $game->config->$xlevel;
-                    $div .= get_string('abbreviate_score', 'block_game') . '</div>';
+                    if ($maxok) {
+                        $div .= get_string('level_max_ok', 'block_game') . '</div>';
+                    } else {
+                        $div .= get_string('next_level', 'block_game') . ' =>' . $game->config->$xlevel;
+                        $div .= get_string('abbreviate_score', 'block_game') . '</div>';
+                    }
                     $div .= '</div>';
                 }
                 $div .= '</div></div>';

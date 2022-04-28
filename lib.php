@@ -23,8 +23,6 @@
  */
 use core\session\manager;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Block Game file function.
  *
@@ -400,35 +398,77 @@ function block_game_no_score_activities($game) {
  *
  * @param stdClass $game
  * @param int $value
+ * @param int $courseid
  * @return mixed
  */
-function block_game_score_badge($game, $value) {
-    global $DB;
+function block_game_score_badge($game, $value, $courseid = SITEID) {
+    global $DB, $CFG;
+    require_once($CFG->libdir . '/badgeslib.php');
 
     $badges = array();
-    if (!empty($game->userid)) {
-
-        $sql = "SELECT cc.userid, cc.course, COALESCE(cc.timecompleted, 0) timecompleted
-                FROM {course_completions} cc
-                WHERE cc.userid = ?
-                AND timecompleted<>0";
-
-        $rs = $DB->get_records_sql($sql, array($game->userid));
-        $nbadges = 0;
-        foreach ($rs as $c) {
-            $badges[$nbadges] = $c->course;
-            $nbadges++;
+    if (!empty($CFG->enablebadges)) {
+        if (!empty($game->userid)) {
+            if ($courseid != SITEID) {
+                $badges = count((array) block_game_get_user_badges($game->userid, $game->courseid));
+                $game->score_badges = ($badges * $value);
+            } else {
+                $badges = count((array) block_game_get_user_badges($game->userid));
+                $game->score_badges = ($badges * $value);
+            }
+            $sql = 'UPDATE {block_game} SET score_badges=? WHERE userid=? AND courseid=?';
+            $DB->execute($sql, array((int) $game->score_badges, $game->userid, $courseid));
+            return $game;
         }
-
-        $game->badges = "" . implode(",", $badges) . "";
-        $game->score_badges = ($nbadges * $value);
-        $sql = 'UPDATE {block_game} SET badges=?,score_badges=? WHERE userid=? AND courseid=?';
-        $DB->execute($sql, array($game->badges, (int) $game->score_badges, $game->userid, 1));
-
+    } else {
+        $sql = 'UPDATE {block_game} SET score_badges=? WHERE userid=? AND courseid=?';
+        $DB->execute($sql, array((int) 0, $game->userid, $courseid));
         return $game;
     }
     return $game;
 }
+
+/**
+ * Get badges for a specific user.
+ *
+ * @param int $userid User ID
+ * @param int $courseid Badges earned by a user in a specific course
+ * @return array of badges ordered by decreasing date of issue
+ */
+function block_game_get_user_badges($userid, $courseid = 0) {
+    global $CFG, $DB;
+
+    $params = array(
+        'userid' => $userid
+    );
+    $sql = 'SELECT
+                bi.uniquehash,
+                bi.dateissued,
+                bi.dateexpire,
+                bi.id as issuedid,
+                bi.visible,
+                u.email,
+                b.*
+            FROM
+                {badge} b,
+                {badge_issued} bi,
+                {user} u
+            WHERE b.id = bi.badgeid
+                AND u.id = bi.userid
+                AND bi.userid = :userid';
+
+    if ($courseid === 0) {
+        $sql .= ' AND b.courseid IS NULL';
+    } else {
+        $sql .= ' AND (b.courseid = :courseid) ';
+        $params['courseid'] = $courseid;
+    }
+    $sql .= ' ORDER BY bi.dateissued DESC';
+    $badges = $DB->get_records_sql($sql, $params);
+
+    return $badges;
+}
+
+
 
 /**
  * Return update ranking game
@@ -466,6 +506,7 @@ function block_game_ranking($game, $groupid = 0) {
                     $game->ranking = $poisicao;
                     $game->score = $rs->sum_score;
                     $game->score_bonus_day = $rs->sum_score_bonus_day;
+                    $game->score_badges = $rs->sum_score_badges;
                     $game->score_activities = $rs->sum_score_activities;
                     $game->score_module_completed = $rs->sum_score_module_completed;
                     $game->score_section = $rs->sum_score_section;
@@ -483,10 +524,12 @@ function block_game_ranking($game, $groupid = 0) {
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                     . ' SUM(COALESCE(g.score_module_completed, 0)) sum_score_module_completed,'
                     . ' SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,'
+                    . ' SUM(COALESCE(g.score_badges, 0)) sum_score_badges,'
                     . ' SUM(COALESCE(g.score_section, 0)) sum_score_section,'
                     . ' (SUM(score)+SUM(COALESCE(score_activities, 0))'
                     . '+SUM(COALESCE(g.score_module_completed, 0))'
                     . '+SUM(COALESCE(g.score_bonus_day, 0))'
+                    . '+SUM(COALESCE(g.score_badges, 0))'
                     . '+SUM(COALESCE(g.score_section, 0))) pt'
                     . ' FROM {role_assignments} rs '
                     . ' INNER JOIN {user} u ON u.id=rs.userid '
@@ -553,10 +596,12 @@ function block_game_rank_list($courseid, $groupid = 0) {
                     . " SUM(COALESCE(g.score_activities, 0)) sum_score_activities,"
                     . " SUM(COALESCE(g.score_module_completed, 0)) sum_score_module_completed,"
                     . " SUM(COALESCE(g.score_bonus_day, 0)) sum_score_bonus_day,"
+                    . " SUM(COALESCE(g.score_badges, 0)) sum_score_badges,"
                     . " SUM(COALESCE(g.score_section, 0)) sum_score_section,"
                     . " (SUM(score)+SUM(COALESCE(g.score_activities, 0))"
                     . "+SUM(COALESCE(g.score_module_completed, 0))"
                     . "+SUM(COALESCE(g.score_bonus_day, 0))"
+                    . '+SUM(COALESCE(g.score_badges, 0))'
                     . "+SUM(COALESCE(g.score_section, 0))) pt"
                     . " FROM {role_assignments} rs "
                     . " INNER JOIN {user} u ON u.id=rs.userid "
@@ -590,6 +635,7 @@ function block_game_ranking_group($courseid) {
                     . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))'
                     . '+SUM(COALESCE(bg.score_activities, 0))'
                     . '+SUM(COALESCE(bg.score_module_completed, 0))'
+                    . '+SUM(COALESCE(bg.score_badges, 0))'
                     . '+SUM(COALESCE(bg.score_section, 0)) AS pt'
                     . ' FROM {groups_members} m, {groups} g, {block_game} bg'
                     . ' WHERE g.id=m.groupid'
@@ -621,6 +667,7 @@ function block_game_ranking_group_md($courseid) {
                     . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))'
                     . '+SUM(COALESCE(bg.score_activities, 0))'
                     . '+SUM(COALESCE(bg.score_module_completed, 0))'
+                    . '+SUM(COALESCE(bg.score_badges, 0))'
                     . '+SUM(COALESCE(bg.score_section, 0)) AS pt'
                     . ' FROM {groups_members} m, {groups} g, {block_game} bg'
                     . ' WHERE g.id=m.groupid'
@@ -670,11 +717,7 @@ function block_game_set_level($game, $levelup, $levelnumber) {
 
     if (!empty($game->id)) {
         $pt = $game->score + $game->score_bonus_day + $game->score_activities
-                + $game->score_module_completed + $game->score_section;
-        if ($game->courseid == SITEID) {
-            $pt = $game->score + $game->score_bonus_day + $game->score_activities
                     + $game->score_module_completed + $game->score_badges + $game->score_section;
-        }
         if (block_game_sets_level($pt, $levelup) >= $levelnumber) {
             $level = $levelnumber;
         } else {
@@ -996,7 +1039,7 @@ function block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, 
     if (isset($cfggame->bonus_badge)) {
         $bonusbadge = $cfggame->bonus_badge;
         if ($scoreok) {
-            $game = block_game_score_badge($game, $bonusbadge);
+            $game = block_game_score_badge($game, $bonusbadge, $game->courseid);
         }
     }
     // Search user group.
@@ -1025,18 +1068,22 @@ function block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, 
     // Calculate score full.
     $scorefull = (int) ($game->score + $game->score_bonus_day + $game->score_activities
             + $game->score_module_completed + $game->score_badges + $game->score_section);
-    if ($COURSE->id != SITEID) {
-        $scorefull = (int) ($game->score + $game->score_bonus_day
-                            + $game->score_activities + $game->score_module_completed + $game->score_section);
-    }
     $game->scorefull = $scorefull;
     // Calculate percentage to the next level.
     $percent = 0;
-    $nextlevel = $game->level + 1;
-    if ($nextlevel <= $levelnumber) {
-        $percent = 0;
-        if ($scorefull > 0) {
-            $percent = ($scorefull * 100) / $levelup[$game->level];
+    if ($game->level >= $levelnumber) {
+        $percent = 100;
+    } else {
+        $nextlevel = $game->level + 1;
+        if ($nextlevel <= $levelnumber) {
+            $percent = 0;
+            if ($scorefull > 0) {
+                if ($scorefull >= $levelup[$game->level]) {
+                    $percent = 100;
+                } else {
+                    $percent = ($scorefull * 100) / $levelup[$game->level];
+                }
+            }
         }
     }
     $game->percent = $percent;
@@ -1096,11 +1143,19 @@ function block_game_get_percente_level($game) {
     $game->scorefull = $scorefull;
     // Calculate percentage to the next level.
     $percent = 0;
-    $nextlevel = $game->level + 1;
-    if ($nextlevel <= $levelnumber) {
-        $percent = 0;
-        if ($scorefull > 0) {
-            $percent = ($scorefull * 100) / $levelup[$game->level];
+    if ($game->level >= $levelnumber) {
+        $percent = 100;
+    } else {
+        $nextlevel = $game->level + 1;
+        if ($nextlevel <= $levelnumber) {
+            $percent = 0;
+            if ($scorefull > 0) {
+                if ($scorefull >= $levelup[$game->level]) {
+                    $percent = 100;
+                } else {
+                    $percent = ($scorefull * 100) / $levelup[$game->level];
+                }
+            }
         }
     }
     $game->percent = $percent;
@@ -1238,5 +1293,27 @@ function block_game_is_visibled_module($courseid, $cmid) {
     if ($countatv->total > 0) {
         return true;
     }
+    return false;
+}
+
+/**
+ * Task to clear course deleted game
+ *
+ * @return mixed
+ */
+function block_game_clear_course_deleted_game() {
+    global $DB;
+    $DB->execute('DELETE FROM {block_game} WHERE courseid NOT IN (SELECT id FROM {course})');
+    return false;
+}
+
+/**
+ * Task to clear user deleted game
+ *
+ * @return mixed
+ */
+function block_game_clear_user_deleted_game() {
+    global $DB;
+    $DB->execute('DELETE FROM {block_game} WHERE userid IN (SELECT id FROM {user} WHERE deleted = 1 OR suspended = 1)');
     return false;
 }
