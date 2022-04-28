@@ -26,12 +26,13 @@
  * Update block_game
  *
  * @param int $oldversion
- * @return mixed
+ * @return true
  */
 function xmldb_block_game_upgrade($oldversion = 0) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();
+
     if ($oldversion < 2020012905) {
 
         // Add field 'score_bonus_day' to 'block_game'.
