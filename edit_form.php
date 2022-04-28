@@ -127,7 +127,8 @@ class block_game_edit_form extends block_edit_form {
             $mform->addElement('html', get_string('title_config_section', 'block_game'));
             $sections = block_game_get_sections_course($COURSE->id);
             foreach ($sections as $section) {
-                $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 50 => 50, 60 => 60, 80 => 80, 100 => 100);
+                $limit = array(0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
+                    45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100);
                 $txtsection = get_string('section', 'block_game') . ' ' . $section->section;
                 if (isset($section->name) && $section->name != "") {
                     $txtsection = $section->name;
@@ -142,7 +143,8 @@ class block_game_edit_form extends block_edit_form {
             $activities = $coursedata['activities'];
             foreach ($activities as $activity) {
                 if (block_game_is_visibled_module($COURSE->id, $activity['id'])) {
-                    $limit = array(0 => 0, 5 => 5, 10 => 10, 20 => 20, 30 => 30, 50 => 50, 60 => 60, 80 => 80, 100 => 100);
+                    $limit = array(0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
+                    45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100);
                     $attributes = ['class' => 'iconlarge activityicon'];
                     $icon = $OUTPUT->pix_icon('icon', $activity['modulename'], $activity['type'], $attributes);
                     $activityoption = array();

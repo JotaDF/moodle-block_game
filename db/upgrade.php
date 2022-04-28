@@ -29,7 +29,7 @@
  * @return mixed
  */
 function xmldb_block_game_upgrade($oldversion = 0) {
-    global $DB;
+    global $CFG, $DB;
 
     $dbman = $DB->get_manager();
     if ($oldversion < 2020012905) {
