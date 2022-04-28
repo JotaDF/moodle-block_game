@@ -26,10 +26,12 @@
  * Update block_game
  *
  * @param int $oldversion
- * @return true
+ * @return bool always true
  */
 function xmldb_block_game_upgrade($oldversion = 0) {
     global $CFG, $DB;
+    
+    require_once($CFG->libdir.'/db/upgradelib.php'); // Core Upgrade-related functions.
 
     $dbman = $DB->get_manager();
 
