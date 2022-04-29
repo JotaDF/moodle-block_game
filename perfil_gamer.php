@@ -164,7 +164,6 @@ if ($courseid == SITEID) {
             $progress .= $percent . '" aria-valuemin="0" aria-valuemax="100">';
             $progress .= $percent . '%';
             $progress .= '</div></div>';
-            $progress .= '</div></div></div></div>';
             $imglv = '<img src="';
             $fs = get_file_storage();
             if ($fs->file_exists(1, 'block_game', 'imagens_levels', 0, '/', 'lv' . $gameuser->level . '.svg')) {
@@ -224,6 +223,7 @@ if ($courseid == SITEID) {
     } else {
         $outputhtml .= get_string('badgesdisabled', 'badges');
     }
+    $outputhtml .= '</div>';
 } else {
     $outputhtml .= '<div>';
     $game->config = block_game_get_config_block($courseid);
@@ -344,7 +344,7 @@ if ($courseid == SITEID) {
     } else {
         $outputhtml .= get_string('badgesdisabled', 'badges');
     }
+    $outputhtml .= '</div></div>';
 }
-$outputhtml .= '</div></div>';
 echo $outputhtml;
 echo $OUTPUT->footer();

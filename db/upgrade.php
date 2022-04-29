@@ -28,24 +28,19 @@
  * @param int $oldversion
  * @return bool always true
  */
-function xmldb_block_game_upgrade($oldversion = 0) {
+function xmldb_block_game_upgrade($oldversion) {
     global $CFG, $DB;
-    require_once($CFG->libdir.'/db/upgradelib.php'); // Core Upgrade-related functions.
-
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2020012905) {
-
         // Add field 'score_bonus_day' to 'block_game'.
         $table = new xmldb_table('block_game');
         $field = new xmldb_field('score_bonus_day', XMLDB_TYPE_INTEGER, '10', null, null, null, '0', 'score_activities');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-
         // Define table block_xp_filters to be created.
         $table = new xmldb_table('block_game_completed_atv');
-
         // Adding fields to table block_game_completed_atv.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
@@ -53,17 +48,14 @@ function xmldb_block_game_upgrade($oldversion = 0) {
         $table->add_field('moduleid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
         $table->add_field('score', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
         $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
-
         // Adding keys to table block_game_completed_atv.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_key('courseid', XMLDB_KEY_FOREIGN, ['courseid'], 'course', ['id']);
         $table->add_key('userid', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
-
         // Conditionally launch create table for block_game_completed_atv.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-
         // Block_game savepoint reached.
         upgrade_block_savepoint(true, 2020012905, 'game');
     }
@@ -107,6 +99,5 @@ function xmldb_block_game_upgrade($oldversion = 0) {
         // Block_game savepoint reached.
         upgrade_block_savepoint(true, 2022042725, 'game');
     }
-
     return true;
 }
