@@ -218,3 +218,7 @@ $string['downloadthis'] = 'Salvar como';
 $string['cleargametask'] = 'Tarefa para limpar do block game os usuários e cursos deletados.';
 
 $string['level_max_ok'] = 'Nível máximo atingido!';
+
+$string['game_points'] = 'Pontos do jogo';
+$string['activity_points'] = 'Pontos da atividade';
+$string['activity_points_help'] = '<p>Define quantos pontos os estudantes receberão após concluir esta atividade.</p><p>Você precisa configurar a conclusão da atividade para habilitar este campo.</p>';

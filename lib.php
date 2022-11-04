@@ -1317,3 +1317,68 @@ function block_game_clear_user_deleted_game() {
     $DB->execute('DELETE FROM {block_game} WHERE userid IN (SELECT id FROM {user} WHERE deleted = 1 OR suspended = 1)');
     return false;
 }
+
+/**
+ * @param moodleform $formwrapper The moodle quickforms wrapper object.
+ * @param MoodleQuickForm $mform The actual form object (required to modify the form).
+ * https://docs.moodle.org/dev/Callbacks
+ */
+function block_game_coursemodule_standard_elements($formwrapper, $mform) {
+    $config = block_game_get_config_block($formwrapper->get_current()->course);
+
+    if (!$config) {
+        return;
+    }
+
+    $mform->addElement('header', 'gamepointsheader', get_string('game_points', 'block_game'));
+
+    $limit = array(0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
+        45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100);
+
+    $mform->addElement('select', 'config_atv', get_string('activity_points', 'block_game'), $limit);
+    $mform->addHelpButton('config_atv', 'activity_points', 'block_game');
+    $mform->setType('config_atv', PARAM_INT);
+    $mform->disabledIf('config_atv', 'completion', 'eq', COMPLETION_DISABLED);
+
+    if ($cmid = $formwrapper->get_coursemodule()->id) {
+        $configkey = "atv{$cmid}";
+
+        if (isset($config->$configkey)) {
+            $mform->setDefault('config_atv', $config->$configkey);
+        }
+    }
+}
+
+/**
+ * Saves the data of custom fields elements of all moodle module settings forms.
+ *
+ * @param object $moduleinfo the module info
+ * @param object $course the course of the module
+ */
+function block_game_coursemodule_edit_post_actions($moduleinfo, $course) {
+    global $DB;
+
+    if (!block_game_get_config_block($course->id)) {
+        return;
+    }
+
+    $coursecontext = \context_course::instance($course->id);
+    $blockrecord = $DB->get_record('block_instances', ['blockname' => 'game', 'parentcontextid' => $coursecontext->id]);
+    $blockinstance = \block_instance('game', $blockrecord);
+
+    $blockconfig = $blockinstance->config;
+
+    $configkey = "atv{$moduleinfo->coursemodule}";
+
+    if (!empty($moduleinfo->config_atv)) {
+        $blockconfig->$configkey = $moduleinfo->config_atv;
+    }
+
+    if (empty($moduleinfo->config_atv) && !empty($blockconfig->$configkey)) {
+        unset($blockconfig->$configkey);
+    }
+
+    $blockinstance->instance_config_save($blockconfig);
+
+    return $moduleinfo;
+}
