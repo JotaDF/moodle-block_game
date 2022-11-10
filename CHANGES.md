@@ -8,6 +8,7 @@ Changes
 * 2022-04-04 - **Score by badges issued by moodle**
 * 2022-04-04 - **Changing player profile layout**
 * 2022-04-04 - **increased from 12 to 15 levels**
+* 2022-11-10 - **configure the score for completion within the activity/resource form**
 * 2022-11-10 - Fix in function in lib
 
 ### Changes Version 1.30 Version for Moodle 3.5 onwards
