@@ -907,8 +907,8 @@ function block_game_get_sections_course($courseid) {
     global $DB; // Check section.
     if (!empty($courseid)) {
         if ($courseid != SITEID) {
-            $sql = 'SELECT * FROM {course_sections} WHERE course = ?'
-                    . 'ORDER BY section';
+            $sql = 'SELECT * FROM {course_sections} WHERE course = ? '
+                    . ' ORDER BY section ';
             $sections = $DB->get_records_sql($sql, array($courseid));
             return $sections;
         }
