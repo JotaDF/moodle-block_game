@@ -1111,6 +1111,26 @@ function block_game_get_config_block($courseid) {
 }
 
 /**
+ * Check if the given course has an instance of the block.
+ *
+ * @param int $courseid
+ * @return mixed the config
+ */
+function block_game_course_has_block($courseid) {
+    global $DB;
+
+    $coursecontext = \context_course::instance($courseid);
+
+    $blockrecord = $DB->get_record('block_instances', array('blockname' => 'game', 'parentcontextid' => $coursecontext->id));
+
+    if ($blockrecord) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * Get the last block configuration.
  *
  * @param stdClass $game
@@ -1326,11 +1346,11 @@ function block_game_clear_user_deleted_game() {
  * https://docs.moodle.org/dev/Callbacks
  */
 function block_game_coursemodule_standard_elements($formwrapper, $mform) {
-    $config = block_game_get_config_block($formwrapper->get_current()->course);
-
-    if (!$config) {
+    if (!block_game_course_has_block($formwrapper->get_current()->course)) {
         return;
     }
+
+    $config = block_game_get_config_block($formwrapper->get_current()->course);
 
     $mform->addElement('header', 'gamepointsheader', get_string('game_points', 'block_game'));
 
@@ -1342,7 +1362,7 @@ function block_game_coursemodule_standard_elements($formwrapper, $mform) {
     $mform->setType('config_atv', PARAM_INT);
     $mform->disabledIf('config_atv', 'completion', 'eq', COMPLETION_DISABLED);
 
-    if ($cmid = $formwrapper->get_coursemodule()->id) {
+    if (!is_null($formwrapper->get_coursemodule()) && $cmid = $formwrapper->get_coursemodule()->id) {
         $configkey = "atv{$cmid}";
 
         if (isset($config->$configkey)) {
@@ -1360,8 +1380,8 @@ function block_game_coursemodule_standard_elements($formwrapper, $mform) {
 function block_game_coursemodule_edit_post_actions($moduleinfo, $course) {
     global $DB;
 
-    if (!block_game_get_config_block($course->id)) {
-        return;
+    if (!block_game_course_has_block($course->id)) {
+        return $moduleinfo;
     }
 
     $coursecontext = \context_course::instance($course->id);
@@ -1369,6 +1389,9 @@ function block_game_coursemodule_edit_post_actions($moduleinfo, $course) {
     $blockinstance = \block_instance('game', $blockrecord);
 
     $blockconfig = $blockinstance->config;
+    if (!$blockconfig) {
+        $blockconfig = new \stdClass();
+    }
 
     $configkey = "atv{$moduleinfo->coursemodule}";
 
