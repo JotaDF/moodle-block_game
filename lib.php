@@ -908,7 +908,7 @@ function block_game_get_sections_course($courseid) {
     if (!empty($courseid)) {
         if ($courseid != SITEID) {
             $sql = 'SELECT * FROM {course_sections} WHERE course = ? '
-                    . ' ORDER BY section ';
+                    . ' ORDER BY section';
             $sections = $DB->get_records_sql($sql, array($courseid));
             return $sections;
         }
@@ -1319,6 +1319,8 @@ function block_game_clear_user_deleted_game() {
 }
 
 /**
+ * Display custom fields elements of all moodle module settings forms.
+ *
  * @param moodleform $formwrapper The moodle quickforms wrapper object.
  * @param MoodleQuickForm $mform The actual form object (required to modify the form).
  * https://docs.moodle.org/dev/Callbacks

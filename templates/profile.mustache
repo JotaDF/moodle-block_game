@@ -1,0 +1,60 @@
+<div>
+    <div class="boxgame text-center">
+        {{{imgavatar}}}
+        <span class="h3">{{username}}</span>
+    </div>
+    <table class="generaltable" width="100%">
+        <tbody>
+            <tr class="">
+                <td width="30%" class="cell text-center"><strong>{{courselabel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{ranklabel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{labellevel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{nextlevellabel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{scoreatvlabel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{scoremodlabel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{scoresectionlabel}}</strong></td>
+                <td width="15%" class="cell text-center"><strong>{{scorebonuslabel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{scorebadgelabel}}</strong></td>
+                <td width="9%" class="cell text-center"><strong>{{scorelabelfull}}</strong></td>
+            </tr>
+            {{#courses}}
+                {{#awarded}}
+                <tr class="">
+                    <td width="30%" class="cell" >{{{coursename}}}</td>
+                    <td width="9%" class="cell small text-center" >
+                        {{#rank}}
+                            {{rank}}º / {{fullrank}}
+                        {{/rank}}
+                    </td>
+                    <td width="9%" class="cell small text-center" >
+                        {{{imglevel}}}
+                    </td>
+                    <td width="9%"class="cell small text-center" >
+                        {{#imglevel}}
+                        <div class="progress" title="{{helpprogresslevel}}">
+                            <div class="progress-bar" role="progressbar" style="width: {{percent}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                {{percent}}%
+                            </div>     
+                        </div>
+                        {{/imglevel}}
+                    </td>
+                    <td width="9%" align="center" class="cell small text-center" >{{{scoreatv}}}</td>
+                    <td width="9%" align="center" class="cell small text-center" >{{{scoremod}}}</td>
+                    <td width="9%" align="center" class="cell small text-center" >{{{scoresection}}}</td>
+                    <td width="15%" align="center" class="cell small text-center" >{{{scorebonus}}}</td>
+                    <td width="9%" align="center" class="cell small text-center" >{{{scorbadge}}}</td>
+                    <td width="9%" class="cell small text-center" ><strong>{{scorefull}}</strong></td>
+                </tr>
+                {{/awarded}}
+            {{/courses}}
+        </tbody>
+    </table>
+        <br/>
+        <h4>{{labelbadges}}</h4>
+        <br>
+        {{{outputbadges}}}
+        {{#badgedisabled}}
+            {{badgedisabled}}
+        {{/badgedisabled}}
+    <hr/>
+</div>

@@ -49,7 +49,7 @@ $cfggame = get_config('block_game');
 
 /* Now verify grading user has access to all groups or is member of the same group when separate groups used in course */
 $ok = false;
-if ($course->groupmode == 1 and ! has_capability('moodle/course:viewhiddenactivities', $context)) {
+if ($course->groupmode == 1 && ! has_capability('moodle/course:viewhiddenactivities', $context)) {
     if (groups_is_member($groupid, $USER->id)) {
         $ok = true;
     }
