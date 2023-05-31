@@ -440,21 +440,13 @@ function block_game_get_user_badges($userid, $courseid = 0) {
     $params = array(
         'userid' => $userid
     );
-    $sql = 'SELECT
-                bi.uniquehash,
-                bi.dateissued,
-                bi.dateexpire,
-                bi.id as issuedid,
-                bi.visible,
-                u.email,
-                b.*
-            FROM
-                {badge} b,
-                {badge_issued} bi,
-                {user} u
-            WHERE b.id = bi.badgeid
-                AND u.id = bi.userid
-                AND bi.userid = :userid';
+    $sql = "SELECT bi.uniquehash, bi.dateissued, bi.dateexpire,"
+           . " bi.id as issuedid, bi.visible, u.email, b.*"
+           . " FROM"
+           . " {badge} b,"
+           . " {badge_issued} bi,"
+           . " {user} u"
+           . " WHERE b.id = bi.badgeid AND u.id = bi.userid AND bi.userid = :userid";
 
     if ($courseid === 0) {
         $sql .= ' AND b.courseid IS NULL';
