@@ -3,6 +3,12 @@ moodle-block_game
 
 Changes
 -------
+### Changes Version 1.32 Version for Moodle 3.5 onwards
+
+* 2023-05-31 - Adaptations to support Moodle 4.1
+
+Changes
+-------
 ### Changes Version 1.31 Version for Moodle 3.5 onwards
 
 * 2022-04-04 - **Score by badges issued by moodle**
