@@ -30,8 +30,6 @@ $string['privacy:metadata:score_game_database:cmid'] = "ID de atividade do curso
 $string['privacy:metadata:score_game_database:userid'] = "ID Usuário";
 $string['privacy:metadata:avatar_game_database:avatar'] = "Os avatares variam de 0 a 51, cada um com uma imagem correspondente no bloco de jogo.";
 
-$string['block_game:addinstance'] = 'Adicionar novo bloco Game';
-$string['block_game:myaddinstance'] = 'Adicionar novo bloco Game na sua Moodle page';
 $string['game:addinstance'] = 'Adicionar novo bloco Game';
 $string['game:myaddinstance'] = 'Adicionar novo bloco Game na sua Moodle page';
 

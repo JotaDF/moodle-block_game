@@ -23,7 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 $string['pluginname'] = 'Game';
 $string['privacy:metadata:block_game'] = "The Game block stores the avatar chosen by the user in the environment or course and records the score in the game according to the platform configuration.";
 $string['privacy:metadata:score_game_database:courseid'] = "Course ID";
@@ -31,8 +30,6 @@ $string['privacy:metadata:score_game_database:cmid'] = "Course activity ID";
 $string['privacy:metadata:score_game_database:userid'] = "User ID";
 $string['privacy:metadata:avatar_game_database:avatar'] = "Avatars range from 0 to 51, each with a corresponding image in the Game block.";
 
-$string['block_game:addinstance'] = 'Add a new Game block';
-$string['block_game:myaddinstance'] = 'Add a new Game block to the My Moodle page';
 $string['game:addinstance'] = 'Add a new Game block';
 $string['game:myaddinstance'] = 'Add a new Game block to the My Moodle page';
 
