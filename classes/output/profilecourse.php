@@ -43,6 +43,8 @@ class profilecourse implements renderable, templatable {
     protected $user;
     /** @var id course */
     protected $courseid;
+    /** @var stdClass|null */
+    public $course = null;
 
     /**
      * Profile constructor.
@@ -168,6 +170,8 @@ class profilecourse implements renderable, templatable {
         $scorebonus = $game->score_bonus_day . get_string('abbreviate_score', 'block_game');
         $scorebadgelabel = get_string('label_badge', 'block_game');
         $scorbadge = $game->score_badges . get_string('abbreviate_score', 'block_game');
+        $scorefull = ($game->score + $game->score_bonus_day + $game->score_activities
+                        + $game->score_module_completed + $game->score_section + $game->score_badges);
 
         $labelbadges = get_string('label_badge', 'block_game');
         $outputbadges = '';
@@ -193,6 +197,7 @@ class profilecourse implements renderable, templatable {
             'imgscore' => $imgscore,
             'labelscore' => $labelscore,
             'score' => $score,
+            'scorefull' => $scorefull . get_string('abbreviate_score', 'block_game'),
             'imgrank' => $imgrank,
             'labelrank' => $labelrank,
             'rank' => $rank,

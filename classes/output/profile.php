@@ -43,6 +43,8 @@ class profile implements renderable, templatable {
     protected $user;
     /** @var id course */
     protected $courseid;
+    /** @var stdClass|null */
+    public $course = null;
 
     /**
      * Profile constructor.
@@ -193,7 +195,7 @@ class profile implements renderable, templatable {
                 $scorebonus = $gameuser->score_bonus_day . get_string('abbreviate_score', 'block_game');
                 $scorbadge = $gameuser->score_badges . get_string('abbreviate_score', 'block_game');
                 $scorefull = ($gameuser->score + $gameuser->score_bonus_day + $gameuser->score_activities
-                        + $game->score_module_completed + $gameuser->score_section + $gameuser->score_badges);
+                        + $gameuser->score_module_completed + $gameuser->score_section + $gameuser->score_badges);
             }
             if ($gameuser->courseid == SITEID) {
                 $rank = '';
@@ -222,7 +224,7 @@ class profile implements renderable, templatable {
             ];
             $fullpointsall = ($fullpointsall + ($gameuser->score + $gameuser->score_bonus_day
                     + $gameuser->score_activities + $gameuser->score_badges
-                    + $game->score_module_completed + $gameuser->score_section));
+                    + $gameuser->score_module_completed + $gameuser->score_section));
             $fullpointsbonus += $gameuser->score_bonus_day;
             $fullpointsactivities += $gameuser->score_activities;
             $fullpointsmodulecompleted += $gameuser->score_module_completed;

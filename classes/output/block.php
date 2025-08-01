@@ -42,6 +42,9 @@ class block implements renderable, templatable {
     protected $user;
     /** @var id course */
     protected $courseid;
+    
+    /** @var stdClass|null */
+    public $course = null;
 
     /**
      * Block constructor.

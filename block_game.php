@@ -35,6 +35,9 @@ require_once($CFG->libdir . '/filelib.php' );
  */
 class block_game extends block_base {
 
+    /** @var stdClass|null */
+    public $course = null;
+    
     /**
      * Sets the block title
      *

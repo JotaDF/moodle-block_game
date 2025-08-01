@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Game block config form definition
+ * Game block ranking for group
  *
  * @package    block_game
  * @copyright  2019 Jose Wilson
@@ -40,60 +40,11 @@ $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('rank_group_game_title', 'block_game'));
 $PAGE->set_heading(get_string('rank_group_game_title', 'block_game'));
 
-echo $OUTPUT->header();
-$game = new stdClass();
 $cfggame = get_config('block_game');
-if ($courseid == SITEID) {
-    $game->config = $cfggame;
-} else {
-    $game->config = block_game_get_config_block($courseid);
-}
-$limit = 0;
-if (isset($game->config->show_rank) && $game->config->show_rank == 1) {
-    $outputhtml = '<div class="rank">';
-    if ($courseid != SITEID) {
-        $outputhtml .= '<h3>( ' . $course->fullname . ' ) </h3><br/>';
+$gameconfig = ($courseid == SITEID) ? $cfggame : block_game_get_config_block($courseid);
 
-        $outputhtml .= '<table border="0" width="100%">';
-        if (isset($game->config->rank_group_calc) && $game->config->rank_group_calc == 1) {
-            $rs = block_game_ranking_group_md($courseid);
-        } else {
-            $rs = block_game_ranking_group($courseid);
-        }
-        $ord = 1;
-        foreach ($rs as $group) {
-            $ordtxt = $ord . '&ordm;';
-            $grouptxt = $group->name;
-            $groupcount = $group->members;
-            $scoretxt = number_format($group->pt, 2);
-            if (isset($game->config->rank_group_calc) && $game->config->rank_group_calc == 1) {
-                $scoretxt = number_format($group->md, 2);
-            }
-            $group = $DB->get_record('groups', array('id' => $group->id), '*', MUST_EXIST);
+$rankgroup_page = new \block_game\output\rankgroup($course, $gameconfig, $cfggame, $courseid == SITEID);
 
-            $outputhtml .= '<tr>';
-            $outputhtml .= '<td width="10%" align="center">' . $ordtxt . '</td>';
-            $outputhtml .= '<td width="10%" align="right">'
-                    . print_group_picture($group, $courseid, false, true, false) . '</td>';
-            $outputhtml .= '<td  width="70%" align="left"> ' . $grouptxt . '(' . $groupcount . ')</td>';
-            $outputhtml .= '<td width="10%" align="left"> ' . $scoretxt;
-            $outputhtml .= get_string('abbreviate_score', 'block_game') . '</td>';
-            $outputhtml .= '</tr>';
-
-            $outputhtml .= '<tr><td colspan="4"><hr/></td></tr>';
-
-            $ord++;
-        }
-        $outputhtml .= '</table>';
-    }
-    $outputhtml .= '</div>';
-} else {
-    $outputhtml = "...";
-    $context = context_course::instance($courseid, MUST_EXIST);
-    if (has_capability('moodle/course:update', $context, $USER->id)) {
-        $outputhtml = get_string('not_initial_config_game', 'block_game');
-    }
-}
-echo $outputhtml;
-
+echo $OUTPUT->header();
+echo $OUTPUT->render($rankgroup_page);
 echo $OUTPUT->footer();
