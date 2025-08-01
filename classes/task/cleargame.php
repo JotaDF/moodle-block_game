@@ -31,7 +31,6 @@ namespace block_game\task;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class cleargame extends \core\task\scheduled_task {
-
     /**
      * Task to clear deleted users and courses from the block game.
      *

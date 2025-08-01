@@ -38,9 +38,9 @@ switch ($op) {
         $game->courseid = $COURSE->id;
         $game->userid   = $USER->id;
         $game = block_game_load_game($game);
-        $game->url_avatar = $CFG->wwwroot."/blocks/game/pix/a".$game->avatar.".png";
-        $json = array(
-                'game' => array(
+        $game->url_avatar = $CFG->wwwroot . "/blocks/game/pix/a" . $game->avatar . ".png";
+        $json = [
+                'game' => [
                 'id' => $game->id,
                 'courseid' => $game->courseid,
                 'userid' => $game->userid,
@@ -52,15 +52,14 @@ switch ($op) {
                 'url_avatar' => $game->url_avatar,
                 'frame' => $game->frame,
                 'bonus_day' => $game->bonus_day,
-                'achievements' => explode( ',', $game->achievements),
-                'phases' => explode( ',', $game->phases),
-                'rewards' => explode( ',', $game->rewards)
-                )
-                );
+                'achievements' => explode(',', $game->achievements),
+                'phases' => explode(',', $game->phases),
+                'rewards' => explode(',', $game->rewards),
+                ]
+                ];
         echo json_encode($json);
         break;
     case "update":
-
         $id             = optional_param('id', '0', PARAM_INT);
         $userid         = optional_param('userid', '0', PARAM_INT);
         $courseid       = optional_param('courseid', '0', PARAM_INT);
@@ -81,8 +80,8 @@ switch ($op) {
 
         echo block_game_update_game($game);
         break;
-    case "avatar":
 
+    case "avatar":
         $id             = optional_param('id', '0', PARAM_INT);
         $userid         = optional_param('userid', '0', PARAM_INT);
         $avatar         = optional_param('avatar', '0', PARAM_INT);
@@ -94,7 +93,6 @@ switch ($op) {
         echo block_game_update_avatar_game($game);
         break;
     case "score":
-
         $id            = optional_param('id', '0', PARAM_INT);
         $score         = optional_param('score', '0', PARAM_INT);
 
@@ -104,7 +102,6 @@ switch ($op) {
         echo block_game_update_score_game($game);
         break;
     case "level":
-
         $id           = optional_param('id', '0', PARAM_INT);
         $level        = optional_param('level', '0', PARAM_INT);
 
@@ -115,7 +112,6 @@ switch ($op) {
         break;
 
     case "achievements":
-
         $id              = optional_param('id', '0', PARAM_INT);
         $achievements    = optional_param('achievements', '', PARAM_SEQUENCE);
 
@@ -124,8 +120,8 @@ switch ($op) {
 
         echo block_game_update_achievements_game($game);
         break;
-    case "rewards":
 
+    case "rewards":
         $id         = optional_param('id', '0', PARAM_INT);
         $rewards    = optional_param('rewards', '', PARAM_SEQUENCE);
 
@@ -136,7 +132,6 @@ switch ($op) {
         break;
 
     case "phases":
-
         $id       = optional_param('id', '0', PARAM_INT);
         $phases   = optional_param('phases', '', PARAM_SEQUENCE);
 
@@ -147,7 +142,6 @@ switch ($op) {
         break;
 
     case "frame":
-
         $id      = optional_param('id', '0', PARAM_INT);
         $frame   = optional_param('frame', '', PARAM_SEQUENCE);
 

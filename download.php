@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Block Game
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ if ($op === "ranking") {
                 get_string('score_total', 'block_game')];
     $rs = block_game_rank_list($id);
     $ord = 1;
-    $rows = array();
+    $rows = [];
     foreach ($rs as $gamer) {
         $ordtxt = $ord;
         $usertxt = $gamer->firstname . ' ' . $gamer->lastname;

@@ -37,7 +37,6 @@ class block_game extends block_base {
 
     /** @var stdClass|null */
     public $course = null;
-    
     /**
      * Sets the block title
      *
@@ -70,12 +69,12 @@ class block_game extends block_base {
      * @return array
      */
     public function applicable_formats() {
-        return array(
+        return [
             'course-view' => true,
             'site-index' => true,
             'mod' => true,
-            'my' => true
-        );
+            'my' => true,
+        ];
     }
 
     /**
@@ -116,7 +115,7 @@ class block_game extends block_base {
             return $this->content;
         }
 
-        $this->content = new \stdClass;
+        $this->content = new \stdClass();
         $this->content->text = '';
         $this->content->footer = '';
 
@@ -128,5 +127,4 @@ class block_game extends block_base {
 
         return $this->content;
     }
-
 }

@@ -32,8 +32,8 @@ $courseid = required_param('id', PARAM_INT);
 
 $avatar = optional_param('avatar', 0, PARAM_INT);
 $back = optional_param('back', 0, PARAM_INT);
-$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-$game = $DB->get_record('block_game', array('courseid' => $courseid, 'userid' => $USER->id));
+$course = $DB->get_record('course', ['id' => $courseid,], '*', MUST_EXIST);
+$game = $DB->get_record('block_game', ['courseid' => $courseid, 'userid' => $USER->id,]);
 
 require_login($course);
 
@@ -56,7 +56,7 @@ if ($avatar > 0) {
 }
 
 $PAGE->set_pagelayout('course');
-$PAGE->set_url('/blocks/game/set_avatar_form.php', array('id' => $courseid, 'back' => $back, 'avatar' => $avatar));
+$PAGE->set_url('/blocks/game/set_avatar_form.php', ['id' => $courseid, 'back' => $back, 'avatar' => $avatar,]);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('set_avatar_title', 'block_game'));
 $PAGE->set_heading(get_string('set_avatar_title', 'block_game'));

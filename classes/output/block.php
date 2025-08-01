@@ -42,7 +42,6 @@ class block implements renderable, templatable {
     protected $user;
     /** @var id course */
     protected $courseid;
-    
     /** @var stdClass|null */
     public $course = null;
 
@@ -106,7 +105,7 @@ class block implements renderable, templatable {
 
         $coursedata = block_game_get_course_activities($this->courseid);
         $activities = $coursedata['activities'];
-        $atvscheck = array();
+        $atvscheck = [];
         foreach ($activities as $activity) {
             $atvcheck = 'atv' . $activity['id'];
             if (isset($this->config->$atvcheck) && $this->config->$atvcheck > 0) {
@@ -144,7 +143,7 @@ class block implements renderable, templatable {
                 $linkinfo .= $CFG->wwwroot . '/blocks/game/pix/info.svg" height="24" width="24"/></a>';
                 $showlinks = true;
             }
-            $userpictureparams = array('size' => 80, 'link' => false, 'alt' => 'User');
+            $userpictureparams = ['size' => 80, 'link' => false, 'alt' => 'User',];
             $userpicture = $output->user_picture($this->user, $userpictureparams);
             if ($showavatar) {
                 $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg"';
@@ -277,9 +276,8 @@ class block implements renderable, templatable {
             'widthtools' => $widthtools,
             'rankgame' => $rankgame,
             'rankgroup' => $rankgroup,
-            'help' => $help
+            'help' => $help,
         ];
         return $data;
     }
-
 }

@@ -24,10 +24,10 @@
 
 namespace block_game\privacy;
 
-use \core_privacy\local\metadata\collection;
+use core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_userlist;
-use \core_privacy\local\request\contextlist;
-use \core_privacy\local\request\approved_contextlist;
+use core_privacy\local\request\contextlist;
+use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\userlist;
 
 /**
@@ -38,24 +38,23 @@ use core_privacy\local\request\userlist;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
-    \core_privacy\local\metadata\provider,
     \core_privacy\local\request\core_userlist_provider,
+    \core_privacy\local\metadata\provider,
     \core_privacy\local\request\plugin\provider {
-
     /**
      * Block Game Metadata
      *
      * @param collection $collection
      * @return collection
      */
-    public static function get_metadata(collection $collection) : collection {
+    public static function get_metadata(collection $collection): collection {
         $collection->add_database_table(
             'block_game',
             [
                 'courseid' => 'privacy:metadata:score_game_database:courseid',
                 'cmid' => 'privacy:metadata:score_game_database:cmid',
                 'userid' => 'privacy:metadata:score_game_database:userid',
-                'avatar' => 'privacy:metadata:avatar_game_database:avatar'
+                'avatar' => 'privacy:metadata:avatar_game_database:avatar',
 
             ],
             'privacy:metadata:block_game'
@@ -70,7 +69,7 @@ class provider implements
      * @param   int $userid The user to search.
      * @return  contextlist   $contextlist  The contextlist containing the list of contexts used in this plugin.
      */
-    public static function get_contexts_for_userid(int $userid) : contextlist {
+    public static function get_contexts_for_userid(int $userid): contextlist {
         $sql = 'SELECT ctx.id
                 FROM {block_game} game
                 JOIN {user} u
@@ -101,7 +100,7 @@ class provider implements
             $gamedata[] = (object) [
                 'courseid' => $result->courseid,
                 'cmid' => $result->cmid,
-                'avatar' => $result->avatar
+                'avatar' => $result->avatar,
             ];
         }
         if (!empty($gamedata)) {

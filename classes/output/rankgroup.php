@@ -18,26 +18,38 @@
  * Game block
  *
  * @package    block_game
- * @copyright  2020 Willian Mano http://conecti.me
+ * @copyright  2025 José Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace block_game\output;
-
-defined('MOODLE_INTERNAL') || die();
 
 use renderable;
 use templatable;
 use stdClass;
 use renderer_base;
 
+/**
+ * Renderable class for the ranking group page.
+ *
+ * @package    block_game
+ * @copyright  2025 José Wilson
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class rankgroup implements renderable, templatable {
     public $title;
     public $coursefullname;
     public $isfrontpage;
     public $notconfigured;
     public $groups = [];
-
+    /**
+     * Rankgroup constructor.
+     *
+     * @param stdClass $course
+     * @param stdClass $config
+     * @param stdClass $cfggame
+     * @param bool $isfrontpage
+     */
     public function __construct(stdClass $course, stdClass $config, stdClass $cfggame, bool $isfrontpage) {
         $this->title = get_string('rank_group_game_title', 'block_game');
         $this->coursefullname = $course->fullname;
@@ -73,14 +85,18 @@ class rankgroup implements renderable, templatable {
             $ord++;
         }
     }
-
+    /**
+     * Export the data.
+     * @param renderer_base $output
+     * @return array|\stdClass
+     */
     public function export_for_template(renderer_base $output) {
         return [
             'title' => $this->title,
             'coursefullname' => $this->coursefullname,
             'isfrontpage' => $this->isfrontpage,
             'notconfigured' => $this->notconfigured,
-            'groups' => $this->groups
+            'groups' => $this->groups,
         ];
     }
 }

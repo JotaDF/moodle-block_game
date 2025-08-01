@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Block Game
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 
 /**
  * Game block config form definition
@@ -31,11 +30,11 @@ global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
 
-$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $courseid,], '*', MUST_EXIST);
 
 require_login($course);
 $PAGE->set_pagelayout('course');
-$PAGE->set_url('/blocks/game/help_game.php', array('id' => $courseid));
+$PAGE->set_url('/blocks/game/help_game.php', ['id' => $courseid,]);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('help_game_title', 'block_game'));
 $PAGE->set_heading(get_string('help_game_title', 'block_game'));
@@ -46,8 +45,8 @@ $gameconfig = $isfrontpage ? $cfggame : block_game_get_config_block($courseid);
 $notconfigured = !$isfrontpage && empty($gameconfig->show_info);
 $sections = !$isfrontpage ? block_game_get_sections_course($courseid) : [];
 
-$help_page = new \block_game\output\help($course, $gameconfig, $cfggame, $isfrontpage, $notconfigured, $sections);
+$helppage = new \block_game\output\help($course, $gameconfig, $cfggame, $isfrontpage, $notconfigured, $sections);
 
 echo $OUTPUT->header();
-echo $OUTPUT->render($help_page);
+echo $OUTPUT->render($helppage);
 echo $OUTPUT->footer();

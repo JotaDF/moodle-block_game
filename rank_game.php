@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -25,7 +24,7 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/grouplib.php');
-require_once($CFG->libdir . '/filelib.php' );
+require_once($CFG->libdir . '/filelib.php');
 
 require_login();
 
@@ -40,7 +39,7 @@ require_login($course);
 
 $context = context_course::instance($courseid);
 $PAGE->set_pagelayout('course');
-$PAGE->set_url('/blocks/game/rank_game.php', array('id' => $courseid));
+$PAGE->set_url('/blocks/game/rank_game.php', ['id' => $courseid,]);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('rank_game_title', 'block_game'));
 $PAGE->set_heading(get_string('rank_game_title', 'block_game'));
@@ -59,7 +58,8 @@ if ($course->groupmode == 1 && !has_capability('moodle/course:viewhiddenactiviti
     $ok = true;
 }
 if (has_capability('moodle/course:update', $context, $USER->id)) {
-    echo $OUTPUT->download_dataformat_selector(get_string('downloadthis', 'block_game'), 'download.php', 'dataformat', ['id' => $courseid, 'op' => 'ranking']);
+    echo $OUTPUT->download_dataformat_selector(get_string('downloadthis', 'block_game'), 'download.php',
+            'dataformat', ['id' => $courseid, 'op' => 'ranking']);
 }
 
 if ($ok) {

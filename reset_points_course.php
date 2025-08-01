@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Game block config form definition
  *
@@ -32,12 +31,12 @@ global $USER, $OUTPUT, $CFG;
 
 $confirm = optional_param('c', 0, PARAM_INT);
 $courseid = required_param('id', PARAM_INT);
-$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $courseid,], '*', MUST_EXIST);
 
 require_login($course);
 
 $PAGE->set_pagelayout('course');
-$PAGE->set_url('/blocks/game/reset_points_course.php', array('id' => $courseid));
+$PAGE->set_url('/blocks/game/reset_points_course.php', ['id' => $courseid,]);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('reset_points_title', 'block_game'));
 $PAGE->set_heading(get_string('reset_points_title', 'block_game'));

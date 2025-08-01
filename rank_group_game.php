@@ -31,11 +31,11 @@ global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
 
-$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $courseid,], '*', MUST_EXIST);
 
 require_login($course);
 $PAGE->set_pagelayout('course');
-$PAGE->set_url('/blocks/game/rank_game.php', array('id' => $courseid));
+$PAGE->set_url('/blocks/game/rank_game.php', ['id' => $courseid,]);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('rank_group_game_title', 'block_game'));
 $PAGE->set_heading(get_string('rank_group_game_title', 'block_game'));
@@ -43,8 +43,8 @@ $PAGE->set_heading(get_string('rank_group_game_title', 'block_game'));
 $cfggame = get_config('block_game');
 $gameconfig = ($courseid == SITEID) ? $cfggame : block_game_get_config_block($courseid);
 
-$rankgroup_page = new \block_game\output\rankgroup($course, $gameconfig, $cfggame, $courseid == SITEID);
+$rankgrouppage = new \block_game\output\rankgroup($course, $gameconfig, $cfggame, $courseid == SITEID);
 
 echo $OUTPUT->header();
-echo $OUTPUT->render($rankgroup_page);
+echo $OUTPUT->render($rankgrouppage);
 echo $OUTPUT->footer();

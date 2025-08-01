@@ -17,8 +17,8 @@
 /**
  * Game block
  *
- * @package    block_game
- * @copyright  2020 Willian Mano http://conecti.me
+ * @package    help_game
+ * @copyright  2025 José Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace block_game\output;
@@ -29,15 +29,38 @@ use renderable;
 use templatable;
 use renderer_base;
 
+/**
+ * Help page renderable class.
+ *
+ * @package    help_game
+ * @copyright  2025 José Wilson
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class help implements renderable, templatable {
+    /** @var title */
     public $title;
+    /** @var coursefullname */
     public $coursefullname;
+    /** @var isfrontpage */
     public $isfrontpage;
+    /** @var notconfigured */
     public $notconfigured;
+    /** @var sections */
     public $sections = [];
+    /** @var features */
     public $features = [];
-
-    public function __construct(\stdClass $course, \stdClass $config, \stdClass $cfggame, bool $isfrontpage, bool $notconfigured, array $sections) {
+    /**
+     * help constructor.
+     *
+     * @param stdClass $course
+     * @param stdClass $config
+     * @param stdClass $cfggame
+     * @param bool $isfrontpag
+     * @param array $sections
+     * $notconfigured
+     */
+    public function __construct(\stdClass $course, \stdClass $config, \stdClass $cfggame,
+            bool $isfrontpage, bool $notconfigured, array $sections) {
         $this->coursefullname = $course->fullname;
         $this->isfrontpage = $isfrontpage;
         $this->notconfigured = $notconfigured;
@@ -52,7 +75,7 @@ class help implements renderable, templatable {
                 'title' => get_string('help_avatar_titulo', 'block_game'),
                 'text' => ($cfggame->change_avatar_course == 1 && !$isfrontpage)
                     ? get_string('help_avatar_text_course', 'block_game')
-                    : get_string('help_avatar_text', 'block_game')
+                    : get_string('help_avatar_text', 'block_game'),
             ];
         }
 
@@ -61,7 +84,7 @@ class help implements renderable, templatable {
                 'key' => 'info',
                 'image' => 'info.svg',
                 'title' => get_string('help_info_user_titulo', 'block_game'),
-                'text' => get_string('help_info_user_text', 'block_game')
+                'text' => get_string('help_info_user_text', 'block_game'),
             ];
         }
 
@@ -102,7 +125,7 @@ class help implements renderable, templatable {
                 'key' => 'score',
                 'image' => 'score.svg',
                 'title' => get_string('help_score_titulo', 'block_game'),
-                'text' => $scoretext
+                'text' => $scoretext,
             ];
         }
 
@@ -119,7 +142,7 @@ class help implements renderable, templatable {
                 'key' => 'rank',
                 'image' => 'rank.svg',
                 'title' => get_string('help_rank_titulo', 'block_game'),
-                'text' => $ranktext
+                'text' => $ranktext,
             ];
         }
 
@@ -144,18 +167,23 @@ class help implements renderable, templatable {
                 'key' => 'level',
                 'image' => 'level.svg',
                 'title' => get_string('help_level_titulo', 'block_game'),
-                'text' => $leveltext
+                'text' => $leveltext,
             ];
         }
     }
-
+    /**
+    * Exporta os dados da página para serem utilizados no template Mustache.
+    *
+    * @param \renderer_base $output Renderizador do Moodle.
+    * @return array Dados formatados para o template.
+    */
     public function export_for_template(renderer_base $output) {
         return [
             'title' => $this->title,
             'coursefullname' => $this->coursefullname,
             'isfrontpage' => $this->isfrontpage,
             'notconfigured' => $this->notconfigured,
-            'features' => $this->features
+            'features' => $this->features,
         ];
     }
 }

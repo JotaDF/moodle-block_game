@@ -24,18 +24,18 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/completionlib.php');
-require_once($CFG->libdir . '/filelib.php' );
+require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->libdir . '/badgeslib.php');
 
 global $USER, $COURSE, $OUTPUT, $CFG;
 
 $courseid = required_param('id', PARAM_INT);
-$course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $courseid,], '*', MUST_EXIST);
 
 require_login($course);
 
 $PAGE->set_pagelayout('course');
-$PAGE->set_url('/blocks/game/perfil_gamer.php', array('id' => $courseid));
+$PAGE->set_url('/blocks/game/perfil_gamer.php',['id' => $courseid,]);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_title(get_string('perfil_gamer_title', 'block_game'));
 $PAGE->set_heading(get_string('perfil_gamer_title', 'block_game'));

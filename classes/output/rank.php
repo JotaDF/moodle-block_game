@@ -18,7 +18,7 @@
  * Game block
  *
  * @package    block_game
- * @copyright  2020 Willian Mano http://conecti.me
+ * @copyright  2025 José Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,23 +29,34 @@ use templatable;
 use renderer_base;
 use moodle_url;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Renderable class for the ranking page.
  *
  * @package    block_game
- * @copyright  2025
+ * @copyright  2025 José Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class rank implements renderable, templatable {
+    /** @var course */
     protected $course;
+    /** @var user */
     protected $user;
+    /** @var config */
     protected $config;
+    /** @var cfggame */
     protected $cfggame;
+    /** @var context */
     protected $context;
+    /** @var groupid */
     protected $groupid;
-
+    /**
+     * Rank constructor.
+     *
+     * @param stdClass $course
+     * @param stdClass $user
+     * @param stdClass $config
+     * @param int $groupid
+     */
     public function __construct($course, $user, $config, $groupid = 0) {
         $this->course = $course;
         $this->user = $user;
@@ -54,7 +65,11 @@ class rank implements renderable, templatable {
         $this->groupid = $groupid;
         $this->context = \context_course::instance($course->id);
     }
-
+    /**
+     * Export the data.
+     * @param renderer_base $output
+     * @return array|\stdClass
+     */
     public function export_for_template(renderer_base $output) {
         global $USER, $CFG;
 
@@ -83,11 +98,11 @@ class rank implements renderable, templatable {
             ['label' => get_string('score_section', 'block_game'), 'class' => 'c4'],
             ['label' => get_string('score_bonus_day', 'block_game'), 'class' => 'c5'],
             ['label' => get_string('label_badge', 'block_game'), 'class' => 'c6'],
-            ['label' => get_string('score_total', 'block_game'), 'class' => 'c7']
+            ['label' => get_string('score_total', 'block_game'), 'class' => 'c7'],
         ] : [
             ['label' => get_string('order', 'block_game'), 'class' => 'c0'],
             ['label' => get_string('name', 'block_game'), 'class' => 'c1'],
-            ['label' => get_string('score_total', 'block_game'), 'class' => 'c2']
+            ['label' => get_string('score_total', 'block_game'), 'class' => 'c2'],
         ];
 
         // Ranking.
@@ -95,7 +110,8 @@ class rank implements renderable, templatable {
         $ord = 1;
 
         foreach ($ranklist as $gamer) {
-            if ($limit > 0 && $ord > $limit) break;
+            if ($limit > 0 && $ord > $limit) 
+                break;
 
             $avatar = '';
             if (!empty($this->cfggame->use_avatar)) {
@@ -118,12 +134,13 @@ class rank implements renderable, templatable {
             $row = [
                 'ord' => $ordtext,
                 'user' => $usertext,
-                'score' => $scoretext
+                'score' => $scoretext,
             ];
 
             if ($showdetails) {
                 $row['sum_score_activities'] = isset($gamer->sum_score_activities) ? (int) $gamer->sum_score_activities : 0;
-                $row['sum_score_module_completed'] = isset($gamer->sum_score_module_completed) ? (int) $gamer->sum_score_module_completed : 0;
+                $row['sum_score_module_completed'] = isset($gamer->sum_score_module_completed) ?
+                        (int) $gamer->sum_score_module_completed : 0;
                 $row['sum_score_section'] = isset($gamer->sum_score_section) ? (int) $gamer->sum_score_section : 0;
                 $row['sum_score_bonus_day'] = isset($gamer->sum_score_bonus_day) ? (int) $gamer->sum_score_bonus_day : 0;
                 $row['sum_score_badges'] = isset($gamer->sum_score_badges) ? (int) $gamer->sum_score_badges : 0;
@@ -133,7 +150,7 @@ class rank implements renderable, templatable {
             $ord++;
         }
 
-        // Contar jogadores que não começaram
+        // Contar jogadores que não começaram.
         $notstarted = block_game_get_no_players($this->course->id, $this->groupid);
         if ($notstarted > 0) {
             $templatecontext['notstarted'] = true;
@@ -142,7 +159,6 @@ class rank implements renderable, templatable {
                 : get_string('not_start_game_s', 'block_game');
             $templatecontext['notstarted'] = $notstarted;
         }
-
         return $templatecontext;
     }
 }

@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Game block
+ * Profile
  *
  * @package    block_game
- * @copyright  2020 Willian Mano http://conecti.me
+ * @copyright  2025 José Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,10 +32,10 @@ use context_course;
 use moodle_url;
 
 /**
- * Ranking block renderable class.
+ * Profile renderable class.
  *
  * @package    block_game
- * @copyright  2020 Willian Mano http://conecti.me
+ * @copyright  2025 José Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class profile implements renderable, templatable {
@@ -91,7 +91,7 @@ class profile implements renderable, templatable {
         $showlevel = !isset($game->config->show_level) || $game->config->show_level == 1;
 
         $coursename = $this->course->fullname;
-        $imgavatar = $output->user_picture($this->user, array('size' => 80, 'hspace' => 12));
+        $imgavatar = $output->user_picture($this->user, ['size' => 80, 'hspace' => 12,]);
         if ($showavatar == 1) {
             $imgavatar = '<img  align="center" hspace="12" height="140" width="140" src="';
             $fs = get_file_storage();
@@ -128,7 +128,7 @@ class profile implements renderable, templatable {
         $hascourses = false;
         foreach ($rs as $gameuser) {
             $hascourses = true;
-            $course = $DB->get_record('course', array('id' => $gameuser->courseid));
+            $course = $DB->get_record('course', ['id' => $gameuser->courseid,]);
             if ($gameuser->courseid != SITEID) {
                 $coursename = $course->fullname;
             } else {
@@ -220,7 +220,7 @@ class profile implements renderable, templatable {
                 'scoresection' => $scoresection,
                 'scorebonus' => $scorebonus,
                 'scorbadge' => $scorbadge,
-                'awarded' => true
+                'awarded' => true,
             ];
             $fullpointsall = ($fullpointsall + ($gameuser->score + $gameuser->score_bonus_day
                     + $gameuser->score_activities + $gameuser->score_badges
@@ -231,7 +231,6 @@ class profile implements renderable, templatable {
             $fullpointssection += $gameuser->score_section;
             $fullpointsbadges += $gameuser->score_badges;
         }
-
         if ($showlevel) {
             $gameall = new \stdClass();
             $gameall->courseid = SITEID;
@@ -300,7 +299,7 @@ class profile implements renderable, templatable {
             'scoresection' => '<strong>' . $fullpointssection . get_string('abbreviate_score', 'block_game') . '</strong>',
             'scorebonus' => '<strong>' . $fullpointsbonus . get_string('abbreviate_score', 'block_game') . '</strong>',
             'scorbadge' => '<strong>' . $fullpointsbadges . get_string('abbreviate_score', 'block_game') . '</strong>',
-            'awarded' => true
+            'awarded' => true,
         ];
 
         $labelbadges = get_string('label_badge', 'block_game');
@@ -312,7 +311,7 @@ class profile implements renderable, templatable {
                 $context = ($badge->type == BADGE_TYPE_SITE) ? context_system::instance()
                         : context_course::instance($badge->courseid);
                 $imageurl = moodle_url::make_pluginfile_url($context->id, 'badges', 'badgeimage', $badge->id, '/', 'f1', false);
-                $url = new moodle_url('/badges/badge.php', array('hash' => $badge->uniquehash));
+                $url = new moodle_url('/badges/badge.php', ['hash' => $badge->uniquehash,]);
                 $outputbadges .= '<img src="' . $imageurl . '"  height="80" width="80" class="badge-image">';
                 $outputbadges .= '<span> <a href="' . $url . '">' . $badge->name . '</a> </span> ';
             }
@@ -337,8 +336,7 @@ class profile implements renderable, templatable {
             'courses' => $courses,
             'labelbadges' => $labelbadges,
             'outputbadges' => $outputbadges,
-            'badgedisabled' => $badgedisabled
+            'badgedisabled' => $badgedisabled,
         ];
     }
-
 }
