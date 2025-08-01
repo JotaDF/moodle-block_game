@@ -6,7 +6,7 @@ Changes
 ### Changes Version 2.0 Version for Moodle 5.0 onwards
 
 * 2025-08-01 - Adaptations to support Moodle 5.0
-* 
+
 Changes
 -------
 ### Changes Version 1.32 Version for Moodle 3.5 onwards
