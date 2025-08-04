@@ -65,7 +65,7 @@ class block_game_edit_form extends block_edit_form {
             $mform->setDefault('config_score_activities', 1);
             $mform->addHelpButton('config_score_activities', 'config_score_activities', 'block_game');
             // Control bonus of day.
-            $bonusdayoptions = [0 => 0, 1 => 1, 3 => 3, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100,];
+            $bonusdayoptions = [0 => 0, 1 => 1, 3 => 3, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100];
             $mform->addElement('select', 'config_bonus_day', get_string('config_bonus_day', 'block_game'), $bonusdayoptions);
             $mform->addHelpButton('config_bonus_day', 'config_bonus_day', 'block_game');
             // Control visibility of rank group.
@@ -73,7 +73,7 @@ class block_game_edit_form extends block_edit_form {
             $mform->setDefault('config_show_rank_group', 0);
             $mform->addHelpButton('config_show_rank_group', 'config_rank_group', 'block_game');
             // Control visibility of rank group calculation.
-            $calcoptions = [0 => get_string('sum', 'block_game'), 1 => get_string('med', 'block_game'),];
+            $calcoptions = [0 => get_string('sum', 'block_game'), 1 => get_string('med', 'block_game')];
             $mform->addElement('select', 'config_rank_group_calc',
                     get_string('config_rank_group_calc', 'block_game'), $calcoptions);
             $mform->setDefault('config_rank_group_calc', 0);
@@ -84,7 +84,7 @@ class block_game_edit_form extends block_edit_form {
             $mform->setDefault('config_show_rank', 1);
             $mform->addHelpButton('config_show_rank', 'config_rank', 'block_game');
             // Control limit rank.
-            $limit = [0 => 0, 3 => 3, 5 => 5, 10 => 10, 20 => 20, 50 => 50, 100 => 100, 200 => 200, 400 => 400,];
+            $limit = [0 => 0, 3 => 3, 5 => 5, 10 => 10, 20 => 20, 50 => 50, 100 => 100, 200 => 200, 400 => 400];
             $mform->addElement('select', 'config_limit_rank', get_string('config_limit_rank', 'block_game'), $limit);
             $mform->addHelpButton('config_limit_rank', 'config_limit_rank', 'block_game');
             // Preserve user identity.
@@ -101,14 +101,14 @@ class block_game_edit_form extends block_edit_form {
             $mform->setDefault('config_show_level', 1);
             $mform->addHelpButton('config_show_level', 'config_level', 'block_game');
             // Options controlling level up.
-            $levels = [4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12, 13 => 13, 14 => 14, 15 => 15,];
+            $levels = [4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12, 13 => 13, 14 => 14, 15 => 15];
             $mform->addElement('select', 'config_level_number', get_string('config_level_number', 'block_game'), $levels);
             $mform->setDefault('config_level_number', 6);
             $mform->disabledIf('config_level_number', 'config_show_level', 'eq', 0);
             $mform->addHelpButton('config_level_number', 'config_level_number', 'block_game');
             $leveluppoints = [1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
                 5 => 4000, 6 => 6000, 7 => 10000, 8 => 20000,
-                9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000, 13 => 150000, 14 => 250000, 15 => 500000,];
+                9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000, 13 => 150000, 14 => 250000, 15 => 500000];
             for ($i = 1; $i <= 15; $i++) {
                 $mform->addElement('text', 'config_level_up' . $i, get_string('config_level_up' . $i, 'block_game'));
                 $mform->setDefault('config_level_up' . $i, $leveluppoints[$i]);
@@ -127,7 +127,7 @@ class block_game_edit_form extends block_edit_form {
             $sections = block_game_get_sections_course($COURSE->id);
             foreach ($sections as $section) {
                 $limit = [0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
-                    45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100,];
+                    45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100];
                 $txtsection = get_string('section', 'block_game') . ' ' . $section->section;
                 if (isset($section->name) && $section->name != "") {
                     $txtsection = $section->name;
@@ -143,7 +143,7 @@ class block_game_edit_form extends block_edit_form {
             foreach ($activities as $activity) {
                 if (block_game_is_visibled_module($COURSE->id, $activity['id'])) {
                     $limit = [0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
-                    45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100,];
+                    45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100];
                     $attributes = ['class' => 'iconlarge activityicon'];
                     $icon = $OUTPUT->pix_icon('icon', $activity['modulename'], $activity['type'], $attributes);
                     $activityoption = [];
@@ -152,7 +152,7 @@ class block_game_edit_form extends block_edit_form {
                             $activityoption, 'config_activity_' . $activity['id'],
                             $icon . format_string(
                                     $activity['name']),
-                                    [' ',],
+                                    [' '],
                                     false
                                     );
                 }

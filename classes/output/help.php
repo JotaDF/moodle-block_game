@@ -15,15 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Game block
+ * Help definition
  *
- * @package    help_game
- * @copyright  2025 José Wilson
+ * @package    block_game
+ * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace block_game\output;
-
-defined('MOODLE_INTERNAL') || die();
 
 use renderable;
 use templatable;
@@ -55,7 +53,8 @@ class help implements renderable, templatable {
      * @param stdClass $course
      * @param stdClass $config
      * @param stdClass $cfggame
-     * @param bool $isfrontpag
+     * @param bool $isfrontpage
+     * @param bool $notconfigured
      * @param array $sections
      * $notconfigured
      */
@@ -172,11 +171,11 @@ class help implements renderable, templatable {
         }
     }
     /**
-    * Exporta os dados da página para serem utilizados no template Mustache.
-    *
-    * @param \renderer_base $output Renderizador do Moodle.
-    * @return array Dados formatados para o template.
-    */
+     * Export the data.
+     *
+     * @param renderer_base $output
+     * @return array|\stdClass
+     */
     public function export_for_template(renderer_base $output) {
         return [
             'title' => $this->title,

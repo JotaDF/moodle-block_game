@@ -143,7 +143,7 @@ class block implements renderable, templatable {
                 $linkinfo .= $CFG->wwwroot . '/blocks/game/pix/info.svg" height="24" width="24"/></a>';
                 $showlinks = true;
             }
-            $userpictureparams = ['size' => 80, 'link' => false, 'alt' => 'User',];
+            $userpictureparams = ['size' => 80, 'link' => false, 'alt' => 'User'];
             $userpicture = $output->user_picture($this->user, $userpictureparams);
             if ($showavatar) {
                 $img = $CFG->wwwroot . '/blocks/game/pix/a' . $game->avatar . '.svg"';

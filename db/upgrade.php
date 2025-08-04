@@ -49,7 +49,7 @@ function xmldb_block_game_upgrade($oldversion) {
         $table->add_field('score', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
         $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
         // Adding keys to table block_game_completed_atv.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id',]);
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
         $table->add_key('courseid', XMLDB_KEY_FOREIGN, ['courseid'], 'course', ['id']);
         $table->add_key('userid', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
         // Conditionally launch create table for block_game_completed_atv.

@@ -55,7 +55,7 @@ switch ($op) {
                 'achievements' => explode(',', $game->achievements),
                 'phases' => explode(',', $game->phases),
                 'rewards' => explode(',', $game->rewards),
-                ]
+                ],
                 ];
         echo json_encode($json);
         break;

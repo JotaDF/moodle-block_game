@@ -36,7 +36,7 @@ if ($ADMIN->fulltree) {
             new lang_string('imagemavatardesc', 'block_game'),
             'imagens_avatar',
             0,
-            ['subdirs' => 0, 'maxfiles' => 68, 'accepted_types' => array('.svg')]
+            ['subdirs' => 0, 'maxfiles' => 68, 'accepted_types' => ['.svg']]
         ));
 
     $settings->add(new admin_setting_configcheckbox('block_game/change_avatar_course',
@@ -48,11 +48,11 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('block_game/score_activities',
             get_string('config_score_activities', 'block_game'), '', 1));
 
-    $bonusdayoptions = array(0 => 0, 1 => 1, 3 => 3, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100);
+    $bonusdayoptions = [0 => 0, 1 => 1, 3 => 3, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 50 => 50, 100 => 100];
     $settings->add(new admin_setting_configselect('block_game/bonus_day',
             get_string('config_bonus_day', 'block_game'), '', -2, $bonusdayoptions));
 
-    $bonusbadgeoptions = array(0 => 0, 50 => 50, 100 => 100, 200 => 200, 500 => 500, 1000 => 1000, 2000 => 2000);
+    $bonusbadgeoptions = [0 => 0, 50 => 50, 100 => 100, 200 => 200, 500 => 500, 1000 => 1000, 2000 => 2000];
     $settings->add(new admin_setting_configselect('block_game/bonus_badge',
             get_string('config_bonus_badge', 'block_game'), '', -2, $bonusbadgeoptions));
 
@@ -74,17 +74,17 @@ if ($ADMIN->fulltree) {
             new lang_string('imagemlevelsdesc', 'block_game'),
             'imagens_levels',
             0,
-            ['subdirs' => 0, 'maxfiles' => 16, 'accepted_types' => array('.svg')]
+            ['subdirs' => 0, 'maxfiles' => 16, 'accepted_types' => ['.svg']]
         ));
 
     // Options controlling level up.
-    $leveloptions = array(4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12, 13 => 13, 14 => 14, 15 => 15);
+    $leveloptions = [4 => 4, 6 => 6, 8 => 8, 10 => 10, 12 => 12, 13 => 13, 14 => 14, 15 => 15];
     $settings->add(new admin_setting_configselect('block_game/level_number',
             get_string('config_level_number', 'block_game'), '', 15, $leveloptions));
 
-    $leveluppoints = array(1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
+    $leveluppoints = [1 => 300, 2 => 500, 3 => 1000, 4 => 2000,
         5 => 4000, 6 => 6000, 7 => 10000, 8 => 20000,
-        9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000, 13 => 150000, 14 => 250000, 15 => 500000);
+        9 => 30000, 10 => 50000, 11 => 70000, 12 => 100000, 13 => 150000, 14 => 250000, 15 => 500000];
     for ($i = 1; $i <= 15; $i++) {
         $settings->add(new admin_setting_configtext('block_game/level_up' . $i,
                 get_string('config_level_up' . $i, 'block_game'), '', $leveluppoints[$i], PARAM_INT));

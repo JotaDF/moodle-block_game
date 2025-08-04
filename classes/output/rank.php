@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Game block
+ * Rank definition
  *
  * @package    block_game
- * @copyright  2025 José Wilson
+ * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -110,9 +110,9 @@ class rank implements renderable, templatable {
         $ord = 1;
 
         foreach ($ranklist as $gamer) {
-            if ($limit > 0 && $ord > $limit) 
+            if ($limit > 0 && $ord > $limit) {
                 break;
-
+            }
             $avatar = '';
             if (!empty($this->cfggame->use_avatar)) {
                 $imgurl = $CFG->wwwroot . '/blocks/game/pix/a' . block_game_get_avatar_user($gamer->userid) . '.svg';

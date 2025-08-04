@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Game block
+ * Rank Group definition
  *
  * @package    block_game
- * @copyright  2025 José Wilson
+ * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -37,20 +37,24 @@ use renderer_base;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class rankgroup implements renderable, templatable {
+    /** @var title */
     public $title;
+    /** @var coursefullname */
     public $coursefullname;
+    /** @var isfrontpage */
     public $isfrontpage;
+    /** @var notconfigured */
     public $notconfigured;
+    /** @var groups */
     public $groups = [];
     /**
      * Rankgroup constructor.
      *
      * @param stdClass $course
      * @param stdClass $config
-     * @param stdClass $cfggame
      * @param bool $isfrontpage
      */
-    public function __construct(stdClass $course, stdClass $config, stdClass $cfggame, bool $isfrontpage) {
+    public function __construct(stdClass $course, stdClass $config, bool $isfrontpage) {
         $this->title = get_string('rank_group_game_title', 'block_game');
         $this->coursefullname = $course->fullname;
         $this->isfrontpage = $isfrontpage;

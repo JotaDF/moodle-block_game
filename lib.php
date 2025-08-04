@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Game block language strings
+ * Functions game
  *
  * @package    block_game
  * @copyright  2019 Jose Wilson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 use core\session\manager;
 
 /**
@@ -35,7 +36,7 @@ use core\session\manager;
  * @param array $options
  * @return boolean
  */
-function block_game_pluginfile($course, $birecordorcm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function block_game_pluginfile($course, $birecordorcm, $context, $filearea, $args, $forcedownload, array $options = []) {
     global $CFG, $USER;
 
     $fs = get_file_storage();
@@ -90,9 +91,9 @@ function block_game_load_game($game) {
     global $DB;
     if (!empty($game->userid) && !empty($game->courseid)) {
         $sql = 'SELECT count(*) as total  FROM {block_game} WHERE courseid=? AND userid=?';
-        $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
+        $busca = $DB->get_record_sql($sql, [$game->courseid, $game->userid]);
         if ($busca->total > 0) {
-            $gamedb = $DB->get_record('block_game', array('courseid' => $game->courseid, 'userid' => $game->userid));
+            $gamedb = $DB->get_record('block_game', ['courseid' => $game->courseid, 'userid' => $game->userid]);
             return $gamedb;
         } else {
             $newgame = new stdClass();
@@ -132,7 +133,7 @@ function block_game_load_game($game) {
 function block_game_get_games_user($userid) {
     global $DB;
     if (!empty($userid)) {
-        $games = $DB->get_records_sql('SELECT * FROM {block_game} WHERE userid=? ORDER BY courseid DESC', array($userid));
+        $games = $DB->get_records_sql('SELECT * FROM {block_game} WHERE userid=? ORDER BY courseid DESC', [$userid]);
         return $games;
     }
     return false;
@@ -149,7 +150,7 @@ function block_game_update_avatar_game($game) {
 
     if (!empty($game->userid) && !empty($game->avatar)) {
 
-        $DB->execute("UPDATE {block_game} SET avatar=? WHERE userid=?", array($game->avatar, $game->userid));
+        $DB->execute("UPDATE {block_game} SET avatar=? WHERE userid=?", [$game->avatar, $game->userid]);
 
         return true;
     }
@@ -339,11 +340,11 @@ function block_game_bonus_of_day($game, $bonus) {
     if (!empty($game->id)) {
         $sql = 'SELECT CURRENT_DATE as hoje, bonus_day, score_bonus_day'
                 . '  FROM {block_game} WHERE courseid=? AND userid=?';
-        $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
+        $busca = $DB->get_record_sql($sql, [$game->courseid, $game->userid]);
         if ($busca->bonus_day == null || $busca->bonus_day < $busca->hoje) {
             $game->score_bonus_day = ((int) $game->score_bonus_day + (int) $bonus);
             $sqlupdate = "UPDATE {block_game} SET score_bonus_day=?, bonus_day=?  WHERE id=?";
-            $DB->execute($sqlupdate, array((int) $game->score_bonus_day, $busca->hoje, $game->id));
+            $DB->execute($sqlupdate, [(int) $game->score_bonus_day, $busca->hoje, $game->id]);
         }
         return ((int) $game->score + (int) $bonus);
     }
@@ -364,14 +365,14 @@ function block_game_score_activities($game) {
         $sql = "SELECT SUM(COALESCE(g.finalgrade,0)) as score_activities"
                 . " FROM {grade_grades} g INNER JOIN {grade_items} i ON g.itemid=i.id"
                 . " WHERE i.courseid=? AND i.itemtype='mod' AND g.userid=?";
-        $busca = $DB->get_record_sql($sql, array($game->courseid, $game->userid));
+        $busca = $DB->get_record_sql($sql, [$game->courseid, $game->userid]);
 
         if ($busca->score_activities == "" || empty($busca->score_activities)) {
             $game->score_activities = 0;
         } else {
             $game->score_activities = (int) $busca->score_activities;
         }
-        $DB->execute("UPDATE {block_game} SET score_activities=? WHERE id=?", array((int) $game->score_activities, $game->id));
+        $DB->execute("UPDATE {block_game} SET score_activities=? WHERE id=?", [(int) $game->score_activities, $game->id]);
 
         return true;
     }
@@ -387,7 +388,7 @@ function block_game_score_activities($game) {
 function block_game_no_score_activities($game) {
     global $DB;
     if (!empty($game->id)) {
-        $DB->execute("UPDATE {block_game} SET score_activities=0 WHERE id=?", array($game->id));
+        $DB->execute("UPDATE {block_game} SET score_activities=0 WHERE id=?", [$game->id]);
         return true;
     }
     return false;
@@ -405,7 +406,7 @@ function block_game_score_badge($game, $value, $courseid = SITEID) {
     global $DB, $CFG;
     require_once($CFG->libdir . '/badgeslib.php');
 
-    $badges = array();
+    $badges = [];
     if (!empty($CFG->enablebadges)) {
         if (!empty($game->userid)) {
             if ($courseid != SITEID) {
@@ -416,12 +417,12 @@ function block_game_score_badge($game, $value, $courseid = SITEID) {
                 $game->score_badges = ($badges * $value);
             }
             $sql = 'UPDATE {block_game} SET score_badges=? WHERE userid=? AND courseid=?';
-            $DB->execute($sql, array((int) $game->score_badges, $game->userid, $courseid));
+            $DB->execute($sql, [(int) $game->score_badges, $game->userid, $courseid]);
             return $game;
         }
     } else {
         $sql = 'UPDATE {block_game} SET score_badges=? WHERE userid=? AND courseid=?';
-        $DB->execute($sql, array((int) 0, $game->userid, $courseid));
+        $DB->execute($sql, [(int) 0, $game->userid, $courseid]);
         return $game;
     }
     return $game;
@@ -437,9 +438,7 @@ function block_game_score_badge($game, $value, $courseid = SITEID) {
 function block_game_get_user_badges($userid, $courseid = 0) {
     global $CFG, $DB;
 
-    $params = array(
-        'userid' => $userid
-    );
+    $params = ['userid' => $userid];
     $sql = "SELECT bi.uniquehash, bi.dateissued, bi.dateexpire,"
            . " bi.id as issuedid, bi.visible, u.email, b.*"
            . " FROM"
@@ -532,7 +531,7 @@ function block_game_ranking($game, $groupid = 0) {
                     . ' GROUP BY g.userid, u.firstname ORDER BY pt DESC,'
                     . ' sum_score_activities DESC,sum_score_module_completed DESC,sum_score DESC, g.userid ASC';
 
-            $ranking = $DB->get_records_sql($sql, array($game->courseid));
+            $ranking = $DB->get_records_sql($sql, [$game->courseid]);
             $poisicao = 1;
             foreach ($ranking as $rs) {
                 if ($rs->userid == $game->userid) {
@@ -542,7 +541,7 @@ function block_game_ranking($game, $groupid = 0) {
                 $poisicao++;
             }
         }
-        $DB->execute("UPDATE {block_game} SET ranking=? WHERE id=?", array($game->ranking, $game->id));
+        $DB->execute("UPDATE {block_game} SET ranking=? WHERE id=?", [$game->ranking, $game->id]);
     }
     return $game;
 }
@@ -605,7 +604,7 @@ function block_game_rank_list($courseid, $groupid = 0) {
                     . " GROUP BY g.userid, u.firstname, u.lastname, g.avatar ORDER BY pt DESC,"
                     . " sum_score_activities DESC,sum_score_module_completed DESC,sum_score DESC, g.userid ASC";
 
-            $ranking = $DB->get_records_sql($sql, array($courseid));
+            $ranking = $DB->get_records_sql($sql, [$courseid]);
             return $ranking;
         }
     }
@@ -635,7 +634,7 @@ function block_game_ranking_group($courseid) {
                     . ' AND bg.courseid=g.courseid AND g.courseid=?'
                     . ' GROUP BY g.id, g.name ORDER BY pt DESC';
 
-            $rs = $DB->get_records_sql($sql, array($courseid));
+            $rs = $DB->get_records_sql($sql, [$courseid]);
             return $rs;
         }
         return false;
@@ -667,9 +666,9 @@ function block_game_ranking_group_md($courseid) {
                     . ' AND bg.courseid=g.courseid AND g.courseid=?'
                     . ' GROUP BY g.id, g.name ORDER BY pt DESC';
 
-            $rs = $DB->get_records_sql($sql, array($courseid));
+            $rs = $DB->get_records_sql($sql, [$courseid]);
 
-            $grups = array();
+            $grups = [];
             foreach ($rs as $group) {
                 $grupo = new stdClass();
                 $grupo->id = $group->id;
@@ -717,7 +716,7 @@ function block_game_set_level($game, $levelup, $levelnumber) {
         }
         $game->level = $level;
     }
-    $DB->execute("UPDATE {block_game} SET level=? WHERE id=?", array($game->level, $game->id));
+    $DB->execute("UPDATE {block_game} SET level=? WHERE id=?", [$game->level, $game->id]);
     return $game;
 }
 
@@ -761,7 +760,7 @@ function block_game_get_players($courseid, $groupid = 0) {
             $sql = 'SELECT count(*) as total FROM {role_assignments} rs,'
                     . ' {user} u, {context} e WHERE u.id=rs.userid AND rs.contextid=e.id '
                     . 'AND e.contextlevel=50 ' . $wheregroup . ' AND e.instanceid=?';
-            $busca = $DB->get_record_sql($sql, array($courseid));
+            $busca = $DB->get_record_sql($sql, [$courseid]);
             return $busca->total;
         }
     }
@@ -793,7 +792,7 @@ function block_game_get_no_players($courseid, $groupid = 0) {
                     . 'WHERE u.id=rs.userid AND rs.contextid=e.id AND e.contextlevel=50  '
                     . $wheregroup . ' AND e.instanceid=?'
                     . ' AND u.id NOT IN(SELECT userid FROM {block_game})';
-            $busca = $DB->get_record_sql($sql, array($courseid));
+            $busca = $DB->get_record_sql($sql, [$courseid]);
             return $busca->total;
         }
     }
@@ -836,7 +835,7 @@ function block_game_get_modules_tracking($courseid) {
                     . ' FROM {modules} m, {course_modules} cm '
                     . ' WHERE cm.module=m.id AND cm.completion > 0 AND deletioninprogress=0 AND cm.course=? '
                     . 'ORDER BY m.id';
-            $modules = $DB->get_records_sql($sql, array($courseid));
+            $modules = $DB->get_records_sql($sql, [$courseid]);
             return $modules;
         }
     }
@@ -858,7 +857,7 @@ function block_game_is_check_section($userid, $courseid, $sectionid) {
     . $userid . " AND m.course=" . $courseid . " AND m.section="
     . $sectionid . " AND m.completion > 0 AND c.completionstate > 0 AND m.deletioninprogress = 0");
 
-    $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+    $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
     $wheregroup = "";
      // Verification group mode.
     if ($course->groupmode >= 1) {
@@ -901,7 +900,7 @@ function block_game_get_sections_course($courseid) {
         if ($courseid != SITEID) {
             $sql = 'SELECT * FROM {course_sections} WHERE course = ? '
                     . ' ORDER BY section';
-            $sections = $DB->get_records_sql($sql, array($courseid));
+            $sections = $DB->get_records_sql($sql, [$courseid]);
             return $sections;
         }
     }
@@ -918,7 +917,7 @@ function block_game_get_sections_course($courseid) {
 function block_game_score_section($game, $scoresections) {
     global $DB;
     if (!empty($game->id)) {
-        $DB->execute("UPDATE {block_game} SET score_section=?  WHERE id=?", array((int) $scoresections, $game->id));
+        $DB->execute("UPDATE {block_game} SET score_section=?  WHERE id=?", [(int) $scoresections, $game->id]);
         return true;
     }
     return false;
@@ -934,7 +933,7 @@ function block_game_score_section($game, $scoresections) {
 function block_game_score_mod_completed($game, $scoremodcompleted) {
     global $DB;
     if (!empty($game->id)) {
-        $DB->execute("UPDATE {block_game} SET score_module_completed=?  WHERE id=?", array((int) $scoremodcompleted, $game->id));
+        $DB->execute("UPDATE {block_game} SET score_module_completed=?  WHERE id=?", [(int) $scoremodcompleted, $game->id]);
         return true;
     }
     return false;
@@ -958,7 +957,7 @@ function block_game_is_student_user($userid, $courseid) {
                 . " WHERE e.contextlevel=50 AND r.archetype = 'student' "
                 . " AND e.instanceid=? "
                 . " AND u.id=?";
-        $busca = $DB->get_record_sql($sql, array($courseid, $userid));
+        $busca = $DB->get_record_sql($sql, [$courseid, $userid]);
         return $busca->total;
     }
     return 0;
@@ -981,7 +980,7 @@ function block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, 
     // Config level up.
     if ($showlevel && isset($game->config->show_level)) {
         $levelnumber = (int) $game->config->level_number;
-        $levelup = array();
+        $levelup = [];
         for ($i = 1; $i <= $game->config->level_number; $i++) {
             $xlevel = 'level_up' . $i;
             $levelup[] = (int) $game->config->$xlevel;
@@ -1092,7 +1091,7 @@ function block_game_process_game($game, $scoreok, $showlevel, $scoreactivities, 
 function block_game_get_config_block($courseid) {
     global $DB;
     $coursecontext = \context_course::instance($courseid);
-    $blockrecords = $DB->get_records('block_instances', array('blockname' => 'game', 'parentcontextid' => $coursecontext->id));
+    $blockrecords = $DB->get_records('block_instances', ['blockname' => 'game', 'parentcontextid' => $coursecontext->id]);
     foreach ($blockrecords as $b) {
         $blockinstance = \block_instance('game', $b);
     }
@@ -1113,7 +1112,7 @@ function block_game_course_has_block($courseid) {
 
     $coursecontext = \context_course::instance($courseid);
 
-    $blockrecord = $DB->get_record('block_instances', array('blockname' => 'game', 'parentcontextid' => $coursecontext->id));
+    $blockrecord = $DB->get_record('block_instances', ['blockname' => 'game', 'parentcontextid' => $coursecontext->id]);
 
     if ($blockrecord) {
         return true;
@@ -1139,7 +1138,7 @@ function block_game_get_percente_level($game) {
     // Config level up.
     if (isset($game->config->show_level) && $game->config->show_level == 1) {
         $levelnumber = (int) $game->config->level_number;
-        $levelup = array();
+        $levelup = [];
         for ($i = 1; $i <= $game->config->level_number; $i++) {
             $xlevel = 'level_up' . $i;
             $levelup[] = (int) $game->config->$xlevel;
@@ -1223,9 +1222,9 @@ function block_game_view_get_path_from_pluginfile($filearea, $args) {
 function block_game_get_course_activities($courseid) {
     $modinfo = get_fast_modinfo($courseid, -1);
     $sections = $modinfo->get_sections();
-    $activities = array();
-    $types = array();
-    $ids = array();
+    $activities = [];
+    $types = [];
+    $ids = [];
     foreach ($modinfo->instances as $module => $instances) {
         $modulename = get_string('pluginname', $module);
         foreach ($instances as $cm) {
@@ -1234,7 +1233,7 @@ function block_game_get_course_activities($courseid) {
                     array_push($types, $module);
                 }
                 array_push($ids, $cm->id);
-                $activities[] = array(
+                $activities[] = [
                     'type' => $module,
                     'modulename' => $modulename,
                     'id' => $cm->id,
@@ -1247,12 +1246,12 @@ function block_game_get_course_activities($courseid) {
                     'context' => $cm->context,
                     'icon' => $cm->get_icon_url(),
                     'available' => $cm->available,
-                );
+                ];
             }
         }
     }
     usort($activities, 'block_game_compare_activities');
-    return array('activities' => $activities, 'types' => $types, 'ids' => $ids);
+    return ['activities' => $activities, 'types' => $types, 'ids' => $ids];
 }
 
 /**
@@ -1346,8 +1345,8 @@ function block_game_coursemodule_standard_elements($formwrapper, $mform) {
 
     $mform->addElement('header', 'gamepointsheader', get_string('game_points', 'block_game'));
 
-    $limit = array(0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
-        45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100);
+    $limit = [0 => 0, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
+        45 => 45, 50 => 50, 60 => 60, 70 => 70, 80 => 80, 90 => 90, 100 => 100];
 
     $mform->addElement('select', 'config_atv', get_string('activity_points', 'block_game'), $limit);
     $mform->addHelpButton('config_atv', 'activity_points', 'block_game');

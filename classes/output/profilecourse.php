@@ -91,7 +91,7 @@ class profilecourse implements renderable, templatable {
         $showlevel = !isset($game->config->show_level) || $game->config->show_level == 1;
 
         $coursename = $this->course->fullname;
-        $imgavatar = $output->user_picture($this->user, ['size' => 80, 'hspace' => 12,]);
+        $imgavatar = $output->user_picture($this->user, ['size' => 80, 'hspace' => 12]);
         if ($showavatar == 1) {
             $imgavatar = '<img  align="center" hspace="12" height="140" width="140" src="';
             $fs = get_file_storage();
@@ -182,7 +182,7 @@ class profilecourse implements renderable, templatable {
                 $context = ($badge->type == BADGE_TYPE_SITE) ? context_system::instance()
                         : context_course::instance($badge->courseid);
                 $imageurl = moodle_url::make_pluginfile_url($context->id, 'badges', 'badgeimage', $badge->id, '/', 'f1', false);
-                $url = new moodle_url('/badges/badge.php', ['hash' => $badge->uniquehash,]);
+                $url = new moodle_url('/badges/badge.php', ['hash' => $badge->uniquehash]);
                 $outputbadges .= '<img src="' . $imageurl . '"  height="50" width="50" class="badge-image">';
                 $outputbadges .= '<span> <a href="' . $url . '">' . $badge->name . '</a> </span> ';
             }
