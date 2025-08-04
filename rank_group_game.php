@@ -56,5 +56,3 @@ if (isset($gameconfig->show_rank) && $gameconfig->show_rank == 1) {
     }
 }
 echo $OUTPUT->footer();
-
-

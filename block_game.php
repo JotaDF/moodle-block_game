@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/blocks/game/lib.php');
-require_once($CFG->libdir . '/filelib.php' );
+require_once($CFG->libdir . '/filelib.php');
 
 /**
  *  Block Game config form definition class
@@ -34,7 +34,6 @@ require_once($CFG->libdir . '/filelib.php' );
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_game extends block_base {
-
     /** @var stdClass|null */
     public $course = null;
     /**

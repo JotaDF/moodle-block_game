@@ -25,7 +25,7 @@
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once($CFG->dirroot . '/blocks/game/lib.php');
 require_once($CFG->libdir . '/blocklib.php');
-require_once($CFG->libdir . '/filelib.php' );
+require_once($CFG->libdir . '/filelib.php');
 
 global $USER, $SESSION, $COURSE, $OUTPUT, $CFG;
 

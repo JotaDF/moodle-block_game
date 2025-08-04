@@ -149,7 +149,6 @@ function block_game_update_avatar_game($game) {
     global $DB;
 
     if (!empty($game->userid) && !empty($game->avatar)) {
-
         $DB->execute("UPDATE {block_game} SET avatar=? WHERE userid=?", [$game->avatar, $game->userid]);
 
         return true;
@@ -167,7 +166,6 @@ function block_game_update_score_game($game) {
     global $DB;
 
     if (!empty($game->id) && !empty($game->score)) {
-
         $savegame = new stdClass();
         $savegame->id = $game->id;
         $savegame->score = $game->score;
@@ -189,7 +187,6 @@ function block_game_update_level_game($game) {
     global $DB;
 
     if (!empty($game->id) && !empty($game->level)) {
-
         $savegame = new stdClass();
         $savegame->id = $game->id;
         $savegame->level = $game->level;
@@ -211,7 +208,6 @@ function block_game_update_achievements_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
-
         $savegame = new stdClass();
         $savegame->id = $game->id;
         $savegame->achievements = $game->achievements;
@@ -233,7 +229,6 @@ function block_game_update_rewards_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
-
         $savegame = new stdClass();
         $savegame->id = $game->id;
         $savegame->rewards = $game->rewards;
@@ -255,7 +250,6 @@ function block_game_update_phases_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
-
         $savegame = new stdClass();
         $savegame->id = $game->id;
         $savegame->phases = $game->phases;
@@ -277,7 +271,6 @@ function block_game_update_badges_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
-
         $savegame = new stdClass();
         $savegame->id = $game->id;
         $savegame->badges = $game->badges;
@@ -299,7 +292,6 @@ function block_game_update_frame_game($game) {
     global $DB;
 
     if (!empty($game->id)) {
-
         $savegame = new stdClass();
         $savegame->id = $game->id;
         $savegame->frame = $game->frame;
@@ -361,7 +353,6 @@ function block_game_score_activities($game) {
     global $DB;
 
     if (!empty($game->id)) {
-
         $sql = "SELECT SUM(COALESCE(g.finalgrade,0)) as score_activities"
                 . " FROM {grade_grades} g INNER JOIN {grade_items} i ON g.itemid=i.id"
                 . " WHERE i.courseid=? AND i.itemtype='mod' AND g.userid=?";
@@ -473,7 +464,6 @@ function block_game_ranking($game, $groupid = 0) {
 
     if (!empty($game->id)) {
         if ($game->courseid == SITEID) {
-
             $sql = 'SELECT g.userid, u.firstname,SUM(g.score) sum_score,'
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                     . ' SUM(COALESCE(g.score_module_completed, 0)) sum_score_module_completed,'
@@ -558,7 +548,6 @@ function block_game_rank_list($courseid, $groupid = 0) {
 
     if (!empty($courseid)) {
         if ($courseid == SITEID) {
-
             $sql = 'SELECT g.userid, u.firstname, u.lastname ,SUM(g.score) sum_score,'
                     . ' SUM(COALESCE(g.score_activities, 0)) sum_score_activities,'
                     . ' SUM(COALESCE(g.score_module_completed, 0)) sum_score_module_completed,'
@@ -653,7 +642,6 @@ function block_game_ranking_group_md($courseid) {
 
     if (!empty($courseid)) {
         if ($courseid != SITEID) {
-
             $sql = 'SELECT g.id, g.name, COUNT(m.id) AS members,'
                     . ' SUM(bg.score)+SUM(COALESCE(bg.score_bonus_day, 0))'
                     . '+SUM(COALESCE(bg.score_activities, 0))'
@@ -679,7 +667,7 @@ function block_game_ranking_group_md($courseid) {
                 $grups[] = $grupo;
             }
 
-            usort($grups, function( $a, $b ) {
+            usort($grups, function ($a, $b) {
                 if ($a->md == $b->md) {
                     return 0;
                 }
@@ -1184,8 +1172,14 @@ function block_game_get_percente_level($game) {
 function block_game_pix_url($contextid, $filearea, $react) {
 
     return strval(moodle_url::make_pluginfile_url(
-                    $contextid, 'block_game', $filearea, 0, '/', $react)
-    );
+            $contextid,
+            'block_game',
+            $filearea,
+            0,
+            '/',
+            $react
+            )
+            );
 }
 
 /**

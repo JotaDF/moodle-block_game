@@ -74,8 +74,12 @@ class block_game_edit_form extends block_edit_form {
             $mform->addHelpButton('config_show_rank_group', 'config_rank_group', 'block_game');
             // Control visibility of rank group calculation.
             $calcoptions = [0 => get_string('sum', 'block_game'), 1 => get_string('med', 'block_game')];
-            $mform->addElement('select', 'config_rank_group_calc',
-                    get_string('config_rank_group_calc', 'block_game'), $calcoptions);
+            $mform->addElement(
+                    'select',
+                    'config_rank_group_calc',
+                    get_string('config_rank_group_calc', 'block_game'),
+                    $calcoptions
+                    );
             $mform->setDefault('config_rank_group_calc', 0);
             $mform->disabledIf('config_rank_group_calc', 'config_show_rank_group', 'eq', 0);
             $mform->addHelpButton('config_rank_group_calc', 'config_rank_group_calc', 'block_game');
@@ -149,12 +153,11 @@ class block_game_edit_form extends block_edit_form {
                     $activityoption = [];
                     $activityoption[] = & $mform->createElement('select', 'config_atv' . $activity['id'], '', $limit);
                     $mform->addGroup(
-                            $activityoption, 'config_activity_' . $activity['id'],
-                            $icon . format_string(
-                                    $activity['name']),
-                                    [' '],
-                                    false
-                                    );
+                        $activityoption, 'config_activity_' . $activity['id'],
+                        $icon . format_string($activity['name']),
+                        [' '],
+                        false
+                        );
                 }
             }
         } else {
