@@ -60,11 +60,11 @@ if ($course->groupmode == 1 && !has_capability('moodle/course:viewhiddenactiviti
 }
 if (has_capability('moodle/course:update', $context, $USER->id)) {
     echo $OUTPUT->download_dataformat_selector(
-            get_string('downloadthis', 'block_game'),
-            'download.php',
-            'dataformat',
-            ['id' => $courseid, 'op' => 'ranking']
-            );
+        get_string('downloadthis', 'block_game'),
+        'download.php',
+        'dataformat',
+        ['id' => $courseid, 'op' => 'ranking']
+    );
 }
 
 if ($ok) {

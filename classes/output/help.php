@@ -59,13 +59,13 @@ class help implements renderable, templatable {
      * $notconfigured
      */
     public function __construct(
-            \stdClass $course,
-            \stdClass $config,
-            \stdClass $cfggame,
-            bool $isfrontpage,
-            bool $notconfigured,
-            array $sections
-            ) {
+        \stdClass $course,
+        \stdClass $config,
+        \stdClass $cfggame,
+        bool $isfrontpage,
+        bool $notconfigured,
+        array $sections
+    ) {
         $this->coursefullname = $course->fullname;
         $this->isfrontpage = $isfrontpage;
         $this->notconfigured = $notconfigured;

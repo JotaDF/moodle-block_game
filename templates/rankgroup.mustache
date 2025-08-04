@@ -18,6 +18,35 @@
     @template block_game/rankgroup
 
     This template renders the rank group.
+    Example context (json):
+    {
+      "isfrontpage": false,
+      "coursefullname": "Curso de História do Brasil",
+      "notconfigured": false,
+      "groups": [
+        {
+          "ord": "1",
+          "picture": "<img src='group1.png' class='userpic' width='35' height='35'>",
+          "groupname": "Grupo Independência",
+          "members": "8 alunos",
+          "score": "320"
+        },
+        {
+          "ord": "2",
+          "picture": "<img src='group2.png' class='userpic' width='35' height='35'>",
+          "groupname": "Grupo Proclamação",
+          "members": "10 alunos",
+          "score": "295"
+        },
+        {
+          "ord": "3",
+          "picture": "<img src='group3.png' class='userpic' width='35' height='35'>",
+          "groupname": "Grupo Revolução",
+          "members": "6 alunos",
+          "score": "280"
+        }
+      ]
+    }
 }}
 <div class="rank">
     <h3>

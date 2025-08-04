@@ -18,6 +18,39 @@
     @template block_game/profilecourse
 
     This template renders the profile user in the course.
+    Example context (json):
+    {
+      "coursename": "Matemática Aplicada - Turma B",
+      "imgavatar": "<img src='https://moodle.exemplo.com/user/pix.php/123/f1.jpg' class='userpicture defaultuserpic' alt='Avatar'>",
+      "username": "João da Silva",
+      "imgrank": "<img src='https://moodle.exemplo.com/blocks/game/pix/rank.png' alt='Rank'>",
+      "labelrank": "Classificação",
+      "rank": 5,
+      "fullrank": 30,
+      "imgscore": "<img src='https://moodle.exemplo.com/blocks/game/pix/score.png' alt='Score'>",
+      "labelscore": "Pontuação",
+      "scorefull": 1580,
+      "imglevel": "<img src='https://moodle.exemplo.com/blocks/game/pix/level.png' alt='Nível'>",
+      "labellevel": "Nível",
+      "level": "3",
+      "scorelabeldetail": "Detalhamento da Pontuação",
+      "scoreatvlabel": "Atividades",
+      "scoreatv": 600,
+      "scoremodlabel": "Módulos",
+      "scoremod": 400,
+      "scoresectionlabel": "Seções",
+      "scoresection": 300,
+      "scorebonuslabel": "Bônus",
+      "scorebonus": 180,
+      "scorebadgelabel": "Conquistas",
+      "scorbadge": 100,
+      "percent": 65,
+      "helpprogresslevel": "Porcentagem para o próximo nível",
+      "nextlevel": "Faltam 35% para o Nível 4",
+      "labelbadges": "Distintivos conquistados",
+      "outputbadges": "<div class='badge'><img src='https://moodle.exemplo.com/badge1.png' title='Explorador'/></div><div class='badge'><img src='https://moodle.exemplo.com/badge2.png' title='Conquistador'/></div>",
+      "badgedisabled": ""
+    }
 }}
 <div id="profiler">
     <h3>({{coursename}})</h3>

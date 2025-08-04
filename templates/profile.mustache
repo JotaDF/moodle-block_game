@@ -18,6 +18,56 @@
     @template block_game/profile
 
     This template renders the profile user.
+    Example context (json):
+    {
+      "imgavatar": "<img src='https://moodle.example.com/avatar.jpg' class='userpicture' alt='Avatar'>",
+      "username": "João da Silva",
+      "courselabel": "Curso",
+      "ranklabel": "Ranking",
+      "labellevel": "Nível",
+      "nextlevellabel": "Próx. Nível",
+      "scoreatvlabel": "Atividades",
+      "scoremodlabel": "Módulos",
+      "scoresectionlabel": "Seções",
+      "scorebonuslabel": "Bônus",
+      "scorebadgelabel": "Distintivos",
+      "scorelabelfull": "Total",
+      "labelbadges": "Distintivos conquistados",
+      "outputbadges": "<div class='badge-list'><img src='https://moodle.example.com/badge1.png' alt='Badge 1'> <img src='https://moodle.example.com/badge2.png' alt='Badge 2'></div>",
+      "badgedisabled": "A exibição de distintivos está desativada neste curso.",
+      "courses": [
+        {
+          "awarded": true,
+          "coursename": "<a href='https://moodle.example.com/course/view.php?id=1'>Matemática 2025</a>",
+          "rank": "2",
+          "fullrank": "30",
+          "imglevel": "<img src='https://moodle.example.com/level3.png' alt='Nível 3'>",
+          "helpprogresslevel": "Progresso até o próximo nível",
+          "percent": "70",
+          "scoreatv": "150",
+          "scoremod": "120",
+          "scoresection": "80",
+          "scorebonus": "30",
+          "scorbadge": "40",
+          "scorefull": "420"
+        },
+        {
+          "awarded": true,
+          "coursename": "<a href='https://moodle.example.com/course/view.php?id=2'>Português 2025</a>",
+          "rank": "1",
+          "fullrank": "25",
+          "imglevel": "<img src='https://moodle.example.com/level4.png' alt='Nível 4'>",
+          "helpprogresslevel": "Progresso até o próximo nível",
+          "percent": "90",
+          "scoreatv": "180",
+          "scoremod": "150",
+          "scoresection": "90",
+          "scorebonus": "50",
+          "scorbadge": "60",
+          "scorefull": "530"
+        }
+      ]
+    }
 }}
 <div>
     <div class="boxgame text-center">
@@ -27,30 +77,30 @@
     <table class="generaltable" width="100%">
         <tbody>
             <tr class="">
-                <td width="30%" class="cell text-center"><strong>{{courselabel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{ranklabel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{labellevel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{nextlevellabel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{scoreatvlabel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{scoremodlabel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{scoresectionlabel}}</strong></td>
-                <td width="15%" class="cell text-center"><strong>{{scorebonuslabel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{scorebadgelabel}}</strong></td>
-                <td width="9%" class="cell text-center"><strong>{{scorelabelfull}}</strong></td>
+                <td style="width: 30%;" class="cell text-center"><strong>{{courselabel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{ranklabel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{labellevel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{nextlevellabel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{scoreatvlabel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{scoremodlabel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{scoresectionlabel}}</strong></td>
+                <td style="width: 15%;" class="cell text-center"><strong>{{scorebonuslabel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{scorebadgelabel}}</strong></td>
+                <td style="width: 9%;" class="cell text-center"><strong>{{scorelabelfull}}</strong></td>
             </tr>
             {{#courses}}
                 {{#awarded}}
                 <tr class="">
-                    <td width="30%" class="cell" >{{{coursename}}}</td>
-                    <td width="9%" class="cell small text-center" >
+                    <td style="width: 30%;" class="cell" >{{{coursename}}}</td>
+                    <td style="width: 9%;" class="cell small text-center" >
                         {{#rank}}
                             {{rank}}º / {{fullrank}}
                         {{/rank}}
                     </td>
-                    <td width="9%" class="cell small text-center" >
+                    <td style="width: 9%;" class="cell small text-center" >
                         {{{imglevel}}}
                     </td>
-                    <td width="9%"class="cell small text-center" >
+                    <td style="width: 9%;" class="cell small text-center" >
                         {{#imglevel}}
                         <div class="progress" title="{{helpprogresslevel}}">
                             <div class="progress-bar" role="progressbar" style="width: {{percent}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
@@ -59,12 +109,12 @@
                         </div>
                         {{/imglevel}}
                     </td>
-                    <td width="9%" align="center" class="cell small text-center" >{{{scoreatv}}}</td>
-                    <td width="9%" align="center" class="cell small text-center" >{{{scoremod}}}</td>
-                    <td width="9%" align="center" class="cell small text-center" >{{{scoresection}}}</td>
-                    <td width="15%" align="center" class="cell small text-center" >{{{scorebonus}}}</td>
-                    <td width="9%" align="center" class="cell small text-center" >{{{scorbadge}}}</td>
-                    <td width="9%" class="cell small text-center" ><strong>{{scorefull}}</strong></td>
+                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scoreatv}}}</td>
+                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scoremod}}}</td>
+                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scoresection}}}</td>
+                    <td style="width: 15%;" align="center" class="cell small text-center" >{{{scorebonus}}}</td>
+                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scorbadge}}}</td>
+                    <td style="width: 9%;" class="cell small text-center" ><strong>{{scorefull}}</strong></td>
                 </tr>
                 {{/awarded}}
             {{/courses}}

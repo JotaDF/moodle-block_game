@@ -1172,14 +1172,13 @@ function block_game_get_percente_level($game) {
 function block_game_pix_url($contextid, $filearea, $react) {
 
     return strval(moodle_url::make_pluginfile_url(
-            $contextid,
-            'block_game',
-            $filearea,
-            0,
-            '/',
-            $react
-            )
-            );
+        $contextid,
+        'block_game',
+        $filearea,
+        0,
+        '/',
+        $react
+    ));
 }
 
 /**

@@ -18,6 +18,59 @@
     @template block_game/rank
 
     This template renders the rank.
+    Example context (json):
+    {
+      "coursefullname": "Curso de Física Moderna",
+      "showgroupmenu": true,
+      "groupmenu": "<select><option>Grupo 1</option><option>Grupo 2</option></select>",
+      "headers": [
+        { "label": "Posição", "class": "rank-col" },
+        { "label": "Nome", "class": "name-col" },
+        { "label": "Atividades", "class": "score-col" },
+        { "label": "Módulos", "class": "score-col" },
+        { "label": "Seções", "class": "score-col" },
+        { "label": "Bônus", "class": "score-col" },
+        { "label": "Medalhas", "class": "score-col" },
+        { "label": "Total", "class": "score-total" }
+      ],
+      "gamers": [
+        {
+          "ord": "1º",
+          "user": "<img src='avatar1.jpg' class='userpic'> Ana Paula",
+          "sum_score_activities": "150",
+          "sum_score_module_completed": "90",
+          "sum_score_section": "60",
+          "sum_score_bonus_day": "20",
+          "sum_score_badges": "30",
+          "score": "<strong>350</strong>",
+          "showdetails": true
+        },
+        {
+          "ord": "2º",
+          "user": "<img src='avatar2.jpg' class='userpic'> Carlos Mendes",
+          "sum_score_activities": "130",
+          "sum_score_module_completed": "80",
+          "sum_score_section": "55",
+          "sum_score_bonus_day": "15",
+          "sum_score_badges": "25",
+          "score": "<strong>305</strong>",
+          "showdetails": true
+        },
+        {
+          "ord": "3º",
+          "user": "<img src='avatar3.jpg' class='userpic'> Joana Dias",
+          "sum_score_activities": "120",
+          "sum_score_module_completed": "70",
+          "sum_score_section": "50",
+          "sum_score_bonus_day": "10",
+          "sum_score_badges": "20",
+          "score": "<strong>270</strong>",
+          "showdetails": true
+        }
+      ],
+      "notstarted": true,
+      "notstartedtext": "5 alunos ainda não iniciaram a participação no jogo."
+    }
 }}
 <div class="rank">
     <h3>{{coursefullname}}</h3>

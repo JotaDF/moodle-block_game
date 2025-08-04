@@ -18,6 +18,32 @@
     @template block_game/help
 
     This template renders the help.
+    Example context (json):
+    {
+      "isfrontpage": false,
+      "coursefullname": "Curso de Ciências 2025",
+      "notconfigured": false,
+      "config": {
+        "wwwroot": "https://moodle.exemplo.com"
+      },
+      "features": [
+        {
+          "title": "Sistema de Pontuação",
+          "image": "score.png",
+          "text": "Os alunos acumulam pontos ao concluir atividades e módulos. Isso incentiva a participação contínua e melhora o desempenho geral."
+        },
+        {
+          "title": "Níveis de Progresso",
+          "image": "level.png",
+          "text": "Cada aluno possui um nível, que aumenta conforme sua pontuação. <strong>Você pode configurar os níveis e os requisitos para cada um.</strong>"
+        },
+        {
+          "title": "Ranking e Conquistas",
+          "image": "ranking.png",
+          "text": "Os alunos são ranqueados por curso com base em sua pontuação total. <em>Distintivos e conquistas são atribuídos automaticamente</em> aos melhores colocados."
+        }
+      ]
+    }
 }}
 <div class="help">
     <h2>
