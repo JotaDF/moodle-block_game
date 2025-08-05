@@ -36,7 +36,7 @@
       "gamers": [
         {
           "ord": "1º",
-          "user": "<img src='avatar1.jpg' class='userpic'> Ana Paula",
+          "user": "<img src='avatar1.jpg' class='userpic' title='User'> Ana Paula",
           "sum_score_activities": "150",
           "sum_score_module_completed": "90",
           "sum_score_section": "60",
@@ -47,7 +47,7 @@
         },
         {
           "ord": "2º",
-          "user": "<img src='avatar2.jpg' class='userpic'> Carlos Mendes",
+          "user": "<img src='avatar2.jpg' class='userpic' title='User'> Carlos Mendes",
           "sum_score_activities": "130",
           "sum_score_module_completed": "80",
           "sum_score_section": "55",
@@ -58,7 +58,7 @@
         },
         {
           "ord": "3º",
-          "user": "<img src='avatar3.jpg' class='userpic'> Joana Dias",
+          "user": "<img src='avatar3.jpg' class='userpic' title='User'> Joana Dias",
           "sum_score_activities": "120",
           "sum_score_module_completed": "70",
           "sum_score_section": "50",
@@ -78,11 +78,11 @@
         {{{groupmenu}}}
     {{/showgroupmenu}}
 
-    <table class="generaltable" width="100%">
+    <table class="w-100 generaltable">
         <thead>
             <tr>
                 {{#headers}}
-                    <th class="cell {{class}}" align="center">{{{label}}}</th>
+                    <th class="cell {{class}} text-center">{{{label}}}</th>
                 {{/headers}}
             </tr>
         </thead>
@@ -92,19 +92,19 @@
                     <td class="cell c0" align="center">{{{ord}}}</td>
                     <td class="cell c1">{{{user}}}</td>
                     {{#showdetails}}
-                        <td class="cell c2" align="center">{{sum_score_activities}}</td>
-                        <td class="cell c3" align="center">{{sum_score_module_completed}}</td>
-                        <td class="cell c4" align="center">{{sum_score_section}}</td>
-                        <td class="cell c5" align="center">{{sum_score_bonus_day}}</td>
-                        <td class="cell c6" align="center">{{sum_score_badges}}</td>
+                        <td class="cell c2 text-center">{{sum_score_activities}}</td>
+                        <td class="cell c3 text-center">{{sum_score_module_completed}}</td>
+                        <td class="cell c4 text-center">{{sum_score_section}}</td>
+                        <td class="cell c5 text-center">{{sum_score_bonus_day}}</td>
+                        <td class="cell c6 text-center">{{sum_score_badges}}</td>
                     {{/showdetails}}
-                    <td class="cell c7" align="center">{{{score}}}</td>
+                    <td class="cell c7 text-center">{{{score}}}</td>
                 </tr>
             {{/gamers}}
         </tbody>
     </table>
 
     {{#notstarted}}
-        <br/>({{notstarted}} {{notstartedtext}})
+        <br>({{notstarted}} {{notstartedtext}})
     {{/notstarted}}
 </div>

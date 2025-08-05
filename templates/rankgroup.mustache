@@ -26,21 +26,21 @@
       "groups": [
         {
           "ord": "1",
-          "picture": "<img src='group1.png' class='userpic' width='35' height='35'>",
+          "picture": "<img src='group1.png' class='userpic' width='35' height='35' title='Group'>",
           "groupname": "Grupo Independência",
           "members": "8 alunos",
           "score": "320"
         },
         {
           "ord": "2",
-          "picture": "<img src='group2.png' class='userpic' width='35' height='35'>",
+          "picture": "<img src='group2.png' class='userpic' width='35' height='35' title='Group'>",
           "groupname": "Grupo Proclamação",
           "members": "10 alunos",
           "score": "295"
         },
         {
           "ord": "3",
-          "picture": "<img src='group3.png' class='userpic' width='35' height='35'>",
+          "picture": "<img src='group3.png' class='userpic' width='35' height='35' title='Group'>",
           "groupname": "Grupo Revolução",
           "members": "6 alunos",
           "score": "280"
@@ -57,22 +57,22 @@
             ({{coursefullname}})
         {{/isfrontpage}}
     </h3>
-    <br/>
+    <br>
 
     {{#notconfigured}}
         <p>{{#str}} not_initial_config_game, block_game {{/str}}</p>
     {{/notconfigured}}
 
     {{^notconfigured}}
-        <table width="100%">
+        <table class="w-100">
             {{#groups}}
                 <tr>
-                    <td width="10%" align="center">{{ord}}&ordm;</td>
-                    <td width="10%" align="right">{{{picture}}}</td>
-                    <td width="70%" align="left">{{groupname}} ({{members}})</td>
-                    <td width="10%" align="left">{{score}}{{#str}} abbreviate_score, block_game {{/str}}</td>
+                    <td style="width: 10%;" class="text-center">{{ord}}&ordm;</td>
+                    <td style="width: 10%;" class="text-right">{{{picture}}}</td>
+                    <td style="width: 70%;" class="text-left">{{groupname}} ({{members}})</td>
+                    <td style="width: 10%;" class="text-left">{{score}}{{#str}} abbreviate_score, block_game {{/str}}</td>
                 </tr>
-                <tr><td colspan="4"><hr/></td></tr>
+                <tr><td colspan="4"><hr></td></tr>
             {{/groups}}
         </table>
     {{/notconfigured}}

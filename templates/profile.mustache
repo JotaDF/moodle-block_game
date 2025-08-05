@@ -74,7 +74,7 @@
         {{{imgavatar}}}
         <span class="h3">{{username}}</span>
     </div>
-    <table class="generaltable" width="100%">
+    <table class="w-100 generaltable">
         <tbody>
             <tr class="">
                 <td style="width: 30%;" class="cell text-center"><strong>{{courselabel}}</strong></td>
@@ -109,23 +109,23 @@
                         </div>
                         {{/imglevel}}
                     </td>
-                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scoreatv}}}</td>
-                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scoremod}}}</td>
-                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scoresection}}}</td>
-                    <td style="width: 15%;" align="center" class="cell small text-center" >{{{scorebonus}}}</td>
-                    <td style="width: 9%;" align="center" class="cell small text-center" >{{{scorbadge}}}</td>
+                    <td style="width: 9%;" class="cell small text-center" >{{{scoreatv}}}</td>
+                    <td style="width: 9%;" class="cell small text-center" >{{{scoremod}}}</td>
+                    <td style="width: 9%;" class="cell small text-center" >{{{scoresection}}}</td>
+                    <td style="width: 15%;" class="cell small text-center" >{{{scorebonus}}}</td>
+                    <td style="width: 9%;" class="cell small text-center" >{{{scorbadge}}}</td>
                     <td style="width: 9%;" class="cell small text-center" ><strong>{{scorefull}}</strong></td>
                 </tr>
                 {{/awarded}}
             {{/courses}}
         </tbody>
     </table>
-        <br/>
+        <br>
         <h4>{{labelbadges}}</h4>
         <br>
         {{{outputbadges}}}
         {{#badgedisabled}}
             {{badgedisabled}}
         {{/badgedisabled}}
-    <hr/>
+    <hr>
 </div>

@@ -63,16 +63,16 @@
     {{/notconfigured}}
 
     {{^notconfigured}}
-        <table>
+        <table style="width: 100%;">
             {{#features}}
                 <tr>
                     <td colspan="2" align="center"><h3>{{title}}</h3></td>
                 </tr>
                 <tr>
-                    <td valign="top">
-                        <img src="{{config.wwwroot}}/blocks/game/pix/{{image}}" width="80" height="80" hspace="12">
+                    <td style="vertical-align: top;">
+                        <img style="margin-right: 12px;" src="{{config.wwwroot}}/blocks/game/pix/{{image}}" width="80" height="80" alt="{{title}}">
                     </td>
-                    <td valign="top">
+                    <td style="vertical-align: top;">
                         <p>{{{text}}}</p>
                         <hr>
                     </td>
