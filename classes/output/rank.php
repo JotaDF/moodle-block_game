@@ -121,7 +121,12 @@ class rank implements renderable, templatable {
 
             $iscurrent = $gamer->userid == $this->user->id;
 
-            $usertext = $avatar . ' ' . $gamer->firstname . ' ' . $gamer->lastname;
+            $usertext = $avatar . ' ******** ';
+            if ($this->config->show_identity == 0 || $gamer->userid == $USER->id) {
+                $usertext = $avatar . ' ' . $gamer->firstname . ' ' . $gamer->lastname;
+            }
+            
+            
             $scoretext = $gamer->pt . get_string('abbreviate_score', 'block_game');
             $ordtext = $ord . '&ordm;';
 
